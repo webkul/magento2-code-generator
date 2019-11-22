@@ -3,7 +3,8 @@
 # Installation
 
 ``` composer require webkul/code-generator ```
-```php -f bin/magento setup:install ```
+
+``` php -f bin/magento setup:update ```
 
 # Usage
 
