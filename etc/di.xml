@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @package   Webkul_CodeGenerator
+ * @author    Ashutosh Srivastva
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+   
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="webkul_code_generator" xsi:type="object">Webkul\CodeGenerator\Console\Command\Generate</item>
+            </argument>
+        </arguments>
+    </type>
+
+     <type name="Webkul\CodeGenerator\Console\Command\Generate">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="model" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Model\Validator</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Webkul\CodeGenerator\Model\GeneratorPool">
+        <arguments>
+            <argument name="generators" xsi:type="array">
+                <item name="model" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Model</item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>
