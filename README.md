@@ -10,4 +10,4 @@
 
 ``` php bin/magento generate:code Module_Name --table="table_name" --type=code-type --name=ModelName ```
 
-Ff you have created the db_schema file for the table in the above command, it will automatically create setter and getter all the columns in the schema.
+If you have created the db_schema file for the table in the above command, it will automatically create setter and getter all the columns in the schema.
