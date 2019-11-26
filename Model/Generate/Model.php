@@ -198,7 +198,8 @@ class Model implements GenerateInterface
         $modelClass      = new ClassGenerator();
 
         $docblock = $this->helper->getHeadDocBlock($data['module']);
-        $cacheTag = '';
+
+        $cacheTag = strtolower($data['module']).'_'.strtolower($data['name']);
 
         $generatorsMethods = [
             // Method passed as array
@@ -312,7 +313,7 @@ class Model implements GenerateInterface
             'shortDescription' => $data['name'].' Class',
         ]))
         ->addProperties([
-            ['_cacheTag', 'self::CACHE_TAG', PropertyGenerator::FLAG_PROTECTED],
+            ['_cacheTag', $cacheTag, PropertyGenerator::FLAG_PROTECTED],
             ['_eventPrefix',  $cacheTag, PropertyGenerator::FLAG_PROTECTED]
         ])
         ->addConstants([
