@@ -11,7 +11,8 @@ namespace Webkul\CodeGenerator\Model;
 use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\DocBlock\Tag;
 
-class Helper {
+class Helper
+{
 
     public function saveFile($path, $content)
     {
@@ -42,5 +43,4 @@ class Helper {
             mkdir($dirPath, $permission, true);
         }
     }
-
 }
