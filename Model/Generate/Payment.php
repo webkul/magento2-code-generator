@@ -188,7 +188,7 @@ class Payment implements GenerateInterface
         $moduleNamespace = explode('_', $data['module']);
         $nameSpace = $moduleNamespace[0].'\\'.$moduleNamespace[1].'\\Model\\'.$data['name'];
         $paymentTemplate = $this->helper->getTemplatesFiles('templates/payment/paymentTemplate.html.dist');
-        $paymentFile = $dir . '/'.strtolower($data['name']).'.js';
+        $paymentFile = $dir . '/'.strtolower($data['name']).'.html';
         // or write it to a file:
         $this->helper->saveFile(
             $paymentFile,
