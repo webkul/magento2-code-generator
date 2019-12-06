@@ -3,7 +3,7 @@
  * Webkul Software.
  *
  * @package   Webkul_CodeGenerator
- * @author    Ashutosh Srivastva
+ * @author    Sagar Bathla
  */
 
 namespace Webkul\CodeGenerator\Model\Generate\Payment;
