@@ -7,6 +7,11 @@
 ``` php -f bin/magento setup:update ```
 
 # Usage
+- To Create new Module
+
+``` php bin/magento generate:code Module_Name –type=new-module  ```
+
+- To Generate code types
 
 ``` php bin/magento generate:code Module_Name --table="table_name" --type=code-type --name=ModelName ```
 

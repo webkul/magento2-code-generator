@@ -1,0 +1,21 @@
+{
+    "name": "%vendor%/module-%composerName%",
+    "description": "",
+    "type": "magento2-module",
+    "license": "proprietary",
+    "authors": [
+        {
+            "email": "mahesh721@webkul.com",
+            "name": "Mahesh Singh"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "%moduleName%": ""
+        }
+    }
+}
