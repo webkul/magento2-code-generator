@@ -43,4 +43,12 @@ class Helper
             mkdir($dirPath, $permission, true);
         }
     }
+
+    public function getTemplatesFiles($template)
+    {
+        return file_get_contents(dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR. $template);
+    }
+
+}
+
 }
