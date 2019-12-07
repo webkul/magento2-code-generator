@@ -11,7 +11,8 @@ namespace Webkul\CodeGenerator\Model;
 use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\DocBlock\Tag;
 
-class Helper {
+class Helper
+{
 
     public function saveFile($path, $content)
     {
@@ -47,5 +48,7 @@ class Helper {
     {
         return file_get_contents(dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR. $template);
     }
+
+}
 
 }
