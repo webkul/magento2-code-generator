@@ -69,6 +69,13 @@ class OptionsPool {
                 'enter collection class with namespace'
             ),
 
+            new InputOption(
+                'shipping-code',
+                'shipping-code',
+                InputArgument::OPTIONAL,
+                'enter shipping method code.'
+            ),
+
         ];
 
         return $options;

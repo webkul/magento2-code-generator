@@ -22,11 +22,9 @@
             <argument name="validators" xsi:type="array">
                 <item name="model" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Model\Validator</item>
                 <item name="new-module" xsi:type="object">Webkul\CodeGenerator\Model\Generate\NewModule\Validator</item>
-
                 <item name="payment" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Payment\Validator</item>
-
                 <item name="repository" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Repository\Validator</item>
-
+                <item name="shipping" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Shipping\Validator</item>
             </argument>
         </arguments>
     </type>
@@ -36,11 +34,9 @@
             <argument name="generators" xsi:type="array">
                 <item name="model" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Model</item>
                 <item name="new-module" xsi:type="object">Webkul\CodeGenerator\Model\Generate\NewModule</item>
-
                 <item name="payment" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Payment</item>
-
                 <item name="repository" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Repository</item>
-
+                <item name="shipping" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Shipping</item>
             </argument>
         </arguments>
     </type>
