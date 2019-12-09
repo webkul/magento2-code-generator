@@ -68,7 +68,16 @@ class OptionsPool {
                 InputArgument::OPTIONAL,
                 'enter collection class with namespace'
             ),
-
+            
+          // shipping method specific
+          
+            new InputOption(
+                'shipping-code',
+                'shipping-code',
+                InputArgument::OPTIONAL,
+                'enter shipping method code.'
+            ),
+          
             //controller specific
 
             new InputOption(
@@ -76,7 +85,8 @@ class OptionsPool {
                 'ar',
                 InputArgument::OPTIONAL,
                 'enter area frontend or adminhtml'
-            ),
+            )
+
         ];
 
         return $options;

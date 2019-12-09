@@ -33,3 +33,9 @@ If you have created the db_schema file for the table in the above command, it wi
 - To generate payment method
 
 ``` php bin/magento generate:code Module_Name --type=payment --name=MethodName  ```
+
+- To Generate shipping method
+
+``` php bin/magento generate:code Webkul_Test --type=shipping --shipping-code=custom_shipping ```
+
+
