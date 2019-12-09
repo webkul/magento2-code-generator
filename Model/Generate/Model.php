@@ -124,10 +124,10 @@ class Model implements GenerateInterface
                     MethodGenerator::FLAG_INTERFACE,
                     null,
                     DocBlockGenerator::fromArray([
-                        'shortDescription' => 'set '.$fieldName,
+                        'shortDescription' => 'Set '.$fieldName,
                         'longDescription'  => null,
                         'tags'             => [
-                            new Tag\ParamTag($camelCase, [$column['type']]),
+                            new Tag\ParamTag($camelCase, [$this->helper->getReturnType($column['type'])]),
                             new Tag\ReturnTag([
                                 'datatype'  => $nameSpace.'\\'.$data['name'].'Interface',
                             ]),
@@ -140,11 +140,11 @@ class Model implements GenerateInterface
                     MethodGenerator::FLAG_INTERFACE,
                     null,
                     'docblock'   => DocBlockGenerator::fromArray([
-                        'shortDescription' => 'get '.$fieldName,
+                        'shortDescription' => 'Get '.$fieldName,
                         'longDescription'  => null,
                         'tags'             => [
                             new Tag\ReturnTag([
-                                'datatype'  => $nameSpace.'\\'.$data['name'].'Interface',
+                                'datatype'  => $this->helper->getReturnType($column['type']),
                             ]),
                         ],
                     ]),
@@ -280,10 +280,10 @@ class Model implements GenerateInterface
                 MethodGenerator::FLAG_PUBLIC,
                 'return $this->setData(self::'.strtoupper($field).', $'.$camelCase.');',
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'set '.$fieldName,
+                    'shortDescription' => 'Set '.$fieldName,
                     'longDescription'  => null,
                     'tags'             => [
-                        new Tag\ParamTag($camelCase, [$column['type']]),
+                        new Tag\ParamTag($camelCase, [$this->helper->getReturnType($column['type'])]),
                         new Tag\ReturnTag([
                             'datatype'  => $nameSpace.'\\'.$data['name'].'Interface',
                         ]),
@@ -296,11 +296,11 @@ class Model implements GenerateInterface
                 MethodGenerator::FLAG_PUBLIC,
                 'return parent::getData(self::'.strtoupper($field).');',
                 'docblock'   => DocBlockGenerator::fromArray([
-                    'shortDescription' => 'get '.$fieldName,
+                    'shortDescription' => 'Get '.$fieldName,
                     'longDescription'  => null,
                     'tags'             => [
                         new Tag\ReturnTag([
-                            'datatype'  => $nameSpace.'\\'.$data['name'].'Interface',
+                            'datatype'  => $this->helper->getReturnType($column['type']),
                         ]),
                     ],
                 ]),

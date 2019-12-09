@@ -38,6 +38,26 @@ class Helper {
         ]);
     }
 
+    /**
+     * Map valid database types
+     *
+     * @param string $type
+     * @return string
+     */
+    public function getReturnType($type = 'default')
+    {
+        $validTypes = [
+            'varchar' => 'string',
+            'text' => 'string',
+            'smallint' => 'int',
+            'int' => 'int',
+            'integer' => 'int',
+            'decimal' => 'float',
+            'boolean' => 'bool'
+        ];
+        return isset($validTypes[$type]) ? $validTypes[$type] : 'string';
+    }
+
     public static function createDirectory($dirPath, $permission = 0777)
     {
         if (!is_dir($dirPath)) {
