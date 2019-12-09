@@ -1,0 +1,49 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   %module_name%
+ * @author    Webkul
+ * @copyright Copyright (c)  Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+namespace %namespace%\Helper;
+
+use Magento\Framework\Stdlib\DateTime\DateTime;
+use Magento\Customer\Model\Session as CustomerSession;
+
+/**
+ * helper class.
+ */
+class %helper_name% extends \Magento\Framework\App\Helper\AbstractHelper
+{
+
+    /**
+     * Customer session.
+     *
+     * @var CustomerSession
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+   
+    /**
+     *
+     * @param Session $customerSession
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        CustomerSession $customerSession,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_storeManager = $storeManager;
+        parent::__construct($context);
+    }
+}
