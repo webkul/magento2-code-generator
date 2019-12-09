@@ -9,13 +9,6 @@
 namespace Webkul\CodeGenerator\Model\Generate;
 
 use Webkul\CodeGenerator\Api\GenerateInterface;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\DocBlock\Tag;
-use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\PropertyGenerator;
-use Zend\Code\Generator\ParameterGenerator;
-use Magento\Framework\Setup\Declaration\Schema\Declaration\ReaderComposite;
 use Webkul\CodeGenerator\Model\Helper;
 use Webkul\CodeGenerator\Model\XmlGeneratorFactory;
 use Magento\Framework\Serialize\Serializer\Json;
@@ -34,6 +27,11 @@ class Shipping implements GenerateInterface
 
     protected $helper;
 
+    /**
+     * Default xml node attributes
+     *
+     * @var array
+     */
     protected $defaultAttribute = [
         'id' => '',
         'translate' => 'label',
@@ -44,15 +42,21 @@ class Shipping implements GenerateInterface
         'showInStore' => "1"
     ];
 
+    /**
+     * @param ReaderComposite $readerComposite
+     * @param \Magento\Framework\Filesystem\Driver\File $fileDriver
+     * @param \Magento\Framework\Filesystem\Io\File $file
+     * @param XmlGeneratorFactory $xmlGeneratorFactory
+     * @param Json $jsonHelper
+     * @param Helper $helper
+     */
     public function __construct(
-        ReaderComposite $readerComposite,
         \Magento\Framework\Filesystem\Driver\File $fileDriver,
         \Magento\Framework\Filesystem\Io\File $file,
         XmlGeneratorFactory $xmlGeneratorFactory,
         Json $jsonHelper,
         Helper $helper
     ) {
-        $this->readerComposite = $readerComposite;
         $this->fileDriver = $fileDriver;
         $this->file = $file;
         $this->jsonHelper = $jsonHelper;
@@ -97,6 +101,14 @@ class Shipping implements GenerateInterface
         $this->addNewShippingData($systemXml, $data);
     }
 
+    /**
+     * Create config.xml file
+     *
+     * @param string $etcAdminthtmlDirPath
+     * @param string $moduleDir
+     * @param array $data
+     * @return void
+     */
     public function createConfigXml($etcAdminthtmlDirPath, $moduleDir, $data)
     {
         $configXml = $this->getConfigXmlFile($moduleDir);
@@ -167,7 +179,6 @@ class Shipping implements GenerateInterface
         $this->helper->saveFile($configXmlFilePath, $configXmlData);
         return $configXmlFilePath;
     }
-    
 
     /**
      * Add new shipping group
@@ -334,7 +345,6 @@ class Shipping implements GenerateInterface
         return $modelDirPath.DIRECTORY_SEPARATOR.'etc/config.xml';
     }
 
-
     /**
      * create model class
      *
@@ -377,8 +387,8 @@ class Shipping implements GenerateInterface
     /**
      * Get class name
      *
-     * @param [type] $code
-     * @return void
+     * @param string $code
+     * @return string
      */
     private function getClassName($code)
     {

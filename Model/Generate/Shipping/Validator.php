@@ -47,9 +47,11 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 
         if ($path) {
             $realPath = $modulePath.DIRECTORY_SEPARATOR.$path;
+            // @codingStandardsIgnoreStart
             if (!is_dir($realPath) || !file_exists($realPath)) {
                 throw new \InvalidArgumentException(__("invalid module path given: ". $realPath));
             }
+            // @codingStandardsIgnoreEnd
             $response["path"] = $realPath;
         } else {
             $response["path"] = $modulePath;
@@ -93,6 +95,6 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
      */
     private function filterCode($code)
     {
-        return preg_replace('/[^a-zA-Z0-9_]/s','',$code);
+        return preg_replace('/[^a-zA-Z0-9_]/s', '', $code);
     }
 }
