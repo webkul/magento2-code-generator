@@ -69,6 +69,14 @@ class OptionsPool {
                 'enter collection class with namespace'
             ),
 
+            //controller specific
+
+            new InputOption(
+                'area',
+                'ar',
+                InputArgument::OPTIONAL,
+                'enter area frontend or adminhtml'
+            ),
         ];
 
         return $options;
