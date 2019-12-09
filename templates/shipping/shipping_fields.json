@@ -1,0 +1,113 @@
+{
+  "field1": {
+    "value": {
+      "label": "Enabled",
+      "source_model": "Magento\\Config\\Model\\Config\\Source\\Yesno"
+    },
+    "attribute": {
+      "id": "active",
+      "translate": "label",
+      "type": "select",
+      "sortOrder": "10",
+      "showInDefault": "1",
+      "showInWebsite": "1",
+      "showInStore": "0",
+      "canRestore": "1"
+    }
+  },
+  "field2": {
+    "value": {
+      "label": "Method Name"
+    },
+    "attribute": {
+      "id": "name",
+      "translate": "label",
+      "type": "text",
+      "sortOrder": "30",
+      "showInDefault": "1",
+      "showInWebsite": "1",
+      "showInStore": "0",
+      "canRestore": "1"
+    }
+  },
+  "field3": {
+    "value": {
+      "label": "Sort Order"
+    },
+    "attribute": {
+      "id": "sort_order",
+      "translate": "label",
+      "type": "text",
+      "sortOrder": "100",
+      "showInDefault": "1",
+      "showInWebsite": "1",
+      "showInStore": "0",
+      "canRestore": "1"
+    }
+  },
+  "field4": {
+    "value": {
+      "label": "Title"
+    },
+    "attribute": {
+      "id": "title",
+      "translate": "label",
+      "type": "text",
+      "sortOrder": "20",
+      "showInDefault": "1",
+      "showInWebsite": "1",
+      "showInStore": "0",
+      "canRestore": "1"
+    }
+  },
+  "field5": {
+    "value": {
+      "label": "Price",
+      "validate": "validate-number validate-zero-or-greater"
+    },
+    "attribute": {
+      "id": "price",
+      "translate": "label",
+      "type": "text",
+      "sortOrder": "45",
+      "showInDefault": "1",
+      "showInWebsite": "1",
+      "showInStore": "0",
+      "canRestore": "1"
+    }
+  },
+  "field6": {
+    "value": {
+      "label": "Ship to Applicable Countries",
+      "frontend_class": "shipping-applicable-country",
+      "source_model": "Magento\\Shipping\\Model\\Config\\Source\\Allspecificcountries"
+    },
+    "attribute": {
+      "id": "sallowspecific",
+      "translate": "label",
+      "type": "select",
+      "sortOrder": "50",
+      "showInDefault": "1",
+      "showInWebsite": "1",
+      "showInStore": "0",
+      "canRestore": "1"
+    }
+  },
+  "field7": {
+    "value": {
+      "label": "Ship to Specific Countries",
+      "can_be_empty": "1",
+      "source_model": "Magento\\Directory\\Model\\Config\\Source\\Country"
+    },
+    "attribute": {
+      "id": "sallowspecific",
+      "translate": "label",
+      "type": "multiselect",
+      "sortOrder": "51",
+      "showInDefault": "1",
+      "showInWebsite": "1",
+      "showInStore": "0",
+      "canRestore": "1"
+    }
+  }
+}
