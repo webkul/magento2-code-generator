@@ -85,8 +85,16 @@ class OptionsPool {
                 'ar',
                 InputArgument::OPTIONAL,
                 'enter area frontend or adminhtml'
-            )
+            ),
 
+            // payment method specific
+
+            new InputOption(
+                'payment-code',
+                'payment-code',
+                InputArgument::OPTIONAL,
+                'enter payment method code.'
+            ),
         ];
 
         return $options;
