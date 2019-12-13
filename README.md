@@ -4,13 +4,13 @@
 
 ``` composer require webkul/code-generator ```
 
-``` php -f bin/magento setup:update ```
+``` php -f bin/magento setup:upgrade ```
 
 # Usage
 
 - To create new Module
 
-``` php bin/magento generate:code Module_Name –type=new-module  ```
+``` php bin/magento generate:code Module_Name --type=new-module  ```
 
 - To create models
 
