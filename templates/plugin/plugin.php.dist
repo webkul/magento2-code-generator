@@ -1,0 +1,14 @@
+<?php
+/**
+ * @package   %module_name%
+ */
+
+namespace %namespace%\Plugin;
+
+/**
+ * Plugin class.
+ */
+class %plugin_name%
+{
+
+}

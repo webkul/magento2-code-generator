@@ -38,4 +38,7 @@ If you have created the db_schema file for the table in the above command, it wi
 
 ``` php bin/magento generate:code Webkul_Test --type=shipping --shipping-code=custom_shipping ```
 
+- To Generate Plugin
+
+``` php bin/magento generate:code Webkul_Test --type=plugin --name=PluginName --plugin-type=FullClassName```
 

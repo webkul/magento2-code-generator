@@ -69,4 +69,45 @@ class Helper {
     {
         return file_get_contents(dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR. $template);
     }
+
+    /**
+     * Get the Di.xml file
+     *
+     * @param string $etcDirPath
+     * @return string
+     */
+    public function getDiXmlFile($etcDirPath)
+    {
+        $diFilePath = $this->getDiXmlFilePath($etcDirPath);
+        if (file_exists($diFilePath)) {
+            return $diFilePath;
+        } else {
+            return $diXml = $this->createDiXmlFile($etcDirPath);
+        }
+    }
+
+    /**
+     * Get the actual path of di.xml
+     *
+     * @param string $etcDirPath
+     * @return string
+     */
+    private function getDiXmlFilePath($etcDirPath)
+    {
+        return $etcDirPath.DIRECTORY_SEPARATOR.'di.xml';
+    }
+    
+    /**
+     * Create di.xml
+     *
+     * @param string $etcDirPath
+     * @return string
+     */
+    private function createDiXmlFile($etcDirPath)
+    {
+        $diXmlFilePath = $this->getDiXmlFilePath($etcDirPath);
+        $diXmlData = $this->getTemplatesFiles('templates/di.xml.dist');
+        $this->saveFile($diXmlFilePath, $diXmlData);
+        return $diXmlFilePath;
+    }
 }

@@ -85,6 +85,15 @@ class OptionsPool {
                 'ar',
                 InputArgument::OPTIONAL,
                 'enter area frontend or adminhtml'
+            ),
+
+            //plugin specific
+
+            new InputOption(
+                'plugin-type',
+                'plugin-type',
+                InputArgument::OPTIONAL,
+                'enter plugin type that means class'
             )
 
         ];

@@ -27,6 +27,7 @@
 
                 <item name="shipping" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Shipping\Validator</item>
                 <item name="helper" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Helper\Validator</item>
+                <item name="plugin" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Plugin\Validator</item>
                 <item name="controller" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Controller\Validator</item>
                 <item name="unit-test" xsi:type="object">Webkul\CodeGenerator\Model\Generate\UnitTestCase\Validator</item>
 
@@ -45,6 +46,7 @@
 
                 <item name="shipping" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Shipping</item>
                 <item name="helper" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Helper</item>
+                <item name="plugin" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Plugin</item>
                 <item name="controller" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Controller</item>
                 <item name="unit-test" xsi:type="object">Webkul\CodeGenerator\Model\Generate\UnitTestCase</item>
 
