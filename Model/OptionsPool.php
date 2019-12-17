@@ -89,8 +89,8 @@ class OptionsPool {
 
             //observr specific
             new InputOption(
-                'event-name',
-                'event-name',
+                'event',
+                'event',
                 InputArgument::OPTIONAL,
                 'enter event name'
             )
