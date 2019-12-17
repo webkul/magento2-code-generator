@@ -1,0 +1,24 @@
+<?php
+/**
+ * @package   %module_name%
+ */
+
+namespace %namespace%\Observer;
+
+use Magento\Framework\Event\ObserverInterface;
+
+/**
+ * Observer class.
+ */
+class %observer_name% implements ObserverInterface
+{
+    public function __construct()
+    {
+        
+    }
+
+    public function execute(\Magento\Framework\Event\Observer $observer)
+    {
+
+    }
+}

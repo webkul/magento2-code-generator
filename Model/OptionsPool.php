@@ -85,6 +85,14 @@ class OptionsPool {
                 'ar',
                 InputArgument::OPTIONAL,
                 'enter area frontend or adminhtml'
+            ),
+
+            //observr specific
+            new InputOption(
+                'event-name',
+                'event-name',
+                InputArgument::OPTIONAL,
+                'enter event name'
             )
 
         ];

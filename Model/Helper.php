@@ -69,4 +69,45 @@ class Helper {
     {
         return file_get_contents(dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR. $template);
     }
+
+
+    /**
+     * Get the Events.xml file
+     *
+     * @param string $etcDirPath
+     * @return string
+     */
+    public function getEventsXmlFile($etcDirPath)
+    {
+        $eventsFilePath = $this->getEventsXmlFilePath($etcDirPath);
+        if (file_exists($eventsFilePath)) {
+            return $eventsFilePath;
+        } else {
+            return $eventsXml = $this->createEventsXmlFile($etcDirPath);
+        }
+    }
+    /**
+     * Get the actual path of di.xml
+     *
+     * @param string $etcDirPath
+     * @return string
+     */
+    private function getEventsXmlFilePath($etcDirPath)
+    {
+        return $etcDirPath.DIRECTORY_SEPARATOR.'events.xml';
+    }
+    
+    /**
+     * Create di.xml
+     *
+     * @param string $etcDirPath
+     * @return string
+     */
+    private function createEventsXmlFile($etcDirPath)
+    {
+        $eventsXmlFilePath = $this->getEventsXmlFilePath($etcDirPath);
+        $eventsXmlData = $this->getTemplatesFiles('templates/events.xml.dist');
+        $this->saveFile($eventsXmlFilePath, $eventsXmlData);
+        return $eventsXmlFilePath;
+    }
 }
