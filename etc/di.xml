@@ -24,13 +24,12 @@
                 <item name="new-module" xsi:type="object">Webkul\CodeGenerator\Model\Generate\NewModule\Validator</item>
                 <item name="payment" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Payment\Validator</item>
                 <item name="repository" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Repository\Validator</item>
-
                 <item name="shipping" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Shipping\Validator</item>
                 <item name="helper" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Helper\Validator</item>
+                <item name="plugin" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Plugin\Validator</item>
                 <item name="controller" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Controller\Validator</item>
                 <item name="unit-test" xsi:type="object">Webkul\CodeGenerator\Model\Generate\UnitTestCase\Validator</item>
-
-
+                <item name="observer" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Observer\Validator</item>
             </argument>
         </arguments>
     </type>
@@ -42,12 +41,12 @@
                 <item name="new-module" xsi:type="object">Webkul\CodeGenerator\Model\Generate\NewModule</item>
                 <item name="payment" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Payment</item>
                 <item name="repository" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Repository</item>
-
                 <item name="shipping" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Shipping</item>
                 <item name="helper" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Helper</item>
+                <item name="plugin" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Plugin</item>
                 <item name="controller" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Controller</item>
                 <item name="unit-test" xsi:type="object">Webkul\CodeGenerator\Model\Generate\UnitTestCase</item>
-
+                <item name="observer" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Observer</item>
             </argument>
         </arguments>
     </type>

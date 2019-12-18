@@ -79,12 +79,27 @@ class OptionsPool {
             ),
           
             //controller specific
-
             new InputOption(
                 'area',
                 'ar',
                 InputArgument::OPTIONAL,
                 'enter area frontend or adminhtml'
+            ),
+
+            //plugin specific
+            new InputOption(
+                'plugin',
+                'plugin',
+                InputArgument::OPTIONAL,
+                'enter plugin type class'
+            ),
+
+            //observer specific
+            new InputOption(
+                'event',
+                'event',
+                InputArgument::OPTIONAL,
+                'enter event name'
             )
 
         ];
