@@ -14,7 +14,8 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
     {
         $module = $data['module'];
         $type = $data['type'];
-        $name = $data['name'];
+        $code = $data['payment-code'];
+        $name = $data['name']??'Custom Payment';
         $path = $data['path']??null;
         $response = [];
         if ($module) {
@@ -23,27 +24,22 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
             $moduleData = $moduleManager->getOne($module);
             if (!$moduleData) {
                 throw new \InvalidArgumentException(__("invalid module name"));
+            }if (!$code) {
+                throw new \InvalidArgumentException(__("please provide payment method code."));
+            }
+            if ($this->validatePaymentMethod($code)) {
+                throw new \InvalidArgumentException(
+                    __('payment method for "%1" code already exists.', strtolower($code))
+                );
             }
             $response["module"] = $module;
+            $response["code"] = $code;
             $response["name"] = $name;
+            $response["type"] = $type;
         } else {
             throw new \InvalidArgumentException(__("module name not provided"));
         }
-        switch (strtolower($type)) {
-
-            case "payment":
-                if (!$name) {
-                    
-                    throw new \InvalidArgumentException(
-                        __("enter payment name that need to be generated")
-                    );
-                }
-                $response["type"] = $type;
-                break;
-            
-            default:
-                throw new \InvalidArgumentException(__("define type of code to be generated like model, controller, helper"));
-        }
+        
         $dir = \Magento\Framework\App\ObjectManager::getInstance()
             ->get(\Magento\Framework\Module\Dir::class);
 
@@ -53,14 +49,56 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 
             $realPath = $modulePath.DIRECTORY_SEPARATOR.$path;
             
+            // @codingStandardsIgnoreStart
             if (!is_dir($realPath) || !file_exists($realPath)) {
                 throw new \InvalidArgumentException(__("invalid module path given: ". $realPath));
             }
+            // @codingStandardsIgnoreEnd
             $response["path"] = $realPath;
         } else {
             $response["path"] = $modulePath;
         }
         
         return $response;
+    }
+
+    /**
+     * Check if payment method already exists
+     *
+     * @param string $name
+     * @return null
+     * @throws \InvalidArgumentException
+     */
+    private function validatePaymentMethod($code)
+    {
+        $filteredCode = $this->filterCode($code);
+        if (!$filteredCode || $filteredCode == '') {
+            throw new \InvalidArgumentException(
+                __('invalid payment method code "%1" given.', $code)
+            );
+        }
+        $inputCode = str_replace(" ", "_", strtolower($filteredCode));
+        $paymentMethods = \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(\Magento\Payment\Model\Config\Source\Allmethods::class);
+
+        $methods = $paymentMethods->toOptionArray();
+        $methodCodes = array_keys($methods);
+        
+        if (in_array($inputCode, $methodCodes)) {
+            throw new \InvalidArgumentException(
+                __('payment method for "%1" code already exists.', strtolower($code))
+            );
+        }
+    }
+
+    /**
+     * Filter payment code
+     *
+     * @param string $code
+     * @return string
+     */
+    private function filterCode($code)
+    {
+        return preg_replace('/[^a-zA-Z0-9_]/s', '', $code);
     }
 }

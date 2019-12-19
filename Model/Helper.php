@@ -71,26 +71,31 @@ class Helper {
     }
 
     /**
-     * Get class name
-     *
-     * @param string $code
+     * Load Template File
+     * 
+     * @param string $path
+     * @param string $fileName
+     * @param string $templatePath
      * @return string
      */
-    public function getClassName($name)
+    public function loadTemplateFile($path, $fileName, $templatePath)
     {
-        $fields = explode('_', $name);
-        $className = ucfirst($name);
-        if (count($fields) > 1) {
-            $className = '';
-            foreach ($fields as $key => $f) {
-                if ($key == 0) {
-                    $camelCase = ucfirst($f);
-                } else {
-                    $camelCase.= ucfirst($f);
-                }
-            }
-            $className = $camelCase;
+        $filePath = $path.DIRECTORY_SEPARATOR.$fileName;
+        if (!file_exists($filePath)) {
+            $data = $this->getTemplatesFiles($templatePath);
+            $this->saveFile($filePath, $data);
         }
-        return $className;
+        return $filePath;
+    }
+
+    /**
+     * Get Di.xml file
+     *
+     * @param string $etcDirPath
+     * @return string
+     */
+    public function getDiXmlFile($etcDirPath)
+    {
+        return $this->loadTemplateFile($etcDirPath, 'di.xml', 'templates/di.xml.dist');
     }
 }

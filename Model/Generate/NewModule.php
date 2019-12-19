@@ -53,6 +53,7 @@ class NewModule implements GenerateInterface
         $this->createModuleXmlFile($moduleDir, $moduleName);
         $this->createRegistrationFile($moduleDir, $moduleName);
         $this->createComposerFile($moduleDir, $moduleName);
+        \Magento\Framework\Component\ComponentRegistrar::register('module', $moduleName, $moduleDir);
         $this->moduleStatus->setIsEnabled(true, [$moduleName]);
         return ['status' => 'success', 'message' => "new module generated successfully"];
     }

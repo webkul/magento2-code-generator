@@ -79,14 +79,44 @@ class OptionsPool {
             ),
           
             //controller specific
-
             new InputOption(
                 'area',
                 'ar',
                 InputArgument::OPTIONAL,
                 'enter area frontend or adminhtml'
-            )
+            ),
 
+            //plugin specific
+            new InputOption(
+                'plugin',
+                'plugin',
+                InputArgument::OPTIONAL,
+                'enter plugin type class'
+            ),
+
+            //observer specific
+            new InputOption(
+                'event',
+                'event',
+                InputArgument::OPTIONAL,
+                'enter event name'
+            ),
+
+            // payment method specific
+            new InputOption(
+                'payment-code',
+                'payment-code',
+                InputArgument::OPTIONAL,
+                'enter payment method code.'
+            ),
+
+            //cron specific
+            new InputOption(
+                'schedule',
+                'schedule',
+                InputArgument::OPTIONAL,
+                'enter schedule'
+            )
         ];
 
         return $options;

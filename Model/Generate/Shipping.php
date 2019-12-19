@@ -158,7 +158,7 @@ class Shipping implements GenerateInterface
     {
         $systemXmlFilePath = $this->getSystemXmlFilePath($moduleDir);
         // @codingStandardsIgnoreStart
-        $shippingXmlData = file_get_contents(dirname(dirname( dirname(__FILE__) )) . '/templates/shipping.xml.dist');
+        $shippingXmlData = file_get_contents(dirname(dirname( dirname(__FILE__) )) . '/templates/system.xml.dist');
         // @codingStandardsIgnoreEnd
         $this->helper->saveFile($systemXmlFilePath, $shippingXmlData);
         return $systemXmlFilePath;

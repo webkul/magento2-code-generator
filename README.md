@@ -30,12 +30,27 @@ If you have created the db_schema file for the table in the above command, it wi
 
 ``` php bin/magento generate:code Module_Name --type=helper --name=HelperName  ```
 
-- To generate payment method
+- To create payment method
 
 ``` php bin/magento generate:code Module_Name --type=payment --name=MethodName  ```
 
-- To Generate shipping method
+- To create shipping method
 
-``` php bin/magento generate:code Webkul_Test --type=shipping --shipping-code=custom_shipping ```
+``` php bin/magento generate:code Module_Name --type=shipping --shipping-code=custom_shipping ```
+
+- To create Plugin
+
+``` php bin/magento generate:code Module_Name --type=plugin --name=PluginName --plugin=FullClassName [--area=frontend|adminhtml]  ```
+
+- To create observer
+
+``` php bin/magento generate:code Module_Name --type=observer --name=ObserverName --event=event_name [--area=frontend|adminhtml]  ```
+
+- To create cron
+
+``` php bin/magento generate:code Module_Name --type=cron --name=CronName [--schedule="0 1 * * *"]  ```
 
 
+- To create unit test cases
+
+``` php bin/magento generate:code Module_Name --type=unit-test  ```
