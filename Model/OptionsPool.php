@@ -100,8 +100,15 @@ class OptionsPool {
                 'event',
                 InputArgument::OPTIONAL,
                 'enter event name'
-            )
+            ),
 
+            // payment method specific
+            new InputOption(
+                'payment-code',
+                'payment-code',
+                InputArgument::OPTIONAL,
+                'enter payment method code.'
+            ),
         ];
 
         return $options;

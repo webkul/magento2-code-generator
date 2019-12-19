@@ -1,0 +1,18 @@
+{
+    "field1": {
+        "value": {
+            "label": "Enable",
+            "source_model": "Magento\\Config\\Model\\Config\\Source\\Yesno"
+        },
+        "attribute": {
+            "id": "active",
+            "translate": "label",
+            "type": "select",
+            "sortOrder": "10",
+            "showInDefault": "1",
+            "showInWebsite": "1",
+            "showInStore": "0",
+            "canRestore": "1"
+        }
+    }
+}
