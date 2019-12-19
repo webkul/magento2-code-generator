@@ -45,3 +45,7 @@ If you have created the db_schema file for the table in the above command, it wi
 - To create observer
 
 ``` php bin/magento generate:code Module_Name --type=observer --name=ObserverName --event=event_name [--area=frontend|adminhtml]  ```
+
+- To create cron
+
+``` php bin/magento generate:code Module_Name --type=cron --name=CronName [--schedule="0 1 * * *"]  ```
