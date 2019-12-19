@@ -79,7 +79,6 @@ class OptionsPool {
             ),
           
             //controller specific
-
             new InputOption(
                 'area',
                 'ar',
@@ -87,8 +86,23 @@ class OptionsPool {
                 'enter area frontend or adminhtml'
             ),
 
-            // payment method specific
+            //plugin specific
+            new InputOption(
+                'plugin',
+                'plugin',
+                InputArgument::OPTIONAL,
+                'enter plugin type class'
+            ),
 
+            //observer specific
+            new InputOption(
+                'event',
+                'event',
+                InputArgument::OPTIONAL,
+                'enter event name'
+            ),
+
+            // payment method specific
             new InputOption(
                 'payment-code',
                 'payment-code',
