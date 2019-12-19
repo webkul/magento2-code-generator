@@ -1,0 +1,31 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    %module_name%
+ * @author     Webkul
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+
+namespace %namespace%\Observer;
+
+use Magento\Framework\Event\ObserverInterface;
+
+/**
+ * Observer class.
+ */
+class %observer_name% implements ObserverInterface
+{
+    public function __construct(
+
+    ) {
+        
+    }
+
+    public function execute(\Magento\Framework\Event\Observer $observer)
+    {
+
+    }
+}
