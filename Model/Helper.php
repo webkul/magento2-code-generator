@@ -69,4 +69,28 @@ class Helper {
     {
         return file_get_contents(dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR. $template);
     }
+
+    /**
+     * Get class name
+     *
+     * @param string $code
+     * @return string
+     */
+    public function getClassName($name)
+    {
+        $fields = explode('_', $name);
+        $className = ucfirst($name);
+        if (count($fields) > 1) {
+            $className = '';
+            foreach ($fields as $key => $f) {
+                if ($key == 0) {
+                    $camelCase = ucfirst($f);
+                } else {
+                    $camelCase.= ucfirst($f);
+                }
+            }
+            $className = $camelCase;
+        }
+        return $className;
+    }
 }
