@@ -109,6 +109,14 @@ class OptionsPool {
                 InputArgument::OPTIONAL,
                 'enter payment method code.'
             ),
+
+            //cron specific
+            new InputOption(
+                'schedule',
+                'schedule',
+                InputArgument::OPTIONAL,
+                'enter schedule'
+            )
         ];
 
         return $options;
