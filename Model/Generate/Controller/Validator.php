@@ -47,6 +47,11 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 
         $modulePath = $dir->getDir($module);
         $response["path"] = $modulePath;
+        if (isset($data['router'])) {
+            $response['router'] = $data['router'];
+        }
+        
+        $response["module_path"] = $modulePath;
         if ($area == 'frontend') {
             $response["path"] = $modulePath.DIRECTORY_SEPARATOR.'Controller';
         } else {

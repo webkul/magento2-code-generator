@@ -86,6 +86,13 @@ class OptionsPool {
                 'enter area frontend or adminhtml'
             ),
 
+            new InputOption(
+                'router',
+                'r',
+                InputArgument::OPTIONAL,
+                'enter router name'
+            ),
+
             //plugin specific
             new InputOption(
                 'plugin',

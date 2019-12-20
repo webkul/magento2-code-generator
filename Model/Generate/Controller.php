@@ -129,10 +129,19 @@ class Controller implements GenerateInterface
         $controllerName = $data['name'];
         $module = $data['module'];
         $area = $data['area'];
+        
         $xmlFilePath = $this->getRoutesXmlFilePath($etcDirPath);
         if ($this->fileDriver->isExists($xmlFilePath)) {
             return true;
         }
+        
+        if (!isset($data['router']) || !$data['router']) {
+            throw new \RuntimeException(
+                __('Please provide router name')
+            );
+        }
+        $routeName = $data['router'];
+        
         $xmlData = $this->helper->getTemplatesFiles('templates/routes.xml.dist');
         $this->helper->saveFile($xmlFilePath, $xmlData);
 
@@ -144,7 +153,7 @@ class Controller implements GenerateInterface
             );
         }
         $routesId = $area == 'adminhtml' ? 'admin' : 'standard';
-        $routeName = strtolower($this->helper->getClassName($controllerName));
+        // $routeName = strtolower($this->helper->getClassName($controllerName));
         $routerNode = $this->xmlGenerator->addXmlNode(
             $routesXml,
             'router',

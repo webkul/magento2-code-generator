@@ -24,7 +24,7 @@ If you have created the db_schema file for the table in the above command, it wi
 
 - To create controller
 
-``` php bin/magento generate:code Module_Name --type=controller --name=ControllerName --area=frontend|adminhtml --path=RelativeToModuleControolerFolder ```
+``` php bin/magento generate:code Module_Name --type=controller --name=ControllerName --area=frontend|adminhtml --path=RelativeToModuleControolerFolder --router=RouteName ```
 
 - To create helper
 
