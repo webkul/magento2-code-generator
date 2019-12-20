@@ -1,9 +1,5 @@
 <?php
-/**
- * shipping model
- *
- * @author Mahesh Singh
- */
+
 namespace %namespace%;
 
 use Magento\Quote\Model\Quote\Address\RateRequest;
