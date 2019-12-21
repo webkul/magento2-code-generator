@@ -6,7 +6,7 @@
  * @author    Sanjay Chouhan
  */
 
-namespace Webkul\CodeGenerator\Model\Generate\Cron;
+namespace Webkul\CodeGenerator\Model\Generate\Logger;
 
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
@@ -20,7 +20,6 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
     {
         $module = $data['module'];
         $type = $data['type'];
-        $name = $data['name'];
 
         $response = [];
         if ($module) {
@@ -35,16 +34,10 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
             throw new \InvalidArgumentException(__("Module name not provided"));
         }
 
-        if ($name) {
-            $response["name"] = $name;
+        if (isset($data['name']) && $data['name']) {
+            $response["name"] = $data['name'];
         } else {
-            throw new \InvalidArgumentException(__("name is required"));
-        }
-
-        if (isset($data['schedule']) && $data['schedule']) {
-            $response["schedule"] = $data['schedule'];
-        } else {
-            $response["schedule"] = '0 1 * * *';
+            $response["name"] = strtolower($data['module']);
         }
 
         $dir = \Magento\Framework\App\ObjectManager::getInstance()

@@ -54,3 +54,15 @@ If you have created the db_schema file for the table in the above command, it wi
 - To create unit test cases
 
 ``` php bin/magento generate:code Module_Name --type=unit-test  ```
+
+- To create logger
+
+``` php bin/magento generate:code Module_Name --type=logger [--name=loggerfile]  ```
+
+- To create command
+
+``` php bin/magento generate:code Module_Name --type=command --name=CommandClass --command='test:hello'  ```
+
+- To override/rewrite a class (Block, Model, Controller)
+
+``` php bin/magento generate:code Module_Name --type=rewrite --name=ClassName --rewrite='OverriddenClass' [--path=RelativeToModuleFolder]  ```

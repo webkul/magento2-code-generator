@@ -123,6 +123,22 @@ class OptionsPool {
                 'schedule',
                 InputArgument::OPTIONAL,
                 'enter schedule'
+            ),
+
+            //command specific
+            new InputOption(
+                'command',
+                'command',
+                InputArgument::OPTIONAL,
+                'enter command'
+            ),
+
+            //rewrite specific
+            new InputOption(
+                'rewrite',
+                'rewrite',
+                InputArgument::OPTIONAL,
+                'enter class to be overridden'
             )
         ];
 

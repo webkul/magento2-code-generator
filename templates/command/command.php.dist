@@ -1,0 +1,38 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    %module_name%
+ * @author     Webkul
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+
+namespace %namespace%\Console\Command;
+
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+/**
+ * Command class.
+ */
+class %name% extends Command
+{
+    public function __construct(
+        
+    ) {
+        parent::__construct();
+    }
+
+    protected function configure() {
+        $this->setName('%command%');
+        $this->setDescription('%command%');
+        parent::configure();
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output) {
+        $output->writeln("Hello World!!!");
+    }
+}

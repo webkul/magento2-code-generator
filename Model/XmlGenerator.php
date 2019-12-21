@@ -75,7 +75,11 @@ class XmlGenerator {
         
         if (!empty($attributes)) {
             foreach ($attributes as $attribute => $value) {
-                $newNode->addAttribute($attribute, $value);
+                if (strpos($attribute, 'xsi:')===false) {
+                    $newNode->addAttribute($attribute, $value);
+                } else {
+                    $newNode->addAttribute($attribute, $value, 'http://www.w3.org/2001/XMLSchema-instance');
+                }
             }
         }
         return $newNode;
