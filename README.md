@@ -54,3 +54,9 @@ If you have created the db_schema file for the table in the above command, it wi
 - To create unit test cases
 
 ``` php bin/magento generate:code Module_Name --type=unit-test  ```
+
+- To create view
+
+``` php bin/magento generate:code Module_Name --type=create-view --name=webkul_index_index --area=adminhtml --block-class=Main --template=hello.phtml --layout-type=admin-2column-left ```
+
+``` --block-class ```, ``` --template ```, ``` --layout-type ``` are optional.

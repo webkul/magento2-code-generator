@@ -123,7 +123,26 @@ class OptionsPool {
                 'schedule',
                 InputArgument::OPTIONAL,
                 'enter schedule'
-            )
+            ),
+            //Create view
+            new InputOption(
+                'block-class',
+                'bc',
+                InputArgument::OPTIONAL,
+                'enter block class name'
+            ),
+            new InputOption(
+                'template',
+                'template',
+                InputArgument::OPTIONAL,
+                'enter phtml template file name'
+            ),
+            new InputOption(
+                'layout-type',
+                'lt',
+                InputArgument::OPTIONAL,
+                'enter layout type like 1column'
+            ),
         ];
 
         return $options;

@@ -31,6 +31,7 @@
                 <item name="unit-test" xsi:type="object">Webkul\CodeGenerator\Model\Generate\UnitTestCase\Validator</item>
                 <item name="observer" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Observer\Validator</item>
                 <item name="cron" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Cron\Validator</item>
+                <item name="create-view" xsi:type="object">Webkul\CodeGenerator\Model\Generate\View\Validator</item>
             </argument>
         </arguments>
     </type>
@@ -49,6 +50,7 @@
                 <item name="unit-test" xsi:type="object">Webkul\CodeGenerator\Model\Generate\UnitTestCase</item>
                 <item name="observer" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Observer</item>
                 <item name="cron" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Cron</item>
+                <item name="create-view" xsi:type="object">Webkul\CodeGenerator\Model\Generate\View</item>
             </argument>
         </arguments>
     </type>
