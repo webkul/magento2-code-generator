@@ -6,7 +6,7 @@
  * @author    Sanjay Chouhan
  */
 
-namespace Webkul\CodeGenerator\Model\Generate\Cron;
+namespace Webkul\CodeGenerator\Model\Generate\Command;
 
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
@@ -41,10 +41,10 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
             throw new \InvalidArgumentException(__("name is required"));
         }
 
-        if (isset($data['schedule']) && $data['schedule']) {
-            $response["schedule"] = $data['schedule'];
+        if (isset($data['command']) && $data['command']) {
+            $response["command"] = $data['command'];
         } else {
-            $response["schedule"] = '0 1 * * *';
+            throw new \InvalidArgumentException(__("command is required"));
         }
 
         $dir = \Magento\Framework\App\ObjectManager::getInstance()

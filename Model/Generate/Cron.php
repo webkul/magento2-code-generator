@@ -20,8 +20,6 @@ use Magento\Framework\Simplexml\Element;
  */
 class Cron implements GenerateInterface
 {
-    const CONFIGXML_NODE = '//group';
-
     protected $helper;
     
     protected $xmlGeneratorFactory;

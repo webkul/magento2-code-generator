@@ -38,13 +38,13 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
         if ($name) {
             $response["name"] = $name;
         } else {
-            throw new \InvalidArgumentException(__("Name is required"));
+            throw new \InvalidArgumentException(__("name is required"));
         }
 
         if (isset($data['plugin']) && $data['plugin']) {
             $response["plugin-type"] = ltrim($data['plugin'], '\\');
         } else {
-            throw new \InvalidArgumentException(__("Plugin Type is required"));
+            throw new \InvalidArgumentException(__("plugin is required"));
         }
 
         $dir = \Magento\Framework\App\ObjectManager::getInstance()

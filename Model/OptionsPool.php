@@ -124,6 +124,7 @@ class OptionsPool {
                 InputArgument::OPTIONAL,
                 'enter schedule'
             ),
+
             //Create view
             new InputOption(
                 'block-class',
@@ -143,6 +144,23 @@ class OptionsPool {
                 InputArgument::OPTIONAL,
                 'enter layout type like 1column'
             ),
+
+            //command specific
+            new InputOption(
+                'command',
+                'command',
+                InputArgument::OPTIONAL,
+                'enter command'
+            ),
+
+            //rewrite specific
+            new InputOption(
+                'rewrite',
+                'rewrite',
+                InputArgument::OPTIONAL,
+                'enter class to be overridden'
+            )
+
         ];
 
         return $options;

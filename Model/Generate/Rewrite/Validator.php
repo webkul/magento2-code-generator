@@ -6,7 +6,7 @@
  * @author    Sanjay Chouhan
  */
 
-namespace Webkul\CodeGenerator\Model\Generate\Cron;
+namespace Webkul\CodeGenerator\Model\Generate\Rewrite;
 
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
@@ -41,10 +41,16 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
             throw new \InvalidArgumentException(__("name is required"));
         }
 
-        if (isset($data['schedule']) && $data['schedule']) {
-            $response["schedule"] = $data['schedule'];
+        if (isset($data['rewrite']) && $data['rewrite']) {
+            $response["rewrite"] = $data['rewrite'];
         } else {
-            $response["schedule"] = '0 1 * * *';
+            throw new \InvalidArgumentException(__("rewrite is required"));
+        }
+
+        if (isset($data['path']) && $data['path']) {
+            $response["rewrite-path"] = preg_replace('/[\/\\\]/', '_', $data['path']);
+        } else {
+            $response["rewrite-path"] = 'Rewrite';
         }
 
         $dir = \Magento\Framework\App\ObjectManager::getInstance()
