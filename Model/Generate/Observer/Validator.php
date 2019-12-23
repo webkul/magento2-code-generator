@@ -34,12 +34,12 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
         if ($name) {
             $response["name"] = $name;
         } else {
-            throw new \InvalidArgumentException(__("Name is required"));
+            throw new \InvalidArgumentException(__("name is required"));
         }
         if (isset($data['event']) && $data['event']) {
             $response["event-name"] = $data['event'];
         } else {
-            throw new \InvalidArgumentException(__("Event name is required"));
+            throw new \InvalidArgumentException(__("event is required"));
         }
         $dir = \Magento\Framework\App\ObjectManager::getInstance()
                     ->get(\Magento\Framework\Module\Dir::class);
