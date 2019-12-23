@@ -1,0 +1,13 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @package   Webkul_CodeGenerator
+ * @author    Mahesh Singh
+ */
+
+// $block %block%
+
+?>
+
+<?= $block->getHelloMessage(); ?>
