@@ -159,6 +159,13 @@ class OptionsPool {
                 'rewrite',
                 InputArgument::OPTIONAL,
                 'enter class to be overridden'
+            ),
+
+            new InputOption(
+                'id',
+                'id',
+                InputArgument::OPTIONAL,
+                'enter identifier'
             )
 
         ];

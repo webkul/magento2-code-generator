@@ -37,6 +37,7 @@
                 <item name="logger" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Logger\Validator</item>
                 <item name="command" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Command\Validator</item>
                 <item name="rewrite" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Rewrite\Validator</item>
+                <item name="email" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Email\Validator</item>
 
             </argument>
         </arguments>
@@ -62,6 +63,7 @@
                 <item name="logger" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Logger</item>
                 <item name="command" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Command</item>
                 <item name="rewrite" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Rewrite</item>
+                <item name="email" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Email</item>
 
             </argument>
         </arguments>
