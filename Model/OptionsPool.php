@@ -93,6 +93,13 @@ class OptionsPool {
                 'enter router name'
             ),
 
+            new InputOption(
+                'resource',
+                're',
+                InputArgument::OPTIONAL,
+                'enter resource name for admin user authorization'
+            ),
+
             //plugin specific
             new InputOption(
                 'plugin',
