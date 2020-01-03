@@ -93,6 +93,13 @@ class OptionsPool {
                 'enter router name'
             ),
 
+            new InputOption(
+                'resource',
+                're',
+                InputArgument::OPTIONAL,
+                'enter resource name for admin user authorization'
+            ),
+
             //plugin specific
             new InputOption(
                 'plugin',
@@ -123,7 +130,51 @@ class OptionsPool {
                 'schedule',
                 InputArgument::OPTIONAL,
                 'enter schedule'
+            ),
+
+            //Create view
+            new InputOption(
+                'block-class',
+                'bc',
+                InputArgument::OPTIONAL,
+                'enter block class name'
+            ),
+            new InputOption(
+                'template',
+                'template',
+                InputArgument::OPTIONAL,
+                'enter phtml template file name'
+            ),
+            new InputOption(
+                'layout-type',
+                'lt',
+                InputArgument::OPTIONAL,
+                'enter layout type like 1column'
+            ),
+
+            //command specific
+            new InputOption(
+                'command',
+                'command',
+                InputArgument::OPTIONAL,
+                'enter command'
+            ),
+
+            //rewrite specific
+            new InputOption(
+                'rewrite',
+                'rewrite',
+                InputArgument::OPTIONAL,
+                'enter class to be overridden'
+            ),
+
+            new InputOption(
+                'id',
+                'id',
+                InputArgument::OPTIONAL,
+                'enter identifier'
             )
+
         ];
 
         return $options;

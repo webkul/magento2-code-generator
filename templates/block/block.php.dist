@@ -1,0 +1,33 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @package   Webkul_CodeGenerator
+ * @author    Mahesh Singh
+ */
+
+/**
+ * %class% block
+ */
+namespace %namespace%;
+
+use Magento\Framework\View\Element\Template\Context;
+
+class %class% extends \Magento\Framework\View\Element\Template
+{
+    /**
+     * construct function
+     *
+     * @param Context $context
+     * @param array $data
+     */
+    public function __construct(Context $context, array $data = [])
+    {
+        parent::__construct($context, $data);
+    }
+
+    public function getHelloMessage()
+    {
+        return 'Hello from %class% block';
+    }
+}

@@ -17,6 +17,7 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
         $name = $data['name'];
         $area = $data['area'] ?? null;
         $path = $data['path'] ?? null;
+        $resource = $data['resource'] ?? null;
         $response = [];
         if ($module) {
             $moduleManager = \Magento\Framework\App\ObjectManager::getInstance()
@@ -41,6 +42,8 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
         } else {
             throw new \InvalidArgumentException(__("name is required"));
         }
+
+        $response['resource'] = $resource;
 
         $dir = \Magento\Framework\App\ObjectManager::getInstance()
             ->get(\Magento\Framework\Module\Dir::class);

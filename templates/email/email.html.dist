@@ -1,0 +1,32 @@
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    %module_name%
+ * @author     Webkul
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+-->
+<!--@subject {{var subject}} @-->
+<!--@vars {
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td>
+            <p>Hello World!!!</p>
+        </td>
+    </tr>
+    <tr class="email-summary">
+        
+    </tr>
+    <tr class="email-information">
+        
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

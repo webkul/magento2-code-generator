@@ -78,11 +78,16 @@ class Helper {
      * @param string $templatePath
      * @return string
      */
-    public function loadTemplateFile($path, $fileName, $templatePath)
+    public function loadTemplateFile($path, $fileName, $templatePath, $replace = [])
     {
         $filePath = $path.DIRECTORY_SEPARATOR.$fileName;
         if (!file_exists($filePath)) {
             $data = $this->getTemplatesFiles($templatePath);
+            if (!empty($replace) && is_array($replace)) {
+                foreach ($replace as $find => $value) {
+                    $data = str_replace("%{$find}%", $value, $data);
+                }
+            }
             $this->saveFile($filePath, $data);
         }
         return $filePath;

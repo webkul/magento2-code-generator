@@ -99,6 +99,7 @@ class Controller implements GenerateInterface
     {
         $fileName = ucfirst($data['name']);
         $nameSpace = $data['module'];
+        $resource = $data['resource'];
         $pathParts = explode("Controller/", $data['path']);
 
         $nameArray = explode("_", $nameSpace);
@@ -111,6 +112,7 @@ class Controller implements GenerateInterface
         $controllerFile = str_replace('%module_name%', $data['module'], $controllerFile);
         $controllerFile = str_replace('%class_name%', $fileName, $controllerFile);
         $controllerFile = str_replace('%namespace%', $nameSpace, $controllerFile);
+        $controllerFile = str_replace('%resource_name%', $resource, $controllerFile);
         $this->helper->saveFile(
             $dir.DIRECTORY_SEPARATOR.$fileName.'.php',
             $controllerFile

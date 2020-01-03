@@ -3,10 +3,9 @@
  * Webkul Software.
  *
  * @package   Webkul_CodeGenerator
- * @author    Sanjay Chouhan
+ * @author    Mahesh Singh
  */
-
-namespace Webkul\CodeGenerator\Model\Generate\Cron;
+namespace Webkul\CodeGenerator\Model\Generate\View;
 
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
@@ -18,11 +17,14 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
      */
     public function validate($data)
     {
+        $response = [];
         $module = $data['module'];
         $type = $data['type'];
         $name = $data['name'];
-
-        $response = [];
+        $area = $data['area'];
+        $response['phtml'] = $data['template']??'content.phtml';
+        $response['block'] = $data['block-class']??'Main';
+        $response['layout'] = $data['layout-type']??'1column';
         if ($module) {
             $moduleManager = \Magento\Framework\App\ObjectManager::getInstance()
             ->get(\Magento\Framework\Module\ModuleListInterface::class);
@@ -34,26 +36,27 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
         } else {
             throw new \InvalidArgumentException(__("Module name not provided"));
         }
-
         if ($name) {
             $response["name"] = $name;
         } else {
-            throw new \InvalidArgumentException(__("name is required"));
+            throw new \InvalidArgumentException(__("Name is required"));
         }
-
-        if (isset($data['schedule']) && $data['schedule']) {
-            $response["schedule"] = $data['schedule'];
-        } else {
-            $response["schedule"] = '0 1 * * *';
+        if (strpos($response['phtml'], '.phtml') === false) {
+            $response['phtml'] = $response['phtml'].'.phtml';
         }
 
         $dir = \Magento\Framework\App\ObjectManager::getInstance()
                     ->get(\Magento\Framework\Module\Dir::class);
-
         $modulePath = $dir->getDir($module);
         $response["path"] = $modulePath;
+
+        if (isset($data['area']) && $data['area'] && in_array($data['area'], ['frontend', 'adminhtml'])) {
+            $response["area"] = $data['area'];
+        } else {
+            throw new \InvalidArgumentException(__("Area is required or invalid"));
+        }
         $response["type"] = $type;
-        
+
         return $response;
     }
 }

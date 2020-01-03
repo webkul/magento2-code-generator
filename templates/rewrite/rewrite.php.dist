@@ -1,0 +1,17 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    %module_name%
+ * @author     Webkul
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+
+namespace %namespace%;
+
+class %name% extends \%rewrite%
+{
+    
+}

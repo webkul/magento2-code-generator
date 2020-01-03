@@ -6,7 +6,7 @@
  * @author    Sanjay Chouhan
  */
 
-namespace Webkul\CodeGenerator\Model\Generate\Cron;
+namespace Webkul\CodeGenerator\Model\Generate\Email;
 
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
@@ -41,10 +41,17 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
             throw new \InvalidArgumentException(__("name is required"));
         }
 
-        if (isset($data['schedule']) && $data['schedule']) {
-            $response["schedule"] = $data['schedule'];
+        if (isset($data['template']) && $data['template']) {
+            $response["template"] = $data['template'];
         } else {
-            $response["schedule"] = '0 1 * * *';
+            $response["template"] = $this->getSanitized($name);
+        }
+
+        if (isset($data['id']) && $data['id']) {
+            $response["id"] = $data['id'];
+        } else {
+            $moduleName = explode('_', $module)[1];
+            $response["id"] = $this->getSanitized($moduleName.'_email_'.$name);
         }
 
         $dir = \Magento\Framework\App\ObjectManager::getInstance()
@@ -55,5 +62,10 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
         $response["type"] = $type;
         
         return $response;
+    }
+
+    private function getSanitized($string)
+    {
+        return strtolower(preg_replace( '/[^a-z0-9]/i', '_', $string));
     }
 }
