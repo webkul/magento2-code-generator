@@ -74,3 +74,6 @@ If you have created the db_schema file for the table in the above command, it wi
 
 ``` php bin/magento generate:code Module_Name --type=rewrite --name=ClassName --rewrite='OverriddenClass' [--path=RelativeToModuleFolder]  ```
 
+- To create email template
+
+``` php bin/magento generate:code Module_Name --type=email --name="Email Label" [--id="module_email_test"] [--template="test"]  ```
