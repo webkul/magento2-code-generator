@@ -8,6 +8,10 @@
 
 # Usage
 
+- [Magento 2 Code Generator](https://webkul.com/blog/magento-2-code-generator/)
+
+# Usage
+
 - To create new Module
 
 ``` php bin/magento generate:code Module_Name --type=new-module  ```
