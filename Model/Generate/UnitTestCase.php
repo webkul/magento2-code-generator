@@ -139,7 +139,7 @@ class UnitTestCase implements GenerateInterface
                 'body'       => '$this->objectManager = new \\Magento\\Framework\\TestFramework\\Unit\\Helper\\ObjectManager($this);',
                 'docblock'   => DocBlockGenerator::fromArray([
                     'shortDescription' => 'setup mocks',
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ReturnTag([
                             'datatype'  => 'void',

@@ -125,7 +125,7 @@ class Model implements GenerateInterface
                     null,
                     DocBlockGenerator::fromArray([
                         'shortDescription' => 'Set '.$fieldName,
-                        'longDescription'  => null,
+                        'longDescription'  => "",
                         'tags'             => [
                             new Tag\ParamTag($camelCase, [$this->helper->getReturnType($column['type'])]),
                             new Tag\ReturnTag([
@@ -141,7 +141,7 @@ class Model implements GenerateInterface
                     null,
                     'docblock'   => DocBlockGenerator::fromArray([
                         'shortDescription' => 'Get '.$fieldName,
-                        'longDescription'  => null,
+                        'longDescription'  => "",
                         'tags'             => [
                             new Tag\ReturnTag([
                                 'datatype'  => $this->helper->getReturnType($column['type']),
@@ -209,7 +209,7 @@ class Model implements GenerateInterface
                 'body'       => '$this->_init('.$resourceClass.'::class);',
                 'docblock'   => DocBlockGenerator::fromArray([
                     'shortDescription' => 'set resource model',
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                 ]),
             ]),
             // MethodGenerator::fromArray([
@@ -218,7 +218,7 @@ class Model implements GenerateInterface
             //     'body'       => 'if ($id === null) {'. "\n". 'return $this->noRouteReasons();'. "\n". '}'. "\n". 'return parent::load($id, $field);',
             //     'docblock'   => DocBlockGenerator::fromArray([
             //         'shortDescription' => 'load model',
-            //         'longDescription'  => null,
+            //         'longDescription'  => "",
             //         'tags'             => [
             //             new Tag\ParamTag('id', ['int']),
             //             new Tag\ParamTag('field', ['string']),
@@ -234,7 +234,7 @@ class Model implements GenerateInterface
                 'body'       => 'return $this->load(self::NOROUTE_ENTITY_ID, $this->getIdFieldName());',
                 'docblock'   => DocBlockGenerator::fromArray([
                     'shortDescription' => 'Load No-Route Indexer.',
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ReturnTag([
                             'datatype'  => '$this',
@@ -248,7 +248,7 @@ class Model implements GenerateInterface
                 'body'       => 'return [self::CACHE_TAG.\'_\'.$this->getId()];',
                 'docblock'   => DocBlockGenerator::fromArray([
                     'shortDescription' => 'Get identities.',
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ReturnTag([
                             'datatype'  => '[]',
@@ -281,7 +281,7 @@ class Model implements GenerateInterface
                 'return $this->setData(self::'.strtoupper($field).', $'.$camelCase.');',
                 DocBlockGenerator::fromArray([
                     'shortDescription' => 'Set '.$fieldName,
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag($camelCase, [$this->helper->getReturnType($column['type'])]),
                         new Tag\ReturnTag([
@@ -297,7 +297,7 @@ class Model implements GenerateInterface
                 'return parent::getData(self::'.strtoupper($field).');',
                 'docblock'   => DocBlockGenerator::fromArray([
                     'shortDescription' => 'Get '.$fieldName,
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ReturnTag([
                             'datatype'  => $this->helper->getReturnType($column['type']),
@@ -358,7 +358,7 @@ class Model implements GenerateInterface
                 'body'       => '$this->_init("'.$data['table'].'", "'.$identityColumn.'");',
                 'docblock'   => DocBlockGenerator::fromArray([
                     'shortDescription' => 'Initialize resource model',
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ReturnTag([
                             'datatype'  => 'void',
@@ -414,7 +414,7 @@ class Model implements GenerateInterface
                 'body'       => '$this->_init("'.$modelClass.'", "'.$resourceModel.'");'."\n".'$this->_map[\'fields\'][\'entity_id\'] = \'main_table.'.$identityColumn.'\';',
                 'docblock'   => DocBlockGenerator::fromArray([
                     'shortDescription' => 'Initialize resource model',
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ReturnTag([
                             'datatype'  => 'void',
