@@ -100,7 +100,7 @@
       "source_model": "Magento\\Directory\\Model\\Config\\Source\\Country"
     },
     "attribute": {
-      "id": "sallowspecific",
+      "id": "specificcountry",
       "translate": "label",
       "type": "multiselect",
       "sortOrder": "51",
