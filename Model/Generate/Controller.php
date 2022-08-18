@@ -106,9 +106,7 @@ class Controller implements GenerateInterface
         $nameArray = explode("_", $nameSpace);
         $nameSpace = implode("\\", $nameArray);
         $actionPath = explode("/", $pathParts[1]);
-
         $nameSpace = $nameSpace . "\\Controller\\Adminhtml\\" . implode("\\", $actionPath);
-
         $controllerFile = $this->helper->getTemplatesFiles('templates/controller/controller_admin.php.dist');
         $controllerFile = str_replace('%module_name%', $data['module'], $controllerFile);
         $controllerFile = str_replace('%class_name%', $fileName, $controllerFile);

@@ -6,6 +6,10 @@
 
 ``` php -f bin/magento setup:upgrade ```
 
+# User Guide
+
+- [Magento 2 Code Generator](https://webkul.com/blog/magento-2-code-generator/)
+
 # Usage
 
 - To create new Module
