@@ -22,7 +22,7 @@ class Rewrite implements GenerateInterface
 {
     protected $helper;
     
-    protected $xmlGeneratorFactory;
+    protected $xmlGenerator;
 
     /**
      * Constructor

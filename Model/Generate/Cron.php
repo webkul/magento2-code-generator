@@ -22,7 +22,7 @@ class Cron implements GenerateInterface
 {
     protected $helper;
     
-    protected $xmlGeneratorFactory;
+    protected $xmlGenerator;
 
     /**
      * Constructor

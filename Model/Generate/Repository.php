@@ -74,7 +74,7 @@ class Repository implements GenerateInterface
                 MethodGenerator::FLAG_INTERFACE,
                 null,
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'get by id',
+                    'shortDescription' => 'Get by id',
                     'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('id', ['int']),
@@ -91,7 +91,7 @@ class Repository implements GenerateInterface
                 MethodGenerator::FLAG_INTERFACE,
                 null,
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'get by id',
+                    'shortDescription' => 'Save',
                     'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('id', ['int']),
@@ -108,7 +108,7 @@ class Repository implements GenerateInterface
                 MethodGenerator::FLAG_INTERFACE,
                 null,
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'get list',
+                    'shortDescription' => 'Get list',
                     'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('creteria', [\Magento\Framework\Api\SearchCriteriaInterface::class]),
@@ -125,7 +125,7 @@ class Repository implements GenerateInterface
                 MethodGenerator::FLAG_INTERFACE,
                 null,
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'delete',
+                    'shortDescription' => 'Delete',
                     'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('subject', [$modelClass]),
@@ -142,7 +142,7 @@ class Repository implements GenerateInterface
                 MethodGenerator::FLAG_INTERFACE,
                 null,
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'delete by id',
+                    'shortDescription' => 'Delete by id',
                     'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('id', ['int']),
