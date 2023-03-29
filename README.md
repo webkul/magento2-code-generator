@@ -6,6 +6,10 @@
 
 ``` php -f bin/magento setup:upgrade ```
 
+# User Guide
+
+- [Magento 2 Code Generator](https://webkul.com/blog/magento-2-code-generator/)
+
 # Usage
 
 - To create new Module
@@ -32,7 +36,7 @@ If you have created the db_schema file for the table in the above command, it wi
 
 - To create payment method
 
-``` php bin/magento generate:code Module_Name --type=payment --name=MethodName  ```
+``` php bin/magento generate:code Module_Name --type=payment --name=MethodName --payment-code=PaymentMethodCode ```
 
 - To create shipping method
 

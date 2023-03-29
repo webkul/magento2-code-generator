@@ -74,8 +74,8 @@ class Repository implements GenerateInterface
                 MethodGenerator::FLAG_INTERFACE,
                 null,
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'get by id',
-                    'longDescription'  => null,
+                    'shortDescription' => 'Get by id',
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('id', ['int']),
                         new Tag\ReturnTag([
@@ -91,8 +91,8 @@ class Repository implements GenerateInterface
                 MethodGenerator::FLAG_INTERFACE,
                 null,
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'get by id',
-                    'longDescription'  => null,
+                    'shortDescription' => 'Save',
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('id', ['int']),
                         new Tag\ReturnTag([
@@ -108,8 +108,8 @@ class Repository implements GenerateInterface
                 MethodGenerator::FLAG_INTERFACE,
                 null,
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'get list',
-                    'longDescription'  => null,
+                    'shortDescription' => 'Get list',
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('creteria', [\Magento\Framework\Api\SearchCriteriaInterface::class]),
                         new Tag\ReturnTag([
@@ -125,8 +125,8 @@ class Repository implements GenerateInterface
                 MethodGenerator::FLAG_INTERFACE,
                 null,
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'delete',
-                    'longDescription'  => null,
+                    'shortDescription' => 'Delete',
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('subject', [$modelClass]),
                         new Tag\ReturnTag([
@@ -142,8 +142,8 @@ class Repository implements GenerateInterface
                 MethodGenerator::FLAG_INTERFACE,
                 null,
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'delete by id',
-                    'longDescription'  => null,
+                    'shortDescription' => 'Delete by id',
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('id', ['int']),
                         new Tag\ReturnTag([
@@ -211,7 +211,7 @@ class Repository implements GenerateInterface
                 '$this->collectionFactory = $collectionFactory;',
                 DocBlockGenerator::fromArray([
                     'shortDescription' => 'initialize',
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('modelFactory', [$modelClass.'Factory']),
                         new Tag\ParamTag('collectionFactory', [$collectionClass.'Factory']),
@@ -231,7 +231,7 @@ class Repository implements GenerateInterface
                     'return $model;',
                 DocBlockGenerator::fromArray([
                     'shortDescription' => 'get by id',
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('id', ['int']),
                         new Tag\ReturnTag([
@@ -249,7 +249,7 @@ class Repository implements GenerateInterface
                     "\n".'} '."\n".' return $subject; '."\n".'',
                 DocBlockGenerator::fromArray([
                     'shortDescription' => 'get by id',
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('id', ['int']),
                         new Tag\ReturnTag([
@@ -266,7 +266,7 @@ class Repository implements GenerateInterface
                 '$collection = $this->collectionFactory->create(); '."\n".' return $collection;',
                 DocBlockGenerator::fromArray([
                     'shortDescription' => 'get list',
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('creteria', [\Magento\Framework\Api\SearchCriteriaInterface::class]),
                         new Tag\ReturnTag([
@@ -287,7 +287,7 @@ class Repository implements GenerateInterface
                 '}'."\n".'return true;'."\n".'',
                 DocBlockGenerator::fromArray([
                     'shortDescription' => 'delete',
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('subject', [$modelClass]),
                         new Tag\ReturnTag([
@@ -304,7 +304,7 @@ class Repository implements GenerateInterface
                 'return $this->delete($this->getById($id));',
                 DocBlockGenerator::fromArray([
                     'shortDescription' => 'delete by id',
-                    'longDescription'  => null,
+                    'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('id', ['int']),
                         new Tag\ReturnTag([

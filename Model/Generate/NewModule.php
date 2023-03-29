@@ -29,6 +29,17 @@ class NewModule implements GenerateInterface
 
     protected $helper;
 
+    /**
+     * @var \Magento\Framework\Module\Status
+     */
+    protected $moduleStatus;
+
+    /**
+     * Construct
+     *
+     * @param Helper $helper
+     * @param StatusFactory $moduleStatusFactory
+     */
     public function __construct(
         Helper $helper,
         StatusFactory $moduleStatusFactory

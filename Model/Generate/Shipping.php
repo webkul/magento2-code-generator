@@ -28,6 +28,26 @@ class Shipping implements GenerateInterface
     protected $helper;
 
     /**
+     * @var \Magento\Framework\Filesystem\Driver\File
+     */
+    protected $fileDriver;
+
+    /**
+     * @var \Magento\Framework\Filesystem\Io\File
+     */
+    protected $file;
+
+    /**
+     * @var Json
+     */
+    protected $jsonHelper;
+
+    /**
+     * @var Webkul\CodeGenerator\Model\XmlGenerator
+     */
+    protected $xmlGenerator;
+
+    /**
      * Default xml node attributes
      *
      * @var array

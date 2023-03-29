@@ -16,6 +16,7 @@ use Magento\Framework\View\Result\PageFactory;
 
 class %class_name% extends Action
 {
+    public const ADMIN_RESOURCE = "%resource_name%";
 
     protected $resultPageFactory;
 
@@ -32,16 +33,6 @@ class %class_name% extends Action
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
         $this->resultForwardFactory = $resultForwardFactory;
-    }
-
-    /**
-     * Check for is allowed
-     *
-     * @return boolean
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed("%resource_name%");
     }
 
     public function execute()

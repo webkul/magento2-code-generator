@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Webkul Software.
  *
@@ -19,9 +20,17 @@ use Webkul\CodeGenerator\Model\XmlGeneratorFactory;
  */
 class Controller implements GenerateInterface
 {
+    protected $helper;
+
+    /**
+     * @var \Magento\Framework\Filesystem\Driver\File
+     */
     protected $fileDriver;
 
-    protected $helper;
+    /**
+     * @var Webkul\CodeGenerator\Model\XmlGenerator
+     */
+    protected $xmlGenerator;
 
     public function __construct(
         CodeHelper $helper,
@@ -41,18 +50,18 @@ class Controller implements GenerateInterface
         $modelName = $data['name'];
         $path = $data['path'];
         $area = $data['area'];
-        
+
         CodeHelper::createDirectory(
             $controllerPath = $path
         );
 
         if ($area == 'frontend') {
-                $this->createFrontController($controllerPath, $data);
+            $this->createFrontController($controllerPath, $data);
         } else {
             $this->createAdminController($controllerPath, $data);
         }
         CodeHelper::createDirectory(
-            $etcDirPath = $data['module_path'].DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.$area
+            $etcDirPath = $data['module_path'] . DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR . $area
         );
         $this->createRoutesXmlFile($etcDirPath, $data);
 
@@ -75,15 +84,15 @@ class Controller implements GenerateInterface
         $nameArray = explode("_", $nameSpace);
         $nameSpace = implode("\\", $nameArray);
         $actionPath = explode("/", $pathParts[1]);
-        
-        $nameSpace = $nameSpace."\\Controller\\".implode("\\", $actionPath);
-       
+
+        $nameSpace = $nameSpace . "\\Controller\\" . implode("\\", $actionPath);
+
         $controllerFile = $this->helper->getTemplatesFiles('templates/controller/controller_front.php.dist');
         $controllerFile = str_replace('%module_name%', $data['module'], $controllerFile);
         $controllerFile = str_replace('%class_name%', $fileName, $controllerFile);
         $controllerFile = str_replace('%namespace%', $nameSpace, $controllerFile);
         $this->helper->saveFile(
-            $dir.DIRECTORY_SEPARATOR.$fileName.'.php',
+            $dir . DIRECTORY_SEPARATOR . $fileName . '.php',
             $controllerFile
         );
     }
@@ -99,22 +108,22 @@ class Controller implements GenerateInterface
     {
         $fileName = ucfirst($data['name']);
         $nameSpace = $data['module'];
-        $resource = $data['resource'];
+        $resource = $data['module'] . ":" . $data['router'];
         $pathParts = explode("Controller/", $data['path']);
 
         $nameArray = explode("_", $nameSpace);
         $nameSpace = implode("\\", $nameArray);
         $actionPath = explode("/", $pathParts[1]);
-        
-        $nameSpace = $nameSpace."\\Controller\\Adminhtml\\".implode("\\", $actionPath);
-        
+
+        $nameSpace = $nameSpace . "\\Controller\\Adminhtml\\" . implode("\\", $actionPath);
+
         $controllerFile = $this->helper->getTemplatesFiles('templates/controller/controller_admin.php.dist');
         $controllerFile = str_replace('%module_name%', $data['module'], $controllerFile);
         $controllerFile = str_replace('%class_name%', $fileName, $controllerFile);
         $controllerFile = str_replace('%namespace%', $nameSpace, $controllerFile);
         $controllerFile = str_replace('%resource_name%', $resource, $controllerFile);
         $this->helper->saveFile(
-            $dir.DIRECTORY_SEPARATOR.$fileName.'.php',
+            $dir . DIRECTORY_SEPARATOR . $fileName . '.php',
             $controllerFile
         );
     }
@@ -131,19 +140,19 @@ class Controller implements GenerateInterface
         $controllerName = $data['name'];
         $module = $data['module'];
         $area = $data['area'];
-        
+
         $xmlFilePath = $this->getRoutesXmlFilePath($etcDirPath);
         if ($this->fileDriver->isExists($xmlFilePath)) {
             return true;
         }
-        
+
         if (!isset($data['router']) || !$data['router']) {
             throw new \RuntimeException(
                 __('Please provide router name')
             );
         }
         $routeName = $data['router'];
-        
+
         $xmlData = $this->helper->getTemplatesFiles('templates/routes.xml.dist');
         $this->helper->saveFile($xmlFilePath, $xmlData);
 
@@ -191,6 +200,6 @@ class Controller implements GenerateInterface
      */
     private function getRoutesXmlFilePath($etcDirPath)
     {
-        return $etcDirPath.DIRECTORY_SEPARATOR.'routes.xml';
+        return $etcDirPath . DIRECTORY_SEPARATOR . 'routes.xml';
     }
 }
