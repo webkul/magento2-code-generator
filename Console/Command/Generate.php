@@ -51,6 +51,7 @@ class Generate extends Command
             );
         parent::configure();
     }
+
     /**
      * {@inheritdoc}
      */
@@ -62,10 +63,13 @@ class Generate extends Command
 
         if (isset($this->validators[$data['type']])) {
             $data = $this->validators[$data['type']]->validate($data);
-            $this->generate($data, $output);
+            if ($this->generate($data, $output)){
+                return 0;
+            }
         } else {
             throw new \InvalidArgumentException(__("invalid type"));
         }
+        exit;
     }
 
     /**
@@ -73,7 +77,7 @@ class Generate extends Command
      *
      * @param [] $data
      * @param Output $output
-     * @return void
+     * @return bool
      */
     private function generate($data, $output)
     {
@@ -88,10 +92,12 @@ class Generate extends Command
                 $output->writeln("<error>====> ".$response['message'].'</error>');
             } else {
                 $output->writeln("<info>====> ".$response['message'].'</info>');
+                return true;
             }
         } catch (\Exception $e) {
             $output->writeln("<error>====> ".$e->getMessage().'</error>');
         }
+        return false;
     }
 }
 

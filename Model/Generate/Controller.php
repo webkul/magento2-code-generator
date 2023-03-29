@@ -20,9 +20,17 @@ use Webkul\CodeGenerator\Model\XmlGeneratorFactory;
  */
 class Controller implements GenerateInterface
 {
+    protected $helper;
+
+    /**
+     * @var \Magento\Framework\Filesystem\Driver\File
+     */
     protected $fileDriver;
 
-    protected $helper;
+    /**
+     * @var Webkul\CodeGenerator\Model\XmlGenerator
+     */
+    protected $xmlGenerator;
 
     public function __construct(
         CodeHelper $helper,
@@ -106,7 +114,9 @@ class Controller implements GenerateInterface
         $nameArray = explode("_", $nameSpace);
         $nameSpace = implode("\\", $nameArray);
         $actionPath = explode("/", $pathParts[1]);
+
         $nameSpace = $nameSpace . "\\Controller\\Adminhtml\\" . implode("\\", $actionPath);
+
         $controllerFile = $this->helper->getTemplatesFiles('templates/controller/controller_admin.php.dist');
         $controllerFile = str_replace('%module_name%', $data['module'], $controllerFile);
         $controllerFile = str_replace('%class_name%', $fileName, $controllerFile);

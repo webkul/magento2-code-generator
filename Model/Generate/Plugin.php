@@ -21,8 +21,11 @@ use Magento\Framework\Simplexml\Element;
 class Plugin implements GenerateInterface
 {
     protected $helper;
-    
-    protected $xmlGeneratorFactory;
+
+    /**
+     * @var Webkul\CodeGenerator\Model\XmlGenerator
+     */
+    protected $xmlGenerator;
 
     /**
      * Constructor

@@ -22,7 +22,7 @@ class Command implements GenerateInterface
 {
     protected $helper;
     
-    protected $xmlGeneratorFactory;
+    protected $xmlGenerator;
 
     /**
      * Constructor
