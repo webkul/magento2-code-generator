@@ -2,7 +2,7 @@
     "name": "webkul/code-generator",
     "description": "module lets you generate models, controller, helpers in seconds so that you can focus more on application logic ",
     "type": "magento2-module",
-    "version": "2.0.5",
+    "version": "2.0.6",
     "license": [
         "proprietary"
     ],
