@@ -19,15 +19,27 @@ use Magento\Framework\Setup\Declaration\Schema\Declaration\ReaderComposite;
 use Webkul\CodeGenerator\Model\Helper;
 
 /**
- * Class Model.php
+ * Generate Model.php
  */
 class Model implements GenerateInterface
 {
 
+    /**
+     * @var ReaderComposite
+     */
     protected $readerComposite;
 
+    /**
+     * @var Helper
+     */
     protected $helper;
 
+    /**
+     * __construct function
+     *
+     * @param ReaderComposite $readerComposite
+     * @param Helper $helper
+     */
     public function __construct(
         ReaderComposite $readerComposite,
         Helper $helper
@@ -85,11 +97,11 @@ class Model implements GenerateInterface
     }
 
     /**
-     * create api contract
+     * Create api contract
      *
      * @param string $dir
-     * @param [] $data
-     * @param [] $columns
+     * @param array $data
+     * @param array $columns
      * @return void
      */
     public function createApiClass($dir, $data, $columns)
@@ -127,7 +139,9 @@ class Model implements GenerateInterface
                         'shortDescription' => 'Set '.$fieldName,
                         'longDescription'  => "",
                         'tags'             => [
-                            new Tag\ParamTag($camelCase, [$this->helper->getReturnType($column['type'])]),
+                            new Tag\ParamTag($camelCase, [$this->helper->getReturnType(
+                                $column['type']
+                            )]),
                             new Tag\ReturnTag([
                                 'datatype'  => $nameSpace.'\\'.$data['name'].'Interface',
                             ]),
@@ -174,17 +188,15 @@ class Model implements GenerateInterface
                 $file->generate()
             );
         } catch (\Exception $e) {
-            //throw new \Exception($e->getMessage());
-            // print_r($e->getTrace());
-            // die;
+            $ex = $e->getMessage();
         }
     }
 
     /**
-     * create model class
+     * Create model class
      *
-     * @param [type] $dir
-     * @param [type] $data
+     * @param string $dir
+     * @param array $data
      * @return void
      */
     public function createModelClass($dir, $data, $columns)
@@ -337,7 +349,7 @@ class Model implements GenerateInterface
     }
 
     /**
-     * generate resource model
+     * Generate resource model
      *
      * @param string $rModelDirPath
      * @param [] $data
@@ -392,10 +404,10 @@ class Model implements GenerateInterface
     }
 
     /**
-     * generate collection class
+     * Generate collection class
      *
      * @param string $collectionDirPath
-     * @param [] $data
+     * @param array $data
      * @param string $identityColumn
      * @return void
      */
@@ -411,7 +423,8 @@ class Model implements GenerateInterface
             MethodGenerator::fromArray([
                 'name'       => '_construct',
                 'parameters' => [],
-                'body'       => '$this->_init("'.$modelClass.'", "'.$resourceModel.'");'."\n".'$this->_map[\'fields\'][\'entity_id\'] = \'main_table.'.$identityColumn.'\';',
+                'body'       => '$this->_init("'.$modelClass.'", "'.$resourceModel.'");'."\n".
+                    '$this->_map[\'fields\'][\'entity_id\'] = \'main_table.'.$identityColumn.'\';',
                 'docblock'   => DocBlockGenerator::fromArray([
                     'shortDescription' => 'Initialize resource model',
                     'longDescription'  => "",

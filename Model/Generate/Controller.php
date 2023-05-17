@@ -16,10 +16,13 @@ use Magento\Framework\Simplexml\Element;
 use Webkul\CodeGenerator\Model\XmlGeneratorFactory;
 
 /**
- * Class controller
+ * Generate controller
  */
 class Controller implements GenerateInterface
 {
+    /**
+     * @var CodeHelper
+     */
     protected $helper;
 
     /**
@@ -32,6 +35,13 @@ class Controller implements GenerateInterface
      */
     protected $xmlGenerator;
 
+    /**
+     * __construct function
+     *
+     * @param CodeHelper $helper
+     * @param XmlGeneratorFactory $xmlGeneratorFactory
+     * @param \Magento\Framework\Filesystem\Driver\File $fileDriver
+     */
     public function __construct(
         CodeHelper $helper,
         XmlGeneratorFactory $xmlGeneratorFactory,
@@ -69,7 +79,7 @@ class Controller implements GenerateInterface
     }
 
     /**
-     * create front controller
+     * Create front controller
      *
      * @param string $dir
      * @param array $data
@@ -98,7 +108,7 @@ class Controller implements GenerateInterface
     }
 
     /**
-     * create admin controller
+     * Create admin controller
      *
      * @param string $dir
      * @param array $data

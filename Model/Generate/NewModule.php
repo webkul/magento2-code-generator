@@ -19,14 +19,15 @@ use Webkul\CodeGenerator\Model\Helper;
 use Magento\Framework\Module\StatusFactory;
 
 /**
- * Class NewModule.php
+ * Generate NewModule.php
  */
 class NewModule implements GenerateInterface
 {
-    const MODULE_PATH = 'app/code/';
+    public const MODULE_PATH = 'app/code/';
 
-    protected $readerComposite;
-
+    /**
+     * @var Helper
+     */
     protected $helper;
 
     /**
@@ -75,7 +76,6 @@ class NewModule implements GenerateInterface
      * @param string $moduleDir
      * @param string $moduleName
      * @return void
-     *
      */
     private function createModuleXmlFile($moduleDir, $moduleName)
     {
@@ -147,7 +147,7 @@ class NewModule implements GenerateInterface
     }
 
     /**
-     * get module.xml template
+     * Get module.xml template
      *
      * @return string
      */
@@ -159,7 +159,7 @@ class NewModule implements GenerateInterface
     }
 
     /**
-     * get registration.php template
+     * Get registration.php template
      *
      * @return string
      */
@@ -171,7 +171,7 @@ class NewModule implements GenerateInterface
     }
 
     /**
-     * get registration.php template
+     * Get registration.php template
      *
      * @return string
      */

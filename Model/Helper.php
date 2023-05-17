@@ -13,8 +13,15 @@ use Zend\Code\Generator\DocBlock\Tag;
 use Magento\Framework\Simplexml\Element;
 use Magento\Framework\Simplexml\Config;
 
-class Helper {
-
+class Helper
+{
+    /**
+     * Save File
+     *
+     * @param string $path
+     * @param string $content
+     * @return void
+     */
     public function saveFile($path, $content)
     {
         file_put_contents(
@@ -23,6 +30,12 @@ class Helper {
         );
     }
 
+    /**
+     * Get Header
+     *
+     * @param string $moduleName
+     * @return void
+     */
     public function getHeadDocBlock($moduleName)
     {
         return DocBlockGenerator::fromArray([
@@ -58,6 +71,13 @@ class Helper {
         return isset($validTypes[$type]) ? $validTypes[$type] : 'string';
     }
 
+    /**
+     * Create Diretory
+     *
+     * @param string $dirPath
+     * @param integer $permission
+     * @return void
+     */
     public static function createDirectory($dirPath, $permission = 0777)
     {
         if (!is_dir($dirPath)) {
@@ -65,6 +85,12 @@ class Helper {
         }
     }
 
+    /**
+     * Generate Template Files
+     *
+     * @param mixed $template
+     * @return void
+     */
     public function getTemplatesFiles($template)
     {
         return file_get_contents(dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR. $template);
@@ -72,7 +98,7 @@ class Helper {
 
     /**
      * Load Template File
-     * 
+     *
      * @param string $path
      * @param string $fileName
      * @param string $templatePath
@@ -107,11 +133,11 @@ class Helper {
     /**
      * Get class name
      *
-     * @param string $code
+     * @param string $name
      * @return string
      */
-     public function getClassName($name)
-     {
+    public function getClassName($name)
+    {
         $fields = explode('_', $name);
         $className = ucfirst($name);
         if (count($fields) > 1) {
@@ -126,5 +152,5 @@ class Helper {
             $className = $camelCase;
         }
         return $className;
-     }
+    }
 }

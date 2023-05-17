@@ -10,6 +10,12 @@ namespace Webkul\CodeGenerator\Model\Generate\UnitTestCase;
 
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
+    /**
+     * Validate Command Params
+     *
+     * @param array $data
+     * @return array
+     */
     public function validate($data)
     {
         $module = $data['module'];

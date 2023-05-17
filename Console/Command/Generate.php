@@ -15,16 +15,30 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class GreetingCommand
+ * Generate GreetingCommand
  */
 class Generate extends Command
 {
+    /**
+     * @var [type]
+     */
     protected $_storeManager;
 
+    /**
+     * @var array
+     */
     protected $validators;
 
+    /**
+     * @var \Webkul\CodeGenerator\Model\OptionsPool
+     */
     protected $optionsPool;
 
+    /**
+     * __construct function
+     *
+     * @param array $validators
+     */
     public function __construct(
         $validators = []
     ) {
@@ -37,7 +51,7 @@ class Generate extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure()
     {
@@ -53,7 +67,7 @@ class Generate extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -63,7 +77,7 @@ class Generate extends Command
 
         if (isset($this->validators[$data['type']])) {
             $data = $this->validators[$data['type']]->validate($data);
-            if ($this->generate($data, $output)){
+            if ($this->generate($data, $output)) {
                 return 0;
             }
         } else {
@@ -73,7 +87,7 @@ class Generate extends Command
     }
 
     /**
-     * generate code
+     * Generate code
      *
      * @param [] $data
      * @param Output $output
@@ -100,4 +114,3 @@ class Generate extends Command
         return false;
     }
 }
-

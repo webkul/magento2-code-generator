@@ -16,12 +16,18 @@ use Magento\Framework\Simplexml\Config;
 use Magento\Framework\Simplexml\Element;
 
 /**
- * Class View
+ * Generate View
  */
 class View implements GenerateInterface
 {
+    /**
+     * @var Helper
+     */
     protected $helper;
     
+    /**
+     * @var XmlGeneratorFactory
+     */
     protected $xmlGenerator;
 
     /**
@@ -153,9 +159,10 @@ class View implements GenerateInterface
     }
 
     /**
-     * add di xml data
+     * Add di xml data
      *
-     * @param string $etcDirPath
+     * @param string $layoutPath
+     * @param mixed $block
      * @param array $data
      * @return void
      */

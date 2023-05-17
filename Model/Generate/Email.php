@@ -16,12 +16,18 @@ use Magento\Framework\Simplexml\Config;
 use Magento\Framework\Simplexml\Element;
 
 /**
- * Class Email
+ * Generate Email Template
  */
 class Email implements GenerateInterface
 {
+    /**
+     * @var Helper
+     */
     protected $helper;
     
+    /**
+     * @var XmlGeneratorFactory
+     */
     protected $xmlGenerator;
 
     /**
@@ -61,7 +67,7 @@ class Email implements GenerateInterface
     }
 
     /**
-     * create email template
+     * Create email template
      *
      * @param string $dir
      * @param array $data
@@ -79,7 +85,7 @@ class Email implements GenerateInterface
     }
 
     /**
-     * add email_templates.xml data
+     * Add email_templates.xml data
      *
      * @param string $etcDirPath
      * @param array $data
@@ -87,22 +93,26 @@ class Email implements GenerateInterface
      */
     public function addEmailXmlData($etcDirPath, $data)
     {
-        $emailXmlFile = $this->helper->loadTemplateFile($etcDirPath, 'email_templates.xml', 'templates/email/email_templates.xml.dist');
+        $emailXmlFile = $this->helper->loadTemplateFile(
+            $etcDirPath,
+            'email_templates.xml',
+            'templates/email/email_templates.xml.dist'
+        );
         $xmlObj = new Config($emailXmlFile);
         $configXml = $xmlObj->getNode();
         $this->xmlGenerator->addXmlNode(
-                                $configXml, 
-                                'template', 
-                                '', 
-                                [
-                                    'id'=>$data['id'], 
-                                    'label'=>$data['name'], 
-                                    'file'=>$data['template'].'.html',
-                                    'type'=>'html', 
-                                    'area'=>'frontend', 
-                                    'module'=>$data['module']
-                                ]
-                            );
+            $configXml,
+            'template',
+            '',
+            [
+                'id'=>$data['id'],
+                'label'=>$data['name'],
+                'file'=>$data['template'].'.html',
+                'type'=>'html',
+                'area'=>'frontend',
+                'module'=>$data['module']
+            ]
+        );
         $xmlData = $this->xmlGenerator->formatXml($configXml->asXml());
         $this->helper->saveFile($emailXmlFile, $xmlData);
     }

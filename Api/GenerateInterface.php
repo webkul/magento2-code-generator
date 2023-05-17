@@ -15,11 +15,10 @@ interface GenerateInterface
 {
 
     /**
-     * generate code
+     * Generate code
      *
-     * @param [] $data
+     * @param array $data
      * @return boolean
      */
     public function execute($data);
-
 }

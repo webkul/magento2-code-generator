@@ -10,6 +10,12 @@ namespace Webkul\CodeGenerator\Model\Generate\Payment;
 
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
+    /**
+     * Generate Paymetnt Gateway
+     *
+     * @param array $data
+     * @return array
+     */
     public function validate($data)
     {
         $module = $data['module'];
@@ -65,7 +71,7 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
     /**
      * Check if payment method already exists
      *
-     * @param string $name
+     * @param string $code
      * @return null
      * @throws \InvalidArgumentException
      */

@@ -19,13 +19,20 @@ use Magento\Framework\Setup\Declaration\Schema\Declaration\ReaderComposite;
 use Webkul\CodeGenerator\Model\Helper;
 
 /**
- * Class Repository
+ * Generate Repository
  */
 class Repository implements GenerateInterface
 {
-
+    /**
+     * @var Helper
+     */
     protected $helper;
 
+    /**
+     * __construct function
+     *
+     * @param Helper $helper
+     */
     public function __construct(
         Helper $helper
     ) {
@@ -55,7 +62,7 @@ class Repository implements GenerateInterface
     }
 
     /**
-     * create api contract
+     * Create api contract
      *
      * @param string $dir
      * @param [] $data
@@ -176,21 +183,19 @@ class Repository implements GenerateInterface
                 $file->generate()
             );
         } catch (\Exception $e) {
-            //throw new \Exception($e->getMessage());
-            // print_r($e->getTrace());
-            // die;
+            $ex = $e->getMessage();
         }
     }
 
     /**
-     * create repository class
+     * Create repository class
      *
      * @param string $dir
      * @param string $data
      * @return void
      */
-     public function createRepositoryClass($dir, $data)
-     {
+    public function createRepositoryClass($dir, $data)
+    {
         $moduleNamespace = explode('_', $data['module']);
         $nameSpace = $moduleNamespace[0].'\\'.$moduleNamespace[1].'\\Model';
         $apiInterface = $moduleNamespace[0].'\\'.$moduleNamespace[1].'\\Api\\'.$data['name'].'Interface';
@@ -337,6 +342,5 @@ class Repository implements GenerateInterface
             $dir.DIRECTORY_SEPARATOR.$data['name'].'.php',
             $file->generate()
         );
-
-     }
+    }
 }

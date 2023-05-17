@@ -64,8 +64,14 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
         return $response;
     }
 
+    /**
+     * String Snaitize function
+     *
+     * @param string $string
+     * @return string
+     */
     private function getSanitized($string)
     {
-        return strtolower(preg_replace( '/[^a-z0-9]/i', '_', $string));
+        return strtolower(preg_replace('/[^a-z0-9]/i', '_', $string));
     }
 }

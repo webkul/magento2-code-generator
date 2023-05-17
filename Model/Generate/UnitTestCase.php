@@ -18,15 +18,25 @@ use Zend\Code\Generator\PropertyGenerator;
 use Zend\Code\Generator\ParameterGenerator;
 
 /**
- * Class UnitTestCase
+ * Generate UnitTestCase
  */
 class UnitTestCase implements GenerateInterface
 {
-
+    /**
+     * @var CodeHelper
+     */
     protected $helper;
 
+    /**
+     * @var object
+     */
     protected $docblock;
 
+    /**
+     * __construct function
+     *
+     * @param CodeHelper $helper
+     */
     public function __construct(
         CodeHelper $helper
     ) {
@@ -50,7 +60,7 @@ class UnitTestCase implements GenerateInterface
     }
 
     /**
-     * generate unit test cases
+     * Generate unit test cases
      *
      * @param string $dir
      * @param array $data
@@ -67,8 +77,7 @@ class UnitTestCase implements GenerateInterface
         $files = [];
         foreach ($dirs as $dir) {
             $dirName = basename($dir);
-            if ( in_array(strtolower($dirName), ['controller', 'helper', 'block', 'model']) )
-            {
+            if (in_array(strtolower($dirName), ['controller', 'helper', 'block', 'model'])) {
                 $this->getDirContents($dir, $files);
             }
         }
@@ -92,9 +101,9 @@ class UnitTestCase implements GenerateInterface
     }
 
     /**
-     * generate unit test cases
+     * Generate unit test cases
      *
-     * @param [] $methods
+     * @param array $methods
      * @param string $path
      * @return void
      */
@@ -117,15 +126,18 @@ class UnitTestCase implements GenerateInterface
             $nameSpace = $vendor."\\".$module."\\"."Test\\Unit\\".implode("\\", $pathParts);
             $classCode = $this->generateTestClass($nameSpace, $fileName);
             $this->helper->saveFile(
-                $path.DIRECTORY_SEPARATOR.'Test'.DIRECTORY_SEPARATOR.'Unit'.DIRECTORY_SEPARATOR.$unitTestPath.DIRECTORY_SEPARATOR.$fileName.'.php',
+                $path.DIRECTORY_SEPARATOR.'Test'.DIRECTORY_SEPARATOR.'Unit'.DIRECTORY_SEPARATOR.
+                    $unitTestPath.DIRECTORY_SEPARATOR.$fileName.'.php',
                 $classCode->generate()
             );
         }
     }
 
     /**
-     * genearte class
+     * Genearte class
      *
+     * @param string $nameSpace
+     * @param string $className
      * @return void
      */
     public function generateTestClass($nameSpace, $className)
@@ -166,6 +178,13 @@ class UnitTestCase implements GenerateInterface
         return $file;
     }
 
+    /**
+     * Get Content
+     *
+     * @param string $dir
+     * @param array $results
+     * @return void
+     */
     public function getDirContents($dir, &$results = [])
     {
         $files = scandir($dir);

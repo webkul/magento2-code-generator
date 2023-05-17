@@ -10,6 +10,12 @@ namespace Webkul\CodeGenerator\Model\Generate\Model;
 
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
+    /**
+     * Generate Model
+     *
+     * @param array $data
+     * @return array
+     */
     public function validate($data)
     {
         $module = $data['module'];
@@ -51,9 +57,6 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
                 throw new \InvalidArgumentException(
                     __("enter controller name that need to be generated")
                 );
-                $response["type"] = $type;
-                break;
-            
             default:
                 throw new \InvalidArgumentException(__("define type of code to be generated like model, controller, helper"));
         }

@@ -10,6 +10,12 @@ namespace Webkul\CodeGenerator\Model\Generate\Repository;
 
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
+    /**
+     * Generate Repository
+     *
+     * @param array $data
+     * @return array
+     */
     public function validate($data)
     {
         $module = $data['module'];

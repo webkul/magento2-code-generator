@@ -16,15 +16,16 @@ use Magento\Framework\Simplexml\Config;
 use Magento\Framework\Simplexml\Element;
 
 /**
- * Class Shipping to generate shipping method files
+ * Generate Shipping to generate shipping method files
  */
 class Shipping implements GenerateInterface
 {
-    const SYSTEMXML_NODE = '//section[@id="carriers"]';
-    const CONFIGXML_NODE = '//carriers';
+    public const SYSTEMXML_NODE = '//section[@id="carriers"]';
+    public const CONFIGXML_NODE = '//carriers';
 
-    protected $readerComposite;
-
+    /**
+     * @var Helper
+     */
     protected $helper;
 
     /**
@@ -63,7 +64,8 @@ class Shipping implements GenerateInterface
     ];
 
     /**
-     * @param ReaderComposite $readerComposite
+     * __construct function
+     *
      * @param \Magento\Framework\Filesystem\Driver\File $fileDriver
      * @param \Magento\Framework\Filesystem\Io\File $file
      * @param XmlGeneratorFactory $xmlGeneratorFactory
@@ -110,6 +112,7 @@ class Shipping implements GenerateInterface
      *
      * @param string $etcAdminthtmlDirPath
      * @param string $moduleDir
+     * @param array $data
      * @return void
      */
     public function createSystemXml($etcAdminthtmlDirPath, $moduleDir, $data)
@@ -290,7 +293,7 @@ class Shipping implements GenerateInterface
     }
 
     /**
-     * get module.xml template
+     * Get module.xml template
      *
      * @return string
      */
@@ -366,10 +369,10 @@ class Shipping implements GenerateInterface
     }
 
     /**
-     * create model class
+     * Create model class
      *
-     * @param [type] $dir
-     * @param [type] $data
+     * @param string $path
+     * @param array $data
      * @return void
      */
     public function createModelClass($path, $data)
@@ -391,7 +394,7 @@ class Shipping implements GenerateInterface
     }
 
     /**
-     * get module.xml template
+     * Get module.xml template
      *
      * @return string
      */

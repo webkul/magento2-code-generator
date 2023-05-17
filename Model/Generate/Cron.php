@@ -16,16 +16,22 @@ use Magento\Framework\Simplexml\Config;
 use Magento\Framework\Simplexml\Element;
 
 /**
- * Class Cron
+ * Generate Cron
  */
 class Cron implements GenerateInterface
 {
+    /**
+     * @var Helper
+     */
     protected $helper;
     
+    /**
+     * @var XmlGeneratorFactory
+     */
     protected $xmlGenerator;
 
     /**
-     * Constructor
+     * __construct function
      *
      * @param XmlGeneratorFactory $xmlGeneratorFactory
      * @param Helper $helper
@@ -63,7 +69,7 @@ class Cron implements GenerateInterface
     }
 
     /**
-     * create cron class
+     * Create cron class
      *
      * @param string $dir
      * @param array $data
@@ -86,7 +92,7 @@ class Cron implements GenerateInterface
     }
 
     /**
-     * add crontab.xml data
+     * Add crontab.xml data
      *
      * @param string $etcDirPath
      * @param array $data
@@ -97,7 +103,11 @@ class Cron implements GenerateInterface
         $schedule = $data['schedule'];
         $cronName = $data['cron-name'];
         $cronClass = $data['cron-class'];
-        $crontabXmlFile = $this->helper->loadTemplateFile($etcDirPath, 'crontab.xml', 'templates/crontab.xml.dist');
+        $crontabXmlFile = $this->helper->loadTemplateFile(
+            $etcDirPath,
+            'crontab.xml',
+            'templates/crontab.xml.dist'
+        );
         $xmlObj = new Config($crontabXmlFile);
         $configXml = $xmlObj->getNode();
         if (!$configXml->group) {
@@ -105,7 +115,12 @@ class Cron implements GenerateInterface
                 __('Incorrect crontab.xml schema found')
             );
         }
-        $jobNode = $this->xmlGenerator->addXmlNode($configXml->group, 'job', '', ['instance'=>$cronClass, 'method'=>'execute', 'name'=>$cronName]);
+        $jobNode = $this->xmlGenerator->addXmlNode(
+            $configXml->group,
+            'job',
+            '',
+            ['instance'=>$cronClass, 'method'=>'execute', 'name'=>$cronName]
+        );
         $this->xmlGenerator->addXmlNode($jobNode, 'schedule', $schedule);
         $xmlData = $this->xmlGenerator->formatXml($configXml->asXml());
         $this->helper->saveFile($crontabXmlFile, $xmlData);

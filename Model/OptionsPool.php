@@ -11,13 +11,16 @@ namespace Webkul\CodeGenerator\Model;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class OptionsPool {
-
+class OptionsPool
+{
+    /**
+     * Get Options
+     *
+     * @return void
+     */
     public function getOptions()
     {
-
        //general options
-
         $options = [
             new InputArgument(
                 'module',
@@ -179,5 +182,4 @@ class OptionsPool {
 
         return $options;
     }
-
 }

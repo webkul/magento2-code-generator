@@ -16,12 +16,18 @@ use Magento\Framework\Simplexml\Config;
 use Magento\Framework\Simplexml\Element;
 
 /**
- * Class Command
+ * Generate Command Class
  */
 class Command implements GenerateInterface
 {
+    /**
+     * @var Helper
+     */
     protected $helper;
     
+    /**
+     * @var XmlGeneratorFactory
+     */
     protected $xmlGenerator;
 
     /**
@@ -62,7 +68,7 @@ class Command implements GenerateInterface
     }
 
     /**
-     * create Command class
+     * Create Command class
      *
      * @param string $dir
      * @param array $data
@@ -86,7 +92,7 @@ class Command implements GenerateInterface
     }
 
     /**
-     * add di xml data
+     * Add di xml data
      *
      * @param string $etcDirPath
      * @param array $data
@@ -99,24 +105,24 @@ class Command implements GenerateInterface
         $xmlObj = new Config($diXmlFile);
         $diXml = $xmlObj->getNode();
         $typeNode = $this->xmlGenerator->addXmlNode(
-                                $diXml, 
-                                'type', 
-                                '', 
-                                ['name'=>'Magento\Framework\Console\CommandList']
-                            );
+            $diXml,
+            'type',
+            '',
+            ['name'=> \Magento\Framework\Console\CommandList::class]
+        );
         $argsNode = $this->xmlGenerator->addXmlNode($typeNode, 'arguments');
         $argNode = $this->xmlGenerator->addXmlNode(
-                                $argsNode, 
-                                'argument', 
-                                '', 
-                                ['name'=>'commands', 'xsi:type'=>'array']
-                            );
+            $argsNode,
+            'argument',
+            '',
+            ['name'=>'commands', 'xsi:type'=>'array']
+        );
         $this->xmlGenerator->addXmlNode(
-                                $argNode, 
-                                'item', 
-                                $data['command-class'], 
-                                ['name'=>$commandName, 'xsi:type'=>'object']
-                            );
+            $argNode,
+            'item',
+            $data['command-class'],
+            ['name'=>$commandName, 'xsi:type'=>'object']
+        );
         $xmlData = $this->xmlGenerator->formatXml($diXml->asXml());
         $this->helper->saveFile($diXmlFile, $xmlData);
     }

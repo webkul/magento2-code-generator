@@ -12,13 +12,20 @@ use Webkul\CodeGenerator\Model\Helper as CodeHelper;
 use Webkul\CodeGenerator\Api\GenerateInterface;
 
 /**
- * Class Helper
+ * Generate Helper
  */
 class Helper implements GenerateInterface
 {
-
+    /**
+     * @var CodeHelper
+     */
     protected $helper;
 
+    /**
+     * __construct function
+     *
+     * @param CodeHelper $helper
+     */
     public function __construct(
         CodeHelper $helper
     ) {
@@ -43,7 +50,7 @@ class Helper implements GenerateInterface
     }
 
     /**
-     * create helper class
+     * Create helper class
      *
      * @param string $dir
      * @param array $data

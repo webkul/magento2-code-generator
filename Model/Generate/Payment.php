@@ -18,13 +18,16 @@ use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Simplexml\Config;
 
 /**
- * Class Payment.php
+ * Generate Payment.php
  */
 class Payment implements GenerateInterface
 {
-    const SYSTEMXML_NODE = '//section[@id="payment"]';
-    const CONFIGXML_NODE = '//payment';
+    public const SYSTEMXML_NODE = '//section[@id="payment"]';
+    public const CONFIGXML_NODE = '//payment';
 
+    /**
+     * @var Helper
+     */
     protected $helper;
 
     /**
@@ -62,6 +65,15 @@ class Payment implements GenerateInterface
         'showInStore' => "1"
     ];
 
+    /**
+     * __construct function
+     *
+     * @param \Magento\Framework\Filesystem\Driver\File $fileDriver
+     * @param \Magento\Framework\Filesystem\Io\File $file
+     * @param XmlGeneratorFactory $xmlGeneratorFactory
+     * @param Json $jsonHelper
+     * @param Helper $helper
+     */
     public function __construct(
         \Magento\Framework\Filesystem\Driver\File $fileDriver,
         \Magento\Framework\Filesystem\Io\File $file,
@@ -117,8 +129,9 @@ class Payment implements GenerateInterface
     /**
      * Create system.xml
      *
-     * @param string $etcAdminthtmlDirPath
+     * @param string $configDirPath
      * @param string $moduleDir
+     * @param array $data
      * @return void
      */
     public function createSystemXml($configDirPath, $moduleDir, $data)
@@ -329,7 +342,7 @@ class Payment implements GenerateInterface
     }
 
     /**
-     * get module.xml template
+     * Get module.xml template
      *
      * @return string
      */
@@ -374,7 +387,7 @@ class Payment implements GenerateInterface
     }
 
     /**
-     * create payment model class
+     * Create payment model class
      *
      * @param [type] $dir
      * @param [type] $data
@@ -414,6 +427,13 @@ class Payment implements GenerateInterface
         );
     }
 
+    /**
+     * Craete Payment Renderer
+     *
+     * @param string $dir
+     * @param array $data
+     * @return void
+     */
     public function createPaymentRenderer($dir, $data)
     {
         $className = $this->getClassName($data['code']);
@@ -433,6 +453,13 @@ class Payment implements GenerateInterface
         );
     }
 
+    /**
+     * Create Payment Js
+     *
+     * @param string $dir
+     * @param array $data
+     * @return void
+     */
     public function createPaymentJs($dir, $data)
     {
         $className = $this->getClassName($data['code']);
@@ -453,6 +480,13 @@ class Payment implements GenerateInterface
         );
     }
 
+    /**
+     * Create Payment Template
+     *
+     * @param string $dir
+     * @param array $data
+     * @return void
+     */
     public function createPaymentTemplate($dir, $data)
     {
         $className = $this->getClassName($data['code']);
@@ -466,6 +500,13 @@ class Payment implements GenerateInterface
         );
     }
 
+    /**
+     * Create Checkout Layout
+     *
+     * @param string $dir
+     * @param array $data
+     * @return void
+     */
     public function createCheckoutLayout($dir, $data)
     {
         $className = $this->getClassName($data['code']);
