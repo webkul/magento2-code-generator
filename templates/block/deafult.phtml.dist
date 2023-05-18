@@ -2,12 +2,13 @@
 /**
  * Webkul Software.
  *
- * @package   Webkul_CodeGenerator
- * @author    Mahesh Singh
+ * @category   Webkul
+ * @package    %module_name%
+ * @author     Webkul
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
  */
 
 // $block %block%
-
 ?>
-
 <?= $block->getHelloMessage(); ?>

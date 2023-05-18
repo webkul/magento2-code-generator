@@ -51,11 +51,11 @@ class Rewrite implements GenerateInterface
     {
         $path = $data['path'];
 
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $rewriteDirPath = $path.DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $data["rewrite-path"])
         );
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
 
@@ -99,7 +99,7 @@ class Rewrite implements GenerateInterface
     public function addDiXmlData($etcDirPath, $data)
     {
         $preferenceType = str_replace('_', '\\', $data['module'].'_'.$data['rewrite-path'].'_'.ucfirst($data['name']));
-        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath);
+        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath, $data);
         $xmlObj = new Config($diXmlFile);
         $diXml = $xmlObj->getNode();
         $typeNode = $this->xmlGenerator->addXmlNode(

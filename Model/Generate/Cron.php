@@ -54,11 +54,11 @@ class Cron implements GenerateInterface
         $data['cron-name'] = strtolower($moduleName.'-'.$data['name'].'-'.'cron');
         $data['cron-class'] = str_replace('_', '\\', $moduleName).'\\'.'Cron'.'\\'.$data['name'];
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $cronDirPath = $path.DIRECTORY_SEPARATOR.'Cron'
         );
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
         
@@ -103,10 +103,14 @@ class Cron implements GenerateInterface
         $schedule = $data['schedule'];
         $cronName = $data['cron-name'];
         $cronClass = $data['cron-class'];
+        $replace = [
+            "module_name" => $data['module']
+        ];
         $crontabXmlFile = $this->helper->loadTemplateFile(
             $etcDirPath,
             'crontab.xml',
-            'templates/crontab.xml.dist'
+            'templates/crontab.xml.dist',
+            $replace
         );
         $xmlObj = new Config($crontabXmlFile);
         $configXml = $xmlObj->getNode();

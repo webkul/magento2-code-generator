@@ -47,11 +47,11 @@ class Repository implements GenerateInterface
         $repoName = $data['name'];
         $path = $data['path'];
 
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $modelDirPath = $path.DIRECTORY_SEPARATOR.'Model'
         );
 
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $apiDataDirPath = $path.DIRECTORY_SEPARATOR.'Api'
         );
        

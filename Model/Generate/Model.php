@@ -72,19 +72,19 @@ class Model implements GenerateInterface
             }
         }
 
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $modelDirPath = $path.DIRECTORY_SEPARATOR.'Model'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $rModelDirPath = $path.DIRECTORY_SEPARATOR.'Model'.DIRECTORY_SEPARATOR.'ResourceModel'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $collectionDirPath = $path.DIRECTORY_SEPARATOR.'Model'.DIRECTORY_SEPARATOR.'ResourceModel'.DIRECTORY_SEPARATOR.$modelName
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $apiDataDirPath = $path.DIRECTORY_SEPARATOR.'Api'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $apiDataDirPath = $apiDataDirPath.DIRECTORY_SEPARATOR.'Data'
         );
 

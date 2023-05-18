@@ -40,7 +40,7 @@ class Helper implements GenerateInterface
         $modelName = $data['name'];
         $path = $data['path'];
         
-        CodeHelper::createDirectory(
+        $this->helper->createDirectory(
             $helperDirPath = $path.DIRECTORY_SEPARATOR.'Helper'
         );
        

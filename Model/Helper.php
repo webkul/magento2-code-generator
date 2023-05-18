@@ -78,7 +78,7 @@ class Helper
      * @param integer $permission
      * @return void
      */
-    public static function createDirectory($dirPath, $permission = 0777)
+    public function createDirectory($dirPath, $permission = 0777)
     {
         if (!is_dir($dirPath)) {
             mkdir($dirPath, $permission, true);
@@ -93,7 +93,7 @@ class Helper
      */
     public function getTemplatesFiles($template)
     {
-        return file_get_contents(dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR. $template);
+        return file_get_contents(dirname(dirname(__FILE__)). DIRECTORY_SEPARATOR. $template);
     }
 
     /**
@@ -102,6 +102,7 @@ class Helper
      * @param string $path
      * @param string $fileName
      * @param string $templatePath
+     * @param array $replace
      * @return string
      */
     public function loadTemplateFile($path, $fileName, $templatePath, $replace = [])
@@ -123,11 +124,15 @@ class Helper
      * Get Di.xml file
      *
      * @param string $etcDirPath
+     * @param array $data
      * @return string
      */
-    public function getDiXmlFile($etcDirPath)
+    public function getDiXmlFile($etcDirPath, $data)
     {
-        return $this->loadTemplateFile($etcDirPath, 'di.xml', 'templates/di.xml.dist');
+        $replace = [
+            "module_name" => $data['module']
+        ];
+        return $this->loadTemplateFile($etcDirPath, 'di.xml', 'templates/di.xml.dist', $replace);
     }
     
     /**

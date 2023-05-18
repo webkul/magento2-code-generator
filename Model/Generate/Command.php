@@ -52,11 +52,11 @@ class Command implements GenerateInterface
         $moduleName = $data['module'];
         $path = $data['path'];
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $commandDirPath = $path.DIRECTORY_SEPARATOR.'Console'.DIRECTORY_SEPARATOR.'Command'
         );
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
 
@@ -101,7 +101,7 @@ class Command implements GenerateInterface
     public function addDiXmlData($etcDirPath, $data)
     {
         $commandName = str_replace(':', '', $data['command']);
-        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath);
+        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath, $data);
         $xmlObj = new Config($diXmlFile);
         $diXml = $xmlObj->getNode();
         $typeNode = $this->xmlGenerator->addXmlNode(

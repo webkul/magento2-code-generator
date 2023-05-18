@@ -55,16 +55,16 @@ class Plugin implements GenerateInterface
         $data['plugin-class'] =
             str_replace('_', '\\', $moduleName).'\\'.'Plugin'.'\\'.$data['name'];
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $pluginDirPath = $path.DIRECTORY_SEPARATOR.'Plugin'
         );
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
         
         if ($data['area']!==null) {
-            Helper::createDirectory(
+            $this->helper->createDirectory(
                 $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.$data['area']
             );
         }
@@ -110,7 +110,7 @@ class Plugin implements GenerateInterface
         $pluginType = $data['plugin-type'];
         $pluginName = $data['plugin-name'];
         $pluginClass = $data['plugin-class'];
-        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath);
+        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath, $data);
         $xmlObj = new Config($diXmlFile);
         $diXml = $xmlObj->getNode();
         $typeNode = $this->xmlGenerator->addXmlNode($diXml, 'type', '', ['name'=>$pluginType]);

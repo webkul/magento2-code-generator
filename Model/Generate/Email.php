@@ -52,11 +52,11 @@ class Email implements GenerateInterface
         $moduleName = $data['module'];
         $path = $data['path'];
 
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $emailDirPath = $path.DIRECTORY_SEPARATOR.'view/frontend/email'
         );
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
         
@@ -93,10 +93,14 @@ class Email implements GenerateInterface
      */
     public function addEmailXmlData($etcDirPath, $data)
     {
+        $replace = [
+            "module_name" => $data['module'],
+        ];
         $emailXmlFile = $this->helper->loadTemplateFile(
             $etcDirPath,
             'email_templates.xml',
-            'templates/email/email_templates.xml.dist'
+            'templates/email/email_templates.xml.dist',
+            $replace
         );
         $xmlObj = new Config($emailXmlFile);
         $configXml = $xmlObj->getNode();

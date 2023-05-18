@@ -51,14 +51,14 @@ class Observer implements GenerateInterface
         $data['observer-name'] = strtolower($moduleName.'_'.$data['name'].'_'.'observer');
         $data['observer-class'] = str_replace('_', '\\', $moduleName).'\\'.'Observer'.'\\'.$data['name'];
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $observerDirPath = $path.DIRECTORY_SEPARATOR.'Observer'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
         if ($data['area']!==null) {
-            Helper::createDirectory(
+            $this->helper->createDirectory(
                 $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.$data['area']
             );
         }
@@ -101,7 +101,15 @@ class Observer implements GenerateInterface
         $eventName = $data['event-name'];
         $observerClass = $data['observer-class'];
         $observerName = $data['observer-name'];
-        $eventsXmlFile = $this->helper->loadTemplateFile($etcDirPath, 'events.xml', 'templates/events.xml.dist');
+        $replace = [
+            "module_name" => $data['module']
+        ];
+        $eventsXmlFile = $this->helper->loadTemplateFile(
+            $etcDirPath,
+            'events.xml',
+            'templates/events.xml.dist',
+            $replace
+        );
         $xmlObj = new Config($eventsXmlFile);
         $eventsXml = $xmlObj->getNode();
         $eventNode = $this->xmlGenerator->addXmlNode($eventsXml, 'event', '', ['name'=>$eventName]);

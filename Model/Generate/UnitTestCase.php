@@ -50,7 +50,7 @@ class UnitTestCase implements GenerateInterface
     {
         $path = $data['path'];
         $this->docblock = $this->helper->getHeadDocBlock($data['module']);
-        CodeHelper::createDirectory(
+        $this->helper->createDirectory(
             $unitTestRootDir = $path.DIRECTORY_SEPARATOR.'Test'.DIRECTORY_SEPARATOR.'Unit'
         );
        
@@ -120,7 +120,7 @@ class UnitTestCase implements GenerateInterface
             unset($pathParts[count($pathParts)+1]);
            
             $unitTestPath = implode(DIRECTORY_SEPARATOR, $pathParts);
-            CodeHelper::createDirectory(
+            $this->helper->createDirectory(
                 $path.DIRECTORY_SEPARATOR.'Test'.DIRECTORY_SEPARATOR.'Unit'.DIRECTORY_SEPARATOR.$unitTestPath
             );
             $nameSpace = $vendor."\\".$module."\\"."Test\\Unit\\".implode("\\", $pathParts);

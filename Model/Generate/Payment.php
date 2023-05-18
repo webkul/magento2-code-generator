@@ -96,23 +96,23 @@ class Payment implements GenerateInterface
         
         $path = $data['path'];
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $paymentModelDirPath = $path.DIRECTORY_SEPARATOR.'Model'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $configDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $path.DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.'adminhtml'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $jsDirPath = $path.DIRECTORY_SEPARATOR.'view/frontend/web/js/view/payment'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $templateDirPath = $path.DIRECTORY_SEPARATOR.'view/frontend/web/template/payment'
         );
 
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $layoutDirPath = $path.DIRECTORY_SEPARATOR.'view/frontend/layout'
         );
         
@@ -138,7 +138,7 @@ class Payment implements GenerateInterface
     {
         $systemXml = $this->getSystemXmlFile($moduleDir);
         if (!$systemXml) {
-            $systemXml = $this->createSystemXmlFile($moduleDir);
+            $systemXml = $this->createSystemXmlFile($moduleDir, $data);
         }
         $this->addNewPaymentData($systemXml, $data);
     }
@@ -155,7 +155,7 @@ class Payment implements GenerateInterface
     {
         $configXml = $this->getConfigXmlFile($moduleDir);
         if (!$configXml) {
-            $configXml = $this->createConfigXmlFile($moduleDir);
+            $configXml = $this->createConfigXmlFile($moduleDir, $data);
         }
         $this->addConfigXmlData($configXml, $data);
     }
@@ -239,14 +239,16 @@ class Payment implements GenerateInterface
      * Create config.xml
      *
      * @param string $moduleDir
+     * @param array $data
      * @return void
      */
-    private function createConfigXmlFile($moduleDir)
+    private function createConfigXmlFile($moduleDir, $data)
     {
         $configXmlFilePath = $this->getConfigXmlFilePath($moduleDir);
         // @codingStandardsIgnoreStart
         $configXmlData = file_get_contents(dirname(dirname( dirname(__FILE__) )) . '/templates/config.xml.dist');
         // @codingStandardsIgnoreEnd
+        $configXmlData = str_replace('%module_name%', $data['module'], $configXmlData);
         $this->helper->saveFile($configXmlFilePath, $configXmlData);
         return $configXmlFilePath;
     }
@@ -374,14 +376,16 @@ class Payment implements GenerateInterface
      * Create system.xml
      *
      * @param string $moduleDir
+     * @param array $data
      * @return void
      */
-    private function createSystemXmlFile($moduleDir)
+    private function createSystemXmlFile($moduleDir, $data)
     {
         $systemXmlFilePath = $this->getSystemXmlFilePath($moduleDir);
         // @codingStandardsIgnoreStart
         $paymentXmlData = file_get_contents(dirname(dirname( dirname(__FILE__) )) . '/templates/system.xml.dist');
         // @codingStandardsIgnoreEnd
+        $paymentXmlData = str_replace('%module_name%', $data['module'], $paymentXmlData);
         $this->helper->saveFile($systemXmlFilePath, $paymentXmlData);
         return $systemXmlFilePath;
     }
@@ -390,7 +394,7 @@ class Payment implements GenerateInterface
      * Create payment model class
      *
      * @param [type] $dir
-     * @param [type] $data
+     * @param array $data
      * @return void
      */
     public function createPaymentModelClass($dir, $data)
@@ -492,6 +496,7 @@ class Payment implements GenerateInterface
         $className = $this->getClassName($data['code']);
         $moduleNamespace = explode('_', $data['module']);
         $paymentTemplate = $this->helper->getTemplatesFiles('templates/payment/paymentTemplate.html.dist');
+        $paymentTemplate = str_replace('%moduleName%', $data['module'], $paymentTemplate);
         $paymentFile = $dir . '/'.strtolower($className).'.html';
         // or write it to a file:
         $this->helper->saveFile(

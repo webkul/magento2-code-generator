@@ -51,11 +51,11 @@ class Logger implements GenerateInterface
     {
         $path = $data['path'];
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $loggerDirPath = $path.DIRECTORY_SEPARATOR.'Logger'
         );
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
         
@@ -122,7 +122,7 @@ class Logger implements GenerateInterface
         $data['logger-class'] = str_replace('_', '\\', $moduleName).'\\'.'Logger'.'\\'.'Logger';
         $data['handler-class'] = str_replace('_', '\\', $moduleName).'\\'.'Logger'.'\\'.'Handler';
         $data['log-handler'] = lcfirst(str_replace('_', '', $moduleName)).'LogHandler';
-        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath);
+        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath, $data);
         $xmlObj = new Config($diXmlFile);
         $diXml = $xmlObj->getNode();
         $typeNode = $this->xmlGenerator->addXmlNode(

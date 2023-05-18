@@ -61,7 +61,7 @@ class Controller implements GenerateInterface
         $path = $data['path'];
         $area = $data['area'];
 
-        CodeHelper::createDirectory(
+        $this->helper->createDirectory(
             $controllerPath = $path
         );
 
@@ -70,7 +70,7 @@ class Controller implements GenerateInterface
         } else {
             $this->createAdminController($controllerPath, $data);
         }
-        CodeHelper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $data['module_path'] . DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR . $area
         );
         $this->createRoutesXmlFile($etcDirPath, $data);

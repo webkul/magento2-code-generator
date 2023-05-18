@@ -2,12 +2,11 @@
 /**
  * Webkul Software.
  *
- * @package   Webkul_CodeGenerator
- * @author    Mahesh Singh
- */
-
-/**
- * %class% block
+ * @category   Webkul
+ * @package    %module_name%
+ * @author     Webkul
+ * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
  */
 namespace %namespace%;
 
@@ -16,13 +15,15 @@ use Magento\Framework\View\Element\Template\Context;
 class %class% extends \Magento\Framework\View\Element\Template
 {
     /**
-     * construct function
+     * Construct function
      *
      * @param Context $context
      * @param array $data
      */
-    public function __construct(Context $context, array $data = [])
-    {
+    public function __construct(
+        Context $context,
+        array $data = []
+    ) {
         parent::__construct($context, $data);
     }
 

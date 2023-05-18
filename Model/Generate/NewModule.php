@@ -119,7 +119,12 @@ class NewModule implements GenerateInterface
     {
         $composerModuleName = explode('_', $moduleName);
         $moduleComposerTemplate = $this->getModuleComposerTemplate();
-        $moduleComposerTemplate = str_replace('%moduleName%', $moduleName, $moduleComposerTemplate);
+
+        $moduleComposerTemplate = str_replace(
+            '%moduleName%',
+            $composerModuleName[0].'\\\\'.$composerModuleName[1].'\\\\',
+            $moduleComposerTemplate
+        );
         $moduleComposerTemplate = str_replace(
             '%vendor%',
             strtolower($composerModuleName[0]),
@@ -130,6 +135,7 @@ class NewModule implements GenerateInterface
             strtolower($composerModuleName[1]),
             $moduleComposerTemplate
         );
+
         $composerFile = $moduleDir . '/composer.json';
         // @codingStandardsIgnoreStart
         file_put_contents($composerFile, $moduleComposerTemplate);
