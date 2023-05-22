@@ -10,12 +10,12 @@ namespace Webkul\CodeGenerator\Model\Generate;
 
 use Webkul\CodeGenerator\Model\Helper as CodeHelper;
 use Webkul\CodeGenerator\Api\GenerateInterface;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\DocBlock\Tag;
-use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\PropertyGenerator;
-use Zend\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\ClassGenerator;
+use Laminas\Code\Generator\DocBlockGenerator;
+use Laminas\Code\Generator\DocBlock\Tag;
+use Laminas\Code\Generator\MethodGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
+use Laminas\Code\Generator\ParameterGenerator;
 
 /**
  * Generate UnitTestCase
@@ -171,7 +171,7 @@ class UnitTestCase implements GenerateInterface
         ])
         ->setExtendedClass(\PHPUnit\Framework\TestCase::class)
         ->addMethods($generatorsMethods);
-        $file = new \Zend\Code\Generator\FileGenerator([
+        $file = new \Laminas\Code\Generator\FileGenerator([
             'classes'  => [$unitTestClass],
             'docblock' => $this->docblock
         ]);

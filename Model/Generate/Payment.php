@@ -8,9 +8,9 @@
 
 namespace Webkul\CodeGenerator\Model\Generate;
 
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\PropertyGenerator;
+use Laminas\Code\Generator\ClassGenerator;
+use Laminas\Code\Generator\DocBlockGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
 use Webkul\CodeGenerator\Model\Helper;
 use Webkul\CodeGenerator\Api\GenerateInterface;
 use Webkul\CodeGenerator\Model\XmlGeneratorFactory;
@@ -419,7 +419,7 @@ class Payment implements GenerateInterface
         ])
         ->setExtendedClass($parentClass);
 
-        $file = new \Zend\Code\Generator\FileGenerator([
+        $file = new \Laminas\Code\Generator\FileGenerator([
             'classes'  => [$modelClass],
             'docblock' => $docblock
         ]);

@@ -9,12 +9,12 @@
 namespace Webkul\CodeGenerator\Model\Generate;
 
 use Webkul\CodeGenerator\Api\GenerateInterface;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\DocBlock\Tag;
-use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\PropertyGenerator;
-use Zend\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\ClassGenerator;
+use Laminas\Code\Generator\DocBlockGenerator;
+use Laminas\Code\Generator\DocBlock\Tag;
+use Laminas\Code\Generator\MethodGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
+use Laminas\Code\Generator\ParameterGenerator;
 use Magento\Framework\Setup\Declaration\Schema\Declaration\ReaderComposite;
 use Webkul\CodeGenerator\Model\Helper;
 
@@ -65,7 +65,7 @@ class Repository implements GenerateInterface
      * Create api contract
      *
      * @param string $dir
-     * @param [] $data
+     * @param array $data
      * @return void
      */
     public function createApiClass($dir, $data)
@@ -101,7 +101,7 @@ class Repository implements GenerateInterface
                     'shortDescription' => 'Save',
                     'longDescription'  => "",
                     'tags'             => [
-                        new Tag\ParamTag('id', ['int']),
+                        new Tag\ParamTag('subject', [$data['model_class']]),
                         new Tag\ReturnTag([
                             'datatype'  => $data['model_class'],
                         ]),
@@ -162,17 +162,17 @@ class Repository implements GenerateInterface
         ];
         $constants = [];
         try {
-            $apiClass = \Zend\Code\Generator\InterfaceGenerator::fromArray([
+            $apiClass = \Laminas\Code\Generator\InterfaceGenerator::fromArray([
                 'name' => $data['name'].'Interface',
                 'namespacename' => $nameSpace,
                 'docblock'  => [
-                    'shortDescription' => $data['name'].' Interface',
+                    'shortDescription' => $data['name'].' Repository Interface',
                 ],
                 'constants' => $constants,
                 'methods' => $generatorsMethods
             ]);
 
-            $file = new \Zend\Code\Generator\FileGenerator([
+            $file = new \Laminas\Code\Generator\FileGenerator([
                 'classes'  => [$apiClass],
                 'docblock' => $this->helper->getHeadDocBlock($data['module'])
             ]);
@@ -212,17 +212,14 @@ class Repository implements GenerateInterface
                     ['name' => 'collectionFactory', 'type' => $collectionClass.'Factory']
                 ],
                 MethodGenerator::FLAG_PUBLIC,
-                '$this->modelFactory = $modelFactory; '."\n".
+                '$this->modelFactory = $modelFactory;'."\n".
                 '$this->collectionFactory = $collectionFactory;',
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'initialize',
+                    'shortDescription' => 'Initialize',
                     'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('modelFactory', [$modelClass.'Factory']),
-                        new Tag\ParamTag('collectionFactory', [$collectionClass.'Factory']),
-                        new Tag\ReturnTag([
-                            'datatype'  => 'void',
-                        ]),
+                        new Tag\ParamTag('collectionFactory', [$collectionClass.'Factory'])
                     ],
                 ]),
             ],
@@ -231,11 +228,13 @@ class Repository implements GenerateInterface
                 'getById',
                 ['id'],
                 MethodGenerator::FLAG_PUBLIC,
-                '$model = $this->modelFactory->create()->load($id);'."\n".'if (!$model->getId()) { '."\n".
-                    ' throw new \\Magento\\Framework\\Exception\\NoSuchEntityException(__(\'The CMS block with the "%1" ID doesn\\\'t exist.\', $id)); '."\n".' } '."\n".
+                '$model = $this->modelFactory->create()->load($id);'."\n".'if (!$model->getId()) {'."\n"."    "
+                    .'throw new \\Magento\\Framework\\Exception\\NoSuchEntityException('."\n"."        "
+                        .'__(\'The data with the "%1" ID doesn\\\'t exist.\', $id)'."\n"."    "
+                        .');'."\n".'}'."\n".
                     'return $model;',
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'get by id',
+                    'shortDescription' => 'Get by id',
                     'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('id', ['int']),
@@ -250,13 +249,14 @@ class Repository implements GenerateInterface
                 'save',
                 [['name' => 'subject', 'type' => $modelClass]],
                 MethodGenerator::FLAG_PUBLIC,
-                'try { '."\n".' $subject->save(); '."\n".'} catch (\Exception $exception) { '."\n".' throw new \\Magento\\Framework\\Exception\\CouldNotSaveException(__($exception->getMessage())); '.
-                    "\n".'} '."\n".' return $subject; '."\n".'',
+                'try {'."\n"."    ".'$subject->save();'."\n".'} catch (\Exception $exception) {'."\n"."     "
+                    .'throw new \\Magento\\Framework\\Exception\\CouldNotSaveException(__($exception->getMessage()));'.
+                    "\n".'}'."\n".'return $subject;'."\n".'',
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'get by id',
+                    'shortDescription' => 'Save',
                     'longDescription'  => "",
                     'tags'             => [
-                        new Tag\ParamTag('id', ['int']),
+                        new Tag\ParamTag('subject', [$data['model_class']]),
                         new Tag\ReturnTag([
                             'datatype'  => $data['model_class'],
                         ]),
@@ -268,9 +268,9 @@ class Repository implements GenerateInterface
                 'getList',
                 [['name' => 'creteria', 'type' => \Magento\Framework\Api\SearchCriteriaInterface::class]],
                 MethodGenerator::FLAG_PUBLIC,
-                '$collection = $this->collectionFactory->create(); '."\n".' return $collection;',
+                '$collection = $this->collectionFactory->create();'."\n".'return $collection;',
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'get list',
+                    'shortDescription' => 'Get list',
                     'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('creteria', [\Magento\Framework\Api\SearchCriteriaInterface::class]),
@@ -285,13 +285,14 @@ class Repository implements GenerateInterface
                 'delete',
                 [['name' => 'subject', 'type' => $modelClass]],
                 MethodGenerator::FLAG_PUBLIC,
-                'try { '."\n".
+                'try {'."\n"."    ".
                 '$subject->delete();'."\n".
-                '} catch (\Exception $exception) {'."\n".
-                'throw new \\Magento\\Framework\\Exception\\CouldNotDeleteException(__($exception->getMessage()));'."\n".
+                '} catch (\Exception $exception) {'."\n"."    ".
+                'throw new \\Magento\\Framework\\Exception\\CouldNotDeleteException(__($exception->getMessage()));'
+                ."\n".
                 '}'."\n".'return true;'."\n".'',
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'delete',
+                    'shortDescription' => 'Delete',
                     'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('subject', [$modelClass]),
@@ -308,7 +309,7 @@ class Repository implements GenerateInterface
                 MethodGenerator::FLAG_PUBLIC,
                 'return $this->delete($this->getById($id));',
                 DocBlockGenerator::fromArray([
-                    'shortDescription' => 'delete by id',
+                    'shortDescription' => 'Delete by id',
                     'longDescription'  => "",
                     'tags'             => [
                         new Tag\ParamTag('id', ['int']),
@@ -323,7 +324,7 @@ class Repository implements GenerateInterface
         $repositoryClass->setName($data['name'])
         ->setNameSpaceName($nameSpace)
         ->setDocblock(DocBlockGenerator::fromArray([
-            'shortDescription' => $data['name'].' Class',
+            'shortDescription' => $data['name'].' Repo Class',
         ]))
         ->addProperties([
             ['modelFactory', null, PropertyGenerator::FLAG_PROTECTED],
@@ -332,7 +333,7 @@ class Repository implements GenerateInterface
         ->setImplementedInterfaces([$apiInterface])
         ->addMethods($generatorsMethods);
 
-        $file = new \Zend\Code\Generator\FileGenerator([
+        $file = new \Laminas\Code\Generator\FileGenerator([
             'classes'  => [$repositoryClass],
             'docblock' => $docblock
         ]);

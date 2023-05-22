@@ -6,7 +6,7 @@
  * @author    Ashutosh Srivastava
  */
 
-namespace Webkul\CodeGenerator\Model\Generate\UnitTestCase;
+namespace Webkul\CodeGenerator\Model\Generate\Ui;
 
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
@@ -20,10 +20,11 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
     {
         $module = $data['module'];
         $type = $data['type'];
+        $name = $data['name'];
         $response = [];
         if ($module) {
             $moduleManager = \Magento\Framework\App\ObjectManager::getInstance()
-            ->get(\Magento\Framework\Module\ModuleListInterface::class);
+                ->get(\Magento\Framework\Module\ModuleListInterface::class);
             $moduleData = $moduleManager->getOne($module);
             if (!$moduleData) {
                 throw new \InvalidArgumentException(__("invalid module name"));
@@ -33,6 +34,12 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
             throw new \InvalidArgumentException(__("module name not provided"));
         }
 
+        if ($name) {
+            $response["name"] = $name;
+        } else {
+            throw new \InvalidArgumentException(__("name is required"));
+        }
+        
         $dir = \Magento\Framework\App\ObjectManager::getInstance()
             ->get(\Magento\Framework\Module\Dir::class);
 

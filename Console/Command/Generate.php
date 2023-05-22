@@ -13,6 +13,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
+use Magento\Framework\Validation\ValidationException;
 
 /**
  * Generate GreetingCommand
@@ -67,6 +69,32 @@ class Generate extends Command
     }
 
     /**
+     * Creation admin user in interaction mode.
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $data = $input->getOptions();
+        if ($data['type'] == "db_schema") {
+            /** @var \Symfony\Component\Console\Helper\QuestionHelper $questionHelper */
+            $questionHelper = $this->getHelper('question');
+            if (!$input->getOption('table')) {
+                $question = new Question('<question>Enter Table Name:</question> ', '');
+                $this->addNotEmptyValidator($question);
+
+                $input->setOption(
+                    "module",
+                    $questionHelper->ask($input, $output, $question)
+                );
+            }
+        }
+    }
+
+    /**
      * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -89,7 +117,7 @@ class Generate extends Command
     /**
      * Generate code
      *
-     * @param [] $data
+     * @param array $data
      * @param Output $output
      * @return bool
      */
@@ -112,5 +140,22 @@ class Generate extends Command
             $output->writeln("<error>====> ".$e->getMessage().'</error>');
         }
         return false;
+    }
+
+    /**
+     * Add not empty validator.
+     *
+     * @param \Symfony\Component\Console\Question\Question $question
+     * @return void
+     */
+    private function addNotEmptyValidator(Question $question)
+    {
+        $question->setValidator(function ($value) {
+            if (trim($value) == '') {
+                throw new ValidationException(__('The value cannot be empty'));
+            }
+
+            return $value;
+        });
     }
 }
