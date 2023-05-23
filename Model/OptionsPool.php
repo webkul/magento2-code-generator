@@ -176,6 +176,21 @@ class OptionsPool
                 'id',
                 InputArgument::OPTIONAL,
                 'enter identifier'
+            ),
+
+            /* Model Class Name for generate ui listing */
+            new InputOption(
+                'model_class_name',
+                'model_class_name',
+                InputArgument::OPTIONAL,
+                'enter model class name for generate ui component'
+            ),
+
+            new InputOption(
+                'columns_name',
+                'columns_name',
+                InputArgument::OPTIONAL,
+                'enter columns name for generate ui component grid column'
             )
 
         ];

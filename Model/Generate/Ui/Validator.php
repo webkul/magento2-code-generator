@@ -19,8 +19,11 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
     public function validate($data)
     {
         $module = $data['module'];
-        $type = $data['type'];
-        $name = $data['name'];
+        $type = $data['type'] ?? "";
+        $name = $data['name'] ?? "";
+        $modelClassName = $data['model_class_name'] ?? "";
+        $tableName = $data['table'] ?? "";
+        $columnsName = $data['columns_name'] ?? "";
         $response = [];
         if ($module) {
             $moduleManager = \Magento\Framework\App\ObjectManager::getInstance()
@@ -38,6 +41,24 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
             $response["name"] = $name;
         } else {
             throw new \InvalidArgumentException(__("name is required"));
+        }
+
+        if ($modelClassName) {
+            $response["model_class_name"] = $modelClassName;
+        } else {
+            throw new \InvalidArgumentException(__("Model class name is required"));
+        }
+
+        if ($tableName) {
+            $response["table"] = $tableName;
+        } else {
+            throw new \InvalidArgumentException(__("Table name is required"));
+        }
+
+        if ($columnsName) {
+            $response["columns_name"] = $columnsName;
+        } else {
+            throw new \InvalidArgumentException(__("Column name is required"));
         }
         
         $dir = \Magento\Framework\App\ObjectManager::getInstance()

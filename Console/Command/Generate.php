@@ -87,7 +87,7 @@ class Generate extends Command
                 $this->addNotEmptyValidator($question);
 
                 $input->setOption(
-                    "module",
+                    "table",
                     $questionHelper->ask($input, $output, $question)
                 );
             }

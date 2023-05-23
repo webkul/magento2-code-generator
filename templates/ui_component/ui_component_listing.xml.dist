@@ -4,7 +4,7 @@
  * Webkul Software.
  *
  * @category   Webkul
- * @package    %moduleName%
+ * @package    %module_name%
  * @author     Webkul
  * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
  * @license    https://store.webkul.com/license.html
@@ -26,7 +26,6 @@
         <settings>
             <updateUrl path="mui/index/render"/>
         </settings>
-        <aclResource>Magento_Catalog::products</aclResource>
         <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="%listing_name%_data_source">
             <settings>
                 <requestFieldName>id</requestFieldName>
@@ -43,11 +42,4 @@
         <filters name="listing_filters"/>
         <paging name="listing_paging"/>
     </listingToolbar>
-    <columns name="%columns_name%" class="Magento\Catalog\Ui\Component\Listing\Columns">
-        <selectionsColumn name="ids" sortOrder="0">
-            <settings>
-                <indexField>entity_id</indexField>
-            </settings>
-        </selectionsColumn>
-    </columns>
 </listing>
