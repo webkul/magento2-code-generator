@@ -52,6 +52,8 @@ class %class_name% extends Action
      */
     public function execute()
     {
-        // write your code here
+        $resultPage = $this->resultPageFactory->create();
+        $resultPage->getConfig()->getTitle()->prepend(__(''));
+        return $resultPage;
     }
 }

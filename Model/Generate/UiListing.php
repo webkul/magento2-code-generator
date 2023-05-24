@@ -202,7 +202,7 @@ class UiListing implements GenerateInterface
                 $listingXml,
                 'columns',
                 "",
-                ["name" => $data['columns_name'], "class" => \Magento\Catalog\Ui\Component\Listing\Columns::class]
+                ["name" => $data['columns_name']]
             );
             foreach ($columns as $key => $column) {
                 if (isset($column['identity']) && $column['identity'] == 'true') {
@@ -225,13 +225,13 @@ class UiListing implements GenerateInterface
                 }
             }
             $sortOrder = 10;
-            foreach ($columns as $key => $column) {
+            foreach ($columns as $key => $tableColumn) {
                 $sortOrder = $sortOrder + 10;
                 $column = $this->xmlGenerator->addXmlNode(
                     $columnsNode,
                     'column',
                     "",
-                    ['name'=> $column['name'] , 'sortOrder'=> $sortOrder]
+                    ['name'=> $tableColumn['name'] , 'sortOrder'=> $sortOrder]
                 );
                 $setting = $this->xmlGenerator->addXmlNode(
                     $column,
@@ -240,12 +240,12 @@ class UiListing implements GenerateInterface
                 $this->xmlGenerator->addXmlNode(
                     $setting,
                     'filter',
-                    $this->getFilterType($column)
+                    $this->getFilterType($tableColumn)
                 );
                 $this->xmlGenerator->addXmlNode(
                     $setting,
                     'label',
-                    $column['comment'] ?? ucwords(str_replace('_', ' ', $column['name']))
+                    $tableColumn['comment'] ?? ucwords(str_replace('_', ' ', $tableColumn['name']))
                 );
             }
         }
@@ -262,19 +262,20 @@ class UiListing implements GenerateInterface
     public function getFilterType($column)
     {
         $filter = [
-            "date" => "datetime",
-            "text" => "int",
-            "text" => "float",
-            "text" => "varchar",
-            "text" => "smallint",
-            "date" => "timestamp"
+            "datetime" => "dateRange",
+            "int" => "text",
+            "float" => "text",
+            "varchar" => "text",
+            "smallint" => "text",
+            "timestamp" => "dateRange"
         ];
         if (isset($column['identity']) && $column['identity'] == "true") {
-            return $filter = "textRange";
+            $filterText = "textRange";
         } elseif ($column['type'] != "") {
-            return $filter = $filter[$column['type']];
+            $filterText = $filter[$column['type']];
         } else {
-            return $filter = "text";
+            $filterText = "text";
         }
+        return $filterText;
     }
 }

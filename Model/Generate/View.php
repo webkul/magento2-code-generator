@@ -193,14 +193,17 @@ class View implements GenerateInterface
             unset($node[0]);
         }
         
-        // add layout attribute
-        if ($layoutType && $layoutType != '1column') {
-            $xmlObj->getNode()->addAttribute('layout', $layoutType);
+        $layoutXml = $xmlObj->getNode();
+        if ($data['area'] != 'adminhtml') {
+            // add layout attribute
+            if ($layoutType && $layoutType != '1column') {
+                $xmlObj->getNode()->addAttribute('layout', $layoutType);
+            }
         }
         
-        $layoutXml = $xmlObj->getNode();
+        $body = $this->xmlGenerator->addXmlNode($layoutXml, 'body');
         $referenceContainer = $this->xmlGenerator->addXmlNode(
-            $layoutXml,
+            $body,
             'referenceContainer',
             '',
             ['name' => 'content'],
