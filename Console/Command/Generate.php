@@ -117,6 +117,24 @@ class Generate extends Command
             case "logger":
                 $this->generateLogger($input, $output, $questionHelper);
                 break;
+            case "command":
+                $this->generateCommand($input, $output, $questionHelper);
+                break;
+            case "rewrite":
+                $this->generateOverrideClass($input, $output, $questionHelper);
+                break;
+            case "email":
+                $this->generateEmailTemplate($input, $output, $questionHelper);
+                break;
+            case "payment":
+                $this->generatePaymentMethod($input, $output, $questionHelper);
+                break;
+            case "shipping":
+                $this->generateShippingMethod($input, $output, $questionHelper);
+                break;
+            case "unit-test":
+                $this->generateUnitTest($input, $output, $questionHelper);
+                break;
             default:
                 throw new ValidationException(__('Invalid type.'));
         }
@@ -168,20 +186,7 @@ class Generate extends Command
      */
     protected function generateUiComponentListing($input, $output, $questionHelper)
     {
-        if (!$input->getOption('module_name')) {
-            $question = new Question('<question>Enter Module Name:</question> ', '');
-            $this->addNotEmptyValidator($question);
-
-            $input->setOption(
-                "module_name",
-                $questionHelper->ask($input, $output, $question)
-            );
-
-            $input->setArgument(
-                'module',
-                $input->getOption('module_name')
-            );
-        }
+        $this->setInputArgument($input, $output, $questionHelper);
 
         if (!$input->getOption('name')) {
             $question = new Question('<question>Enter Ui Component Name:</question> ', '');
@@ -234,20 +239,7 @@ class Generate extends Command
      */
     protected function generateView($input, $output, $questionHelper)
     {
-        if (!$input->getOption('module_name')) {
-            $question = new Question('<question>Enter Module Name:</question> ', '');
-            $this->addNotEmptyValidator($question);
-
-            $input->setOption(
-                "module_name",
-                $questionHelper->ask($input, $output, $question)
-            );
-
-            $input->setArgument(
-                'module',
-                $input->getOption('module_name')
-            );
-        }
+        $this->setInputArgument($input, $output, $questionHelper);
 
         if (!$input->getOption('name')) {
             $question = new Question('<question>Enter Layout Name:</question> ', '');
@@ -310,20 +302,7 @@ class Generate extends Command
      */
     protected function generateController($input, $output, $questionHelper)
     {
-        if (!$input->getOption('module_name')) {
-            $question = new Question('<question>Enter Module Name:</question> ', '');
-            $this->addNotEmptyValidator($question);
-
-            $input->setOption(
-                "module_name",
-                $questionHelper->ask($input, $output, $question)
-            );
-
-            $input->setArgument(
-                'module',
-                $input->getOption('module_name')
-            );
-        }
+        $this->setInputArgument($input, $output, $questionHelper);
 
         if (!$input->getOption('name')) {
             $question = new Question('<question>Enter Controller Name:</question> ', '');
@@ -376,20 +355,7 @@ class Generate extends Command
      */
     protected function generateModel($input, $output, $questionHelper)
     {
-        if (!$input->getOption('module_name')) {
-            $question = new Question('<question>Enter Module Name:</question> ', '');
-            $this->addNotEmptyValidator($question);
-
-            $input->setOption(
-                "module_name",
-                $questionHelper->ask($input, $output, $question)
-            );
-
-            $input->setArgument(
-                'module',
-                $input->getOption('module_name')
-            );
-        }
+        $this->setInputArgument($input, $output, $questionHelper);
 
         if (!$input->getOption('name')) {
             $question = new Question('<question>Enter Model Class Name:</question> ', '');
@@ -422,20 +388,7 @@ class Generate extends Command
      */
     protected function generateRepository($input, $output, $questionHelper)
     {
-        if (!$input->getOption('module_name')) {
-            $question = new Question('<question>Enter Module Name:</question> ', '');
-            $this->addNotEmptyValidator($question);
-
-            $input->setOption(
-                "module_name",
-                $questionHelper->ask($input, $output, $question)
-            );
-
-            $input->setArgument(
-                'module',
-                $input->getOption('module_name')
-            );
-        }
+        $this->setInputArgument($input, $output, $questionHelper);
 
         if (!$input->getOption('name')) {
             $question = new Question('<question>Enter Repository Class Name:</question> ', '');
@@ -478,20 +431,7 @@ class Generate extends Command
      */
     protected function generateHelper($input, $output, $questionHelper)
     {
-        if (!$input->getOption('module_name')) {
-            $question = new Question('<question>Enter Module Name:</question> ', '');
-            $this->addNotEmptyValidator($question);
-
-            $input->setOption(
-                "module_name",
-                $questionHelper->ask($input, $output, $question)
-            );
-
-            $input->setArgument(
-                'module',
-                $input->getOption('module_name')
-            );
-        }
+        $this->setInputArgument($input, $output, $questionHelper);
 
         if (!$input->getOption('name')) {
             $question = new Question('<question>Enter Helper Class Name:</question> ', '');
@@ -514,20 +454,7 @@ class Generate extends Command
      */
     protected function generatePlugin($input, $output, $questionHelper)
     {
-        if (!$input->getOption('module_name')) {
-            $question = new Question('<question>Enter Module Name:</question> ', '');
-            $this->addNotEmptyValidator($question);
-
-            $input->setOption(
-                "module_name",
-                $questionHelper->ask($input, $output, $question)
-            );
-
-            $input->setArgument(
-                'module',
-                $input->getOption('module_name')
-            );
-        }
+        $this->setInputArgument($input, $output, $questionHelper);
 
         if (!$input->getOption('name')) {
             $question = new Question('<question>Enter Plugin Name:</question> ', '');
@@ -568,20 +495,7 @@ class Generate extends Command
      */
     protected function generateObserver($input, $output, $questionHelper)
     {
-        if (!$input->getOption('module_name')) {
-            $question = new Question('<question>Enter Module Name:</question> ', '');
-            $this->addNotEmptyValidator($question);
-
-            $input->setOption(
-                "module_name",
-                $questionHelper->ask($input, $output, $question)
-            );
-
-            $input->setArgument(
-                'module',
-                $input->getOption('module_name')
-            );
-        }
+        $this->setInputArgument($input, $output, $questionHelper);
 
         if (!$input->getOption('name')) {
             $question = new Question('<question>Enter Observer Name:</question> ', '');
@@ -622,20 +536,7 @@ class Generate extends Command
      */
     protected function generateCron($input, $output, $questionHelper)
     {
-        if (!$input->getOption('module_name')) {
-            $question = new Question('<question>Enter Module Name:</question> ', '');
-            $this->addNotEmptyValidator($question);
-
-            $input->setOption(
-                "module_name",
-                $questionHelper->ask($input, $output, $question)
-            );
-
-            $input->setArgument(
-                'module',
-                $input->getOption('module_name')
-            );
-        }
+        $this->setInputArgument($input, $output, $questionHelper);
 
         if (!$input->getOption('name')) {
             $question = new Question('<question>Enter Cron Name:</question> ', '');
@@ -666,6 +567,207 @@ class Generate extends Command
      */
     protected function generateLogger($input, $output, $questionHelper)
     {
+        $this->setInputArgument($input, $output, $questionHelper);
+
+        if (!$input->getOption('name')) {
+            $question = new Question('<question>Enter Log Name:</question> ', $input->getOption('module_name'));
+            $input->setOption(
+                "name",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+    }
+
+    /**
+     * Generate Command
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Helper\QuestionHelper $questionHelper
+     * @return void
+     */
+    protected function generateCommand($input, $output, $questionHelper)
+    {
+        $this->setInputArgument($input, $output, $questionHelper);
+
+        if (!$input->getOption('name')) {
+            $question = new Question('<question>Enter Command Class Name:</question> ');
+            $this->addNotEmptyValidator($question);
+
+            $input->setOption(
+                "name",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        if (!$input->getOption('command')) {
+            $question = new Question('<question>Enter Command Name:</question> ');
+            $this->addNotEmptyValidator($question);
+
+            $input->setOption(
+                "command",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+    }
+
+    /**
+     * Generate Overridden Class
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Helper\QuestionHelper $questionHelper
+     * @return void
+     */
+    protected function generateOverrideClass($input, $output, $questionHelper)
+    {
+        $this->setInputArgument($input, $output, $questionHelper);
+
+        if (!$input->getOption('name')) {
+            $question = new Question('<question>Enter Name:</question> ');
+            $this->addNotEmptyValidator($question);
+
+            $input->setOption(
+                "name",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        if (!$input->getOption('rewrite')) {
+            $question = new Question('<question>Enter Overridden Class:</question> ');
+            $this->addNotEmptyValidator($question);
+
+            $input->setOption(
+                "rewrite",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        if (!$input->getOption('path')) {
+            $question = new Question('<question>Enter Relative Path:</question> ', 'Rewrite');
+            $input->setOption(
+                "path",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+    }
+
+    /**
+     * Generate Email Template
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Helper\QuestionHelper $questionHelper
+     * @return void
+     */
+    protected function generateEmailTemplate($input, $output, $questionHelper)
+    {
+        $this->setInputArgument($input, $output, $questionHelper);
+
+        if (!$input->getOption('name')) {
+            $question = new Question('<question>Enter Email Template Name:</question> ');
+            $this->addNotEmptyValidator($question);
+
+            $input->setOption(
+                "name",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        if (!$input->getOption('id')) {
+            $question = new Question('<question>Enter Email Template Id:</question> ');
+            $input->setOption(
+                "id",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+    }
+
+    /**
+     * Generate Payment Method
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Helper\QuestionHelper $questionHelper
+     * @return void
+     */
+    protected function generatePaymentMethod($input, $output, $questionHelper)
+    {
+        $this->setInputArgument($input, $output, $questionHelper);
+
+        if (!$input->getOption('payment-code')) {
+            $question = new Question('<question>Enter Payment Code:</question> ');
+            $this->addNotEmptyValidator($question);
+
+            $input->setOption(
+                "payment-code",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        if (!$input->getOption('name')) {
+            $question = new Question('<question>Enter Payment Name:</question> ', 'Custom Payment');
+            $input->setOption(
+                "name",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+    }
+    
+    /**
+     * Generate Shipping Method
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Helper\QuestionHelper $questionHelper
+     * @return void
+     */
+    protected function generateShippingMethod($input, $output, $questionHelper)
+    {
+        $this->setInputArgument($input, $output, $questionHelper);
+
+        if (!$input->getOption('shipping-code')) {
+            $question = new Question('<question>Enter Shipping Code:</question> ');
+            $this->addNotEmptyValidator($question);
+
+            $input->setOption(
+                "shipping-code",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        if (!$input->getOption('name')) {
+            $question = new Question('<question>Enter Shipping Name:</question> ', 'Custom Shipping');
+            $input->setOption(
+                "name",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+    }
+
+    /**
+     * Generate Unit Test
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Helper\QuestionHelper $questionHelper
+     * @return void
+     */
+    protected function generateUnitTest($input, $output, $questionHelper)
+    {
+        $this->setInputArgument($input, $output, $questionHelper);
+    }
+
+    /**
+     * Set Module Name in input argument
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Helper\QuestionHelper $questionHelper
+     * @return void
+     */
+    protected function setInputArgument($input, $output, $questionHelper)
+    {
         if (!$input->getOption('module_name')) {
             $question = new Question('<question>Enter Module Name:</question> ', '');
             $this->addNotEmptyValidator($question);
@@ -680,16 +782,7 @@ class Generate extends Command
                 $input->getOption('module_name')
             );
         }
-
-        if (!$input->getOption('name')) {
-            $question = new Question('<question>Enter Log Name:</question> ', $input->getOption('module_name'));
-            $input->setOption(
-                "name",
-                $questionHelper->ask($input, $output, $question)
-            );
-        }
     }
-
     /**
      * @inheritdoc
      */
