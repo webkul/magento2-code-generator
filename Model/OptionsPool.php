@@ -207,6 +207,14 @@ class OptionsPool
                 'module_name',
                 InputArgument::OPTIONAL,
                 'Enter module name for generate module'
+            ),
+
+             /* Add Module Name */
+             new InputOption(
+                'provider_name',
+                'provider_name',
+                InputArgument::OPTIONAL,
+                'Enter Data Provider name for Ui component form'
             )
         ];
 

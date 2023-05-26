@@ -6,7 +6,7 @@
  * @author    Ashutosh Srivastava
  */
 
-namespace Webkul\CodeGenerator\Model\Generate\Ui;
+namespace Webkul\CodeGenerator\Model\Generate\Ui\Form;
 
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
@@ -21,9 +21,8 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
         $module = $data['module'];
         $type = $data['type'] ?? "";
         $name = $data['name'] ?? "";
-        $modelClassName = $data['model_class_name'] ?? "";
-        $tableName = $data['table'] ?? "";
-        $columnsName = $data['columns_name'] ?? "";
+        $providerName = $data['provider_name'] ?? "";
+        $model = $data['model_class_name'] ?? "";
         $response = [];
         if ($module) {
             $moduleManager = \Magento\Framework\App\ObjectManager::getInstance()
@@ -43,23 +42,23 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
             throw new \InvalidArgumentException(__("name is required"));
         }
 
-        if ($modelClassName) {
-            $response["model_class_name"] = $modelClassName;
+        if ($providerName) {
+            $response["provider_name"] = $providerName;
         } else {
-            throw new \InvalidArgumentException(__("Model class name is required"));
+            throw new \InvalidArgumentException(__("Provider name is required"));
         }
 
-        if ($tableName) {
-            $response["table"] = $tableName;
+        if ($model) {
+            $response["model_class_name"] = $model;
         } else {
-            throw new \InvalidArgumentException(__("Table name is required"));
+            throw new \InvalidArgumentException(__("Model is required"));
         }
 
-        if ($columnsName) {
-            $response["columns_name"] = $columnsName;
-        } else {
-            throw new \InvalidArgumentException(__("Column name is required"));
-        }
+        // if ($columnsName) {
+        //     $response["columns_name"] = $columnsName;
+        // } else {
+        //     throw new \InvalidArgumentException(__("Column name is required"));
+        // }
         
         $dir = \Magento\Framework\App\ObjectManager::getInstance()
             ->get(\Magento\Framework\Module\Dir::class);

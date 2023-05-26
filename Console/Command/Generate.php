@@ -135,6 +135,9 @@ class Generate extends Command
             case "unit-test":
                 $this->generateUnitTest($input, $output, $questionHelper);
                 break;
+            case "ui_component_form":
+                $this->generateUiComponentForm($input, $output, $questionHelper);
+                break;
             default:
                 throw new ValidationException(__('Invalid type.'));
         }
@@ -189,7 +192,7 @@ class Generate extends Command
         $this->setInputArgument($input, $output, $questionHelper);
 
         if (!$input->getOption('name')) {
-            $question = new Question('<question>Enter Ui Component Name:</question> ', '');
+            $question = new Question('<question>Enter Ui Component Listing File Name:</question> ', '');
             $this->addNotEmptyValidator($question);
 
             $input->setOption(
@@ -759,6 +762,49 @@ class Generate extends Command
     }
 
     /**
+     * Generate Ui Component Form
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Helper\QuestionHelper $questionHelper
+     * @return void
+     */
+    protected function generateUiComponentForm($input, $output, $questionHelper)
+    {
+        $this->setInputArgument($input, $output, $questionHelper);
+
+        if (!$input->getOption('name')) {
+            $question = new Question('<question>Enter Ui Component Form File Name:</question> ', '');
+            $this->addNotEmptyValidator($question);
+
+            $input->setOption(
+                "name",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        if (!$input->getOption('provider_name')) {
+            $question = new Question('<question>Enter Data Provider Name:</question> ', '');
+            $this->addNotEmptyValidator($question);
+            $this->classNameValidator($question);
+            $input->setOption(
+                "provider_name",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        if (!$input->getOption('model_class_name')) {
+            $question = new Question('<question>Enter Model Class Name:</question> ', '');
+            $this->addNotEmptyValidator($question);
+            $this->classNameValidator($question);
+            $input->setOption(
+                "model_class_name",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+    }
+
+    /**
      * Set Module Name in input argument
      *
      * @param \Symfony\Component\Console\Input\InputInterface $input
@@ -842,6 +888,23 @@ class Generate extends Command
             if (trim($value) == '') {
                 throw new ValidationException(__('The value cannot be empty'));
             }
+
+            return $value;
+        });
+    }
+
+    /**
+     * Add class name validator.
+     *
+     * @param \Symfony\Component\Console\Question\Question $question
+     * @return void
+     */
+    private function classNameValidator(Question $question)
+    {
+        $question->setValidator(function ($value) {
+            // if (preg_match("/^[a-zA-Z'-]+$/", $value)) {
+            //     throw new ValidationException(__('Enter valid class name.'));
+            // }
 
             return $value;
         });

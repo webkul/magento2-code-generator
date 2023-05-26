@@ -36,7 +36,8 @@
                 <item name="command" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Command\Validator</item>
                 <item name="rewrite" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Rewrite\Validator</item>
                 <item name="email" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Email\Validator</item>
-                <item name="ui_component_listing" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Ui\Validator</item>
+                <item name="ui_component_listing" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Ui\Listing\Validator</item>
+                <item name="ui_component_form" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Ui\Form\Validator</item>
             </argument>
         </arguments>
     </type>
@@ -61,6 +62,7 @@
                 <item name="rewrite" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Rewrite</item>
                 <item name="email" xsi:type="object">Webkul\CodeGenerator\Model\Generate\Email</item>
                 <item name="ui_component_listing" xsi:type="object">Webkul\CodeGenerator\Model\Generate\UiListing</item>
+                <item name="ui_component_form" xsi:type="object">Webkul\CodeGenerator\Model\Generate\UiForm</item>
             </argument>
         </arguments>
     </type>
