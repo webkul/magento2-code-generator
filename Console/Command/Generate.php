@@ -37,6 +37,11 @@ class Generate extends Command
     protected $optionsPool;
 
     /**
+     * @var array
+     */
+    protected $formField = [];
+
+    /**
      * __construct function
      *
      * @param array $validators
@@ -801,6 +806,83 @@ class Generate extends Command
                 "model_class_name",
                 $questionHelper->ask($input, $output, $question)
             );
+        }
+
+        if (!$input->getOption('fieldset_name')) {
+            $question = new Question('<question>Enter Form Fieldset Name:</question> ', '');
+            $this->addNotEmptyValidator($question);
+            $this->classNameValidator($question);
+            $input->setOption(
+                "fieldset_name",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        if (!$input->getOption('fieldset_label')) {
+            $question = new Question('<question>Enter Form Fieldset Label:</question> ', '');
+            $this->addNotEmptyValidator($question);
+            $this->classNameValidator($question);
+            $input->setOption(
+                "fieldset_label",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        $this->addFormField($input, $output, $questionHelper);
+    }
+
+    /**
+     * Generate Ui Component Form
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Helper\QuestionHelper $questionHelper
+     * @return void
+     */
+    public function addFormField($input, $output, $questionHelper)
+    {
+        if (!$input->getOption('field_name')) {
+            $question = new Question('<question>Enter Field Name:</question> ', '');
+            $this->addNotEmptyValidator($question);
+            $this->classNameValidator($question);
+            $input->setOption(
+                "field_name",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        if (!$input->getOption('field_type')) {
+            $question = new Question('<question>Enter Field Type:</question> ', '');
+            $this->addNotEmptyValidator($question);
+            $this->classNameValidator($question);
+            $input->setOption(
+                "field_type",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        if (!$input->getOption('field_label')) {
+            $question = new Question('<question>Enter Field Label:</question> ', '');
+            $this->addNotEmptyValidator($question);
+            $this->classNameValidator($question);
+            $input->setOption(
+                "field_label",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        if (!$input->getOption('enter_new_field')) {
+            $question = new Question('<question>Enter New Field (yes/no):</question> ', 'no');
+            $this->addNotEmptyValidator($question);
+            $this->classNameValidator($question);
+            echo $questionHelper->ask($input, $output, $question);die;
+            $input->setOption(
+                "enter_new_field",
+                $questionHelper->ask($input, $output, $question)
+            );
+            if ($input->getOption('enter_new_field') == "yes") {
+                $this->addFormField($input, $output, $questionHelper);
+            }
         }
     }
 

@@ -209,12 +209,60 @@ class OptionsPool
                 'Enter module name for generate module'
             ),
 
-             /* Add Module Name */
-             new InputOption(
-                'provider_name',
-                'provider_name',
+            /* Add Module Name */
+            new InputOption(
+            'provider_name',
+            'provider_name',
+            InputArgument::OPTIONAL,
+            'Enter Data Provider name for Ui component form'
+            ),
+
+            /* Add Fieldset Name */
+            new InputOption(
+                'fieldset_name',
+                'fieldset_name',
                 InputArgument::OPTIONAL,
-                'Enter Data Provider name for Ui component form'
+                'Enter Fieldset name for Ui component form'
+            ),
+
+            /* Add Fieldset Label */
+            new InputOption(
+                'fieldset_label',
+                'fieldset_label',
+                InputArgument::OPTIONAL,
+                'Enter Fieldset Label for Ui component form'
+            ),
+
+            /* Add Fieldset Label */
+            new InputOption(
+                'field_label',
+                'field_label',
+                InputArgument::OPTIONAL,
+                'Enter Field Label for Ui component form'
+            ),
+
+            /* Add Fieldset Label */
+            new InputOption(
+                'field_name',
+                'field_name',
+                InputArgument::OPTIONAL,
+                'Enter Field Label for Ui component form'
+            ),
+
+            /* Add Fieldset Label */
+            new InputOption(
+                'field_type',
+                'field_type',
+                InputArgument::OPTIONAL,
+                'Enter Field Type for Ui component form'
+            ),
+
+            /* Add Fieldset Label */
+            new InputOption(
+                'enter_new_field',
+                'enter_new_field',
+                InputArgument::OPTIONAL,
+                'Enter New Field for Ui component form'
             )
         ];
 

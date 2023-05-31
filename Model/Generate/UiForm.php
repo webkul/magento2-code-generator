@@ -157,6 +157,7 @@ class UiForm implements GenerateInterface
         $replace = [
             "module_name" => $data['module'],
             "form_name" => $data['name'],
+            "namespace" => $nameArray[0].'\\'.$nameArray[1],
             "data_provider" =>
                 $nameArray[0].'\\'.$nameArray[1].'\\'."Ui".'\\'."DataProvider".'\\'.$data['provider_name']
         ];
