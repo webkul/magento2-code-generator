@@ -20,8 +20,8 @@
     </argument>
     <settings>
         <buttons>
-            <button name="save" class="%namespace%\Block\Adminhtml\General\Edit\SaveButton"/>
-            <button name="back" class="%namespace%\Block\Adminhtml\General\Edit\BackButton"/>
+            <button name="save" class=%namespace%"\Block\Adminhtml\General\Edit\SaveButton"/>
+            <button name="back" class=%namespace%"\Block\Adminhtml\General\Edit\BackButton"/>
         </buttons>
         <deps>
             <dep>%form_name%.%form_name%_data_source</dep>
@@ -34,9 +34,6 @@
                 <item name="update_url" xsi:type="url" path="mui/index/render"/>
             </item>
         </argument>
-        <settings>
-            <submitUrl path="socialcommunity/post/save"/>
-        </settings>
         <dataProvider class="%data_provider%" name="%form_name%_data_source">
             <settings>
                 <requestFieldName>id</requestFieldName>

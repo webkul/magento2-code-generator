@@ -263,6 +263,21 @@ class OptionsPool
                 'enter_new_field',
                 InputArgument::OPTIONAL,
                 'Enter New Field for Ui component form'
+            ),
+            /* Add Fieldset Label */
+            new InputOption(
+                'form_field',
+                'form_field',
+                InputArgument::OPTIONAL,
+                'Add New Field for Ui component form'
+            ),
+
+            /* Add Fieldset Label */
+            new InputOption(
+                'is_required',
+                'is_required',
+                InputArgument::OPTIONAL,
+                'Add New Field is Required or Not for Ui component form'
             )
         ];
 

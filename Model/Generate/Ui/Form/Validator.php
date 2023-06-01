@@ -23,6 +23,9 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
         $name = $data['name'] ?? "";
         $providerName = $data['provider_name'] ?? "";
         $model = $data['model_class_name'] ?? "";
+        $formField = $data['form_field'] ?? "";
+        $fieldset = $data['fieldset_name'] ?? "";
+        $fieldsetLabel = $data['fieldset_label'] ?? "";
         $response = [];
         if ($module) {
             $moduleManager = \Magento\Framework\App\ObjectManager::getInstance()
@@ -54,12 +57,24 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
             throw new \InvalidArgumentException(__("Model is required"));
         }
 
-        // if ($columnsName) {
-        //     $response["columns_name"] = $columnsName;
-        // } else {
-        //     throw new \InvalidArgumentException(__("Column name is required"));
-        // }
-        
+        if ($fieldset) {
+            $response["fieldset_name"] = $fieldset;
+        } else {
+            throw new \InvalidArgumentException(__("Field Set is required"));
+        }
+
+        if ($fieldsetLabel) {
+            $response["fieldset_label"] = $fieldsetLabel;
+        } else {
+            throw new \InvalidArgumentException(__("Field Set Label is required"));
+        }
+
+        if ($formField) {
+            $response["form_field"] = $formField;
+        } else {
+            throw new \InvalidArgumentException(__("Form Field is required"));
+        }
+
         $dir = \Magento\Framework\App\ObjectManager::getInstance()
             ->get(\Magento\Framework\Module\Dir::class);
 

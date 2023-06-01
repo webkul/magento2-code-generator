@@ -811,7 +811,6 @@ class Generate extends Command
         if (!$input->getOption('fieldset_name')) {
             $question = new Question('<question>Enter Form Fieldset Name:</question> ', '');
             $this->addNotEmptyValidator($question);
-            $this->classNameValidator($question);
             $input->setOption(
                 "fieldset_name",
                 $questionHelper->ask($input, $output, $question)
@@ -821,7 +820,6 @@ class Generate extends Command
         if (!$input->getOption('fieldset_label')) {
             $question = new Question('<question>Enter Form Fieldset Label:</question> ', '');
             $this->addNotEmptyValidator($question);
-            $this->classNameValidator($question);
             $input->setOption(
                 "fieldset_label",
                 $questionHelper->ask($input, $output, $question)
@@ -841,10 +839,10 @@ class Generate extends Command
      */
     public function addFormField($input, $output, $questionHelper)
     {
+        $field = [];
         if (!$input->getOption('field_name')) {
             $question = new Question('<question>Enter Field Name:</question> ', '');
             $this->addNotEmptyValidator($question);
-            $this->classNameValidator($question);
             $input->setOption(
                 "field_name",
                 $questionHelper->ask($input, $output, $question)
@@ -854,7 +852,6 @@ class Generate extends Command
         if (!$input->getOption('field_type')) {
             $question = new Question('<question>Enter Field Type:</question> ', '');
             $this->addNotEmptyValidator($question);
-            $this->classNameValidator($question);
             $input->setOption(
                 "field_type",
                 $questionHelper->ask($input, $output, $question)
@@ -864,24 +861,49 @@ class Generate extends Command
         if (!$input->getOption('field_label')) {
             $question = new Question('<question>Enter Field Label:</question> ', '');
             $this->addNotEmptyValidator($question);
-            $this->classNameValidator($question);
             $input->setOption(
                 "field_label",
                 $questionHelper->ask($input, $output, $question)
             );
         }
 
+        if (!$input->getOption('is_required')) {
+            $question = new Question('<question>Field is Required (true/false):</question> ', 'false');
+            $this->addNotEmptyValidator($question);
+            $input->setOption(
+                "is_required",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        $field = [
+            'field_name' => $input->getOption('field_name'),
+            'field_type' => $input->getOption('field_type'),
+            'field_label' => $input->getOption('field_label'),
+            'is_required' => $input->getOption('is_required')
+        ];
+        $this->formField[] = $field;
         if (!$input->getOption('enter_new_field')) {
             $question = new Question('<question>Enter New Field (yes/no):</question> ', 'no');
             $this->addNotEmptyValidator($question);
-            $this->classNameValidator($question);
-            echo $questionHelper->ask($input, $output, $question);die;
             $input->setOption(
                 "enter_new_field",
                 $questionHelper->ask($input, $output, $question)
             );
             if ($input->getOption('enter_new_field') == "yes") {
+                $input->setOption("field_name", "");
+                $input->setOption("field_type", "");
+                $input->setOption("field_label", "");
+                $input->setOption("enter_new_field", "");
+                $input->setOption("is_required", "");
                 $this->addFormField($input, $output, $questionHelper);
+            } else {
+                if (!$input->getOption('form_field')) {
+                    $input->setOption(
+                        "form_field",
+                        json_encode($this->formField, true)
+                    );
+                }
             }
         }
     }
