@@ -155,10 +155,14 @@ class UiForm implements GenerateInterface
         $nameSpace = $data['module'];
         $formField = json_decode($data['form_field'], true);
         $nameArray = explode("_", $nameSpace);
+        $button = '"'.$nameArray[0].'\\'.$nameArray[1].'\\'."Block".'\\'."Adminhtml".'\\'."General".'\\'."Edit".'\\';
         $replace = [
             "module_name" => $data['module'],
             "form_name" => $data['name'],
-            "namespace" => '"'.$nameArray[0].'\\'.$nameArray[1],
+            "form_label" => $nameArray[0].' '.$nameArray[1],
+            "save_botton" => $button."SaveButton".'"',
+            "back_button" => $button."BackButton".'"',
+            "submit_url" => $data['submit_url'],
             "data_provider" =>
                 $nameArray[0].'\\'.$nameArray[1].'\\'."Ui".'\\'."DataProvider".'\\'.$data['provider_name']
         ];
@@ -194,50 +198,214 @@ class UiForm implements GenerateInterface
                 $fieldset,
                 'field',
                 "",
-                ["name" => strtolower($field['field_name']), "formElement" => $field['field_type'], "sortorder" => $i]
+                [
+                    "name" => strtolower($field['field_name']),
+                    "formElement" => $field['field_type'],
+                    "sortOrder" => $i
+                ]
             );
-            $argument = $this->xmlGenerator->addXmlNode(
-                $xmlField,
-                'argument',
-                "",
-                ["name" => "data", "xsi:type" => "array"]
-            );
-            $items = $this->xmlGenerator->addXmlNode(
-                $argument,
-                'item',
-                "",
-                ["name" => "config", "xsi:type" => "array"]
-            );
-            $this->xmlGenerator->addXmlNode(
-                $items,
-                'item',
-                $field['field_label'],
-                ["name" => "label", "xsi:type" => "string", "translate" => "true"]
-            );
-            
-            /* Add Field Setting */
-            $settings = $this->xmlGenerator->addXmlNode(
-                $xmlField,
-                'settings'
-            );
-            $validation = $this->xmlGenerator->addXmlNode(
-                $settings,
-                'validation'
-            );
-            $validation = $this->xmlGenerator->addXmlNode(
-                $validation,
-                'rule',
-                $field['is_required'],
-                ["name" => "required-entry", "xsi:type" => "boolean"]
-            );
-            $validation = $this->xmlGenerator->addXmlNode(
-                $settings,
-                'dataType',
-                'text'
-            );
+            switch (strtolower($field['field_type'])) {
+                case 'input':
+                    $this->addInputField($xmlField, $field);
+                    break;
+                case 'select':
+                    $this->addSelectOrMultiselectField($xmlField, $field, $data);
+                    break;
+                case 'multiselect':
+                    $this->addSelectOrMultiselectField($xmlField, $field, $data);
+                    break;
+                case 'imageuploader':
+                    $this->addImageField($xmlField, $field, $data);
+                    break;
+            }
             $i += 10;
         }
         $xmlData = $this->xmlGenerator->formatXml($listingXml->asXml());
         $this->helper->saveFile($componentXml, $xmlData);
+    }
+
+    /**
+     * Add Input Field in form
+     *
+     * @param \Magento\Framework\Simplexml\Element $xmlField
+     * @param array $field
+     * @return void
+     */
+    public function addInputField($xmlField, $field)
+    {   
+        /* Add Field Setting */
+        $settings = $this->xmlGenerator->addXmlNode(
+            $xmlField,
+            'settings'
+        );
+        $validation = $this->xmlGenerator->addXmlNode(
+            $settings,
+            'validation'
+        );
+        $this->xmlGenerator->addXmlNode(
+            $validation,
+            'rule',
+            $field['is_required'],
+            ["name" => "required-entry", "xsi:type" => "boolean"]
+        );
+        $this->xmlGenerator->addXmlNode(
+            $settings,
+            'dataType',
+            'text'
+        );
+        $this->xmlGenerator->addXmlNode(
+            $settings,
+            'label',
+            $field['field_label']
+        );
+    }
+
+    /**
+     * Add Select Field in form
+     *
+     * @param \Magento\Framework\Simplexml\Element $xmlField
+     * @param array $field
+     * @param array $data
+     * @return void
+     */
+    public function addSelectOrMultiselectField($xmlField, $field, $data)
+    {   
+        /* Add Field Setting */
+        $settings = $this->xmlGenerator->addXmlNode(
+            $xmlField,
+            'settings'
+        );
+        $validation = $this->xmlGenerator->addXmlNode(
+            $settings,
+            'validation'
+        );
+        $this->xmlGenerator->addXmlNode(
+            $validation,
+            'rule',
+            $field['is_required'],
+            ["name" => "required-entry", "xsi:type" => "boolean"]
+        );
+        $this->xmlGenerator->addXmlNode(
+            $settings,
+            'dataType',
+            'int'
+        );
+        $this->xmlGenerator->addXmlNode(
+            $settings,
+            'label',
+            $field['field_label']
+        );
+
+        $nameSpace = $data['module'];
+        $nameArray = explode("_", $nameSpace);
+        $nameSpace = $nameArray[0].'\\'.$nameArray[1].'\\'."Model".'\\'."Config".'\\'."Source";
+
+        $formElements = $this->xmlGenerator->addXmlNode(
+            $xmlField,
+            'formElements'
+        );
+        $select = $this->xmlGenerator->addXmlNode(
+            $formElements,
+            strtolower($field['field_type'])
+        );
+        $settings = $this->xmlGenerator->addXmlNode(
+            $select,
+            'settings'
+        );
+        $this->xmlGenerator->addXmlNode(
+            $settings,
+            'options',
+            '',
+            ["class" => $nameSpace.'\\'.'Options']
+        );
+        $option = $this->helper->getTemplatesFiles('templates/ui_component/option.php.dist');
+        $option = str_replace('%module_name%', $data['module'], $option);
+        $option = str_replace('%namespace%', $nameSpace, $option);
+
+        $path = $data['path'];
+        $this->helper->createDirectory(
+            $oprionDir = $path.DIRECTORY_SEPARATOR.'Model'.DIRECTORY_SEPARATOR.'Config'
+                .DIRECTORY_SEPARATOR.'Source'
+        );
+        $this->helper->saveFile(
+            $oprionDir.DIRECTORY_SEPARATOR.'Options.php',
+            $option
+        );
+    }
+
+    /**
+     * Add Image Field
+     *
+     * @param \Magento\Framework\Simplexml\Element $xmlField
+     * @param array $field
+     * @param array $data
+     * @return void
+     */
+    public function addImageField($xmlField, $field, $data)
+    {
+        $settings = $this->xmlGenerator->addXmlNode(
+            $xmlField,
+            'settings'
+        );
+        $this->xmlGenerator->addXmlNode(
+            $settings,
+            'label',
+            $field['field_label']
+        );
+        $this->xmlGenerator->addXmlNode(
+            $settings,
+            'componentType',
+            'imageUploader'
+        );
+        $formElements = $this->xmlGenerator->addXmlNode(
+            $xmlField,
+            'formElements'
+        );
+        $select = $this->xmlGenerator->addXmlNode(
+            $formElements,
+            'imageUploader'
+        );
+        $settings = $this->xmlGenerator->addXmlNode(
+            $select,
+            'settings'
+        );
+        $this->xmlGenerator->addXmlNode(
+            $settings,
+            'allowedExtensions',
+            'jpg jpeg gif png'
+        );
+        $this->xmlGenerator->addXmlNode(
+            $settings,
+            'maxFileSize',
+            '2097152'
+        );
+
+        $imageTemplate = $this->helper->getTemplatesFiles('templates/ui_component/image-preview.html.dist');
+        $imageTemplate = str_replace('%module_name%', $data['module'], $imageTemplate);
+        $path = $data['path'];
+        $this->helper->createDirectory(
+            $imageTemplateDir = $path.DIRECTORY_SEPARATOR.'view'.DIRECTORY_SEPARATOR.'adminhtml'
+                .DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'template'
+        );
+        $this->helper->saveFile(
+            $imageTemplateDir.DIRECTORY_SEPARATOR.'image-preview.html',
+            $imageTemplate
+        );
+
+        $this->xmlGenerator->addXmlNode(
+            $settings,
+            'previewTmpl',
+            $data['module'].'\\'.'image-preview.html'
+        );
+        $uploaderConfig = $this->xmlGenerator->addXmlNode(
+            $settings,
+            'uploaderConfig'
+        );
+        $this->xmlGenerator->addXmlNode(
+            $uploaderConfig,
+            'param',
+            $field['image_upload_url'],
+            ["xsi:type" => "string", "name" => "url"]
+        );
     }
 }

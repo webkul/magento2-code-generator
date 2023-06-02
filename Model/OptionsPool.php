@@ -278,6 +278,22 @@ class OptionsPool
                 'is_required',
                 InputArgument::OPTIONAL,
                 'Add New Field is Required or Not for Ui component form'
+            ),
+
+            /* Add Form Url */
+            new InputOption(
+                'submit_url',
+                'submit_url',
+                InputArgument::OPTIONAL,
+                'Submit Url for Ui component form'
+            ),
+
+            /* Add Form Image Upload Url */
+            new InputOption(
+                'image_upload_url',
+                'image_upload_url',
+                InputArgument::OPTIONAL,
+                'Image Upload Url for Ui component form'
             )
         ];
 

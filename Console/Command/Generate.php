@@ -791,7 +791,6 @@ class Generate extends Command
         if (!$input->getOption('provider_name')) {
             $question = new Question('<question>Enter Data Provider Name:</question> ', '');
             $this->addNotEmptyValidator($question);
-            $this->classNameValidator($question);
             $input->setOption(
                 "provider_name",
                 $questionHelper->ask($input, $output, $question)
@@ -801,7 +800,6 @@ class Generate extends Command
         if (!$input->getOption('model_class_name')) {
             $question = new Question('<question>Enter Model Class Name:</question> ', '');
             $this->addNotEmptyValidator($question);
-            $this->classNameValidator($question);
             $input->setOption(
                 "model_class_name",
                 $questionHelper->ask($input, $output, $question)
@@ -822,6 +820,15 @@ class Generate extends Command
             $this->addNotEmptyValidator($question);
             $input->setOption(
                 "fieldset_label",
+                $questionHelper->ask($input, $output, $question)
+            );
+        }
+
+        if (!$input->getOption('submit_url')) {
+            $question = new Question('<question>Enter Form Submit Url:</question> ', '');
+            $this->addNotEmptyValidator($question);
+            $input->setOption(
+                "submit_url",
                 $questionHelper->ask($input, $output, $question)
             );
         }
@@ -850,7 +857,7 @@ class Generate extends Command
         }
 
         if (!$input->getOption('field_type')) {
-            $question = new Question('<question>Enter Field Type:</question> ', '');
+            $question = new Question('<question>Enter Field Type (input/select/multiselect/imageUploader):</question> ', 'input');
             $this->addNotEmptyValidator($question);
             $input->setOption(
                 "field_type",
@@ -876,12 +883,24 @@ class Generate extends Command
             );
         }
 
+        $fieldType = $input->getOption('field_type');
         $field = [
             'field_name' => $input->getOption('field_name'),
-            'field_type' => $input->getOption('field_type'),
+            'field_type' => $fieldType,
             'field_label' => $input->getOption('field_label'),
             'is_required' => $input->getOption('is_required')
         ];
+        if ($fieldType == 'imageUploader') {
+            if (!$input->getOption('image_upload_url')) {
+                $question = new Question('<question>Enter Image Upload Url:</question> ', '');
+                $this->addNotEmptyValidator($question);
+                $input->setOption(
+                    "image_upload_url",
+                    $questionHelper->ask($input, $output, $question)
+                );
+                $field['image_upload_url'] = $input->getOption('image_upload_url');
+            }
+        }
         $this->formField[] = $field;
         if (!$input->getOption('enter_new_field')) {
             $question = new Question('<question>Enter New Field (yes/no):</question> ', 'no');
@@ -992,23 +1011,6 @@ class Generate extends Command
             if (trim($value) == '') {
                 throw new ValidationException(__('The value cannot be empty'));
             }
-
-            return $value;
-        });
-    }
-
-    /**
-     * Add class name validator.
-     *
-     * @param \Symfony\Component\Console\Question\Question $question
-     * @return void
-     */
-    private function classNameValidator(Question $question)
-    {
-        $question->setValidator(function ($value) {
-            // if (preg_match("/^[a-zA-Z'-]+$/", $value)) {
-            //     throw new ValidationException(__('Enter valid class name.'));
-            // }
 
             return $value;
         });

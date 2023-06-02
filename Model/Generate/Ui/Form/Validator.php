@@ -26,6 +26,7 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
         $formField = $data['form_field'] ?? "";
         $fieldset = $data['fieldset_name'] ?? "";
         $fieldsetLabel = $data['fieldset_label'] ?? "";
+        $formUrl = $data['submit_url'] ?? "";
         $response = [];
         if ($module) {
             $moduleManager = \Magento\Framework\App\ObjectManager::getInstance()
@@ -73,6 +74,12 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
             $response["form_field"] = $formField;
         } else {
             throw new \InvalidArgumentException(__("Form Field is required"));
+        }
+
+        if ($formUrl) {
+            $response["submit_url"] = $formUrl;
+        } else {
+            throw new \InvalidArgumentException(__("Form Url is required"));
         }
 
         $dir = \Magento\Framework\App\ObjectManager::getInstance()
