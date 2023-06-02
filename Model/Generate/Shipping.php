@@ -16,15 +16,16 @@ use Magento\Framework\Simplexml\Config;
 use Magento\Framework\Simplexml\Element;
 
 /**
- * Class Shipping to generate shipping method files
+ * Generate Shipping to generate shipping method files
  */
 class Shipping implements GenerateInterface
 {
-    const SYSTEMXML_NODE = '//section[@id="carriers"]';
-    const CONFIGXML_NODE = '//carriers';
+    public const SYSTEMXML_NODE = '//section[@id="carriers"]';
+    public const CONFIGXML_NODE = '//carriers';
 
-    protected $readerComposite;
-
+    /**
+     * @var Helper
+     */
     protected $helper;
 
     /**
@@ -63,7 +64,8 @@ class Shipping implements GenerateInterface
     ];
 
     /**
-     * @param ReaderComposite $readerComposite
+     * __construct function
+     *
      * @param \Magento\Framework\Filesystem\Driver\File $fileDriver
      * @param \Magento\Framework\Filesystem\Io\File $file
      * @param XmlGeneratorFactory $xmlGeneratorFactory
@@ -92,10 +94,10 @@ class Shipping implements GenerateInterface
         $modelName = $data['name'];
         $path = $data['path'];
 
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $etcAdminthtmlDirPath = $path.DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.'adminhtml'
         );
         $this->createSystemXml($etcAdminthtmlDirPath, $path, $data);
@@ -110,13 +112,14 @@ class Shipping implements GenerateInterface
      *
      * @param string $etcAdminthtmlDirPath
      * @param string $moduleDir
+     * @param array $data
      * @return void
      */
     public function createSystemXml($etcAdminthtmlDirPath, $moduleDir, $data)
     {
         $systemXml = $this->getSystemXmlFile($moduleDir);
         if (!$systemXml) {
-            $systemXml = $this->createSystemXmlFile($moduleDir);
+            $systemXml = $this->createSystemXmlFile($moduleDir, $data);
         }
         $this->addNewShippingData($systemXml, $data);
     }
@@ -133,7 +136,7 @@ class Shipping implements GenerateInterface
     {
         $configXml = $this->getConfigXmlFile($moduleDir);
         if (!$configXml) {
-            $configXml = $this->createConfigXmlFile($moduleDir);
+            $configXml = $this->createConfigXmlFile($moduleDir, $data);
         }
         $this->addConfigXmlData($configXml, $data);
     }
@@ -172,14 +175,16 @@ class Shipping implements GenerateInterface
      * Create system.xml
      *
      * @param string $moduleDir
+     * @param array $data
      * @return void
      */
-    private function createSystemXmlFile($moduleDir)
+    private function createSystemXmlFile($moduleDir, $data)
     {
         $systemXmlFilePath = $this->getSystemXmlFilePath($moduleDir);
         // @codingStandardsIgnoreStart
         $shippingXmlData = file_get_contents(dirname(dirname( dirname(__FILE__) )) . '/templates/system.xml.dist');
         // @codingStandardsIgnoreEnd
+        $shippingXmlData = str_replace('%module_name%', $data['module'], $shippingXmlData);
         $this->helper->saveFile($systemXmlFilePath, $shippingXmlData);
         return $systemXmlFilePath;
     }
@@ -188,14 +193,16 @@ class Shipping implements GenerateInterface
      * Create config.xml
      *
      * @param string $moduleDir
+     * @param array $data
      * @return void
      */
-    private function createConfigXmlFile($moduleDir)
+    private function createConfigXmlFile($moduleDir, $data)
     {
         $configXmlFilePath = $this->getConfigXmlFilePath($moduleDir);
         // @codingStandardsIgnoreStart
         $configXmlData = file_get_contents(dirname(dirname( dirname(__FILE__) )) . '/templates/config.xml.dist');
         // @codingStandardsIgnoreEnd
+        $configXmlData = str_replace('%module_name%', $data['module'], $configXmlData);
         $this->helper->saveFile($configXmlFilePath, $configXmlData);
         return $configXmlFilePath;
     }
@@ -290,7 +297,7 @@ class Shipping implements GenerateInterface
     }
 
     /**
-     * get module.xml template
+     * Get module.xml template
      *
      * @return string
      */
@@ -366,10 +373,10 @@ class Shipping implements GenerateInterface
     }
 
     /**
-     * create model class
+     * Create model class
      *
-     * @param [type] $dir
-     * @param [type] $data
+     * @param string $path
+     * @param array $data
      * @return void
      */
     public function createModelClass($path, $data)
@@ -380,7 +387,8 @@ class Shipping implements GenerateInterface
         $modelClass = $this->getShippingOfflineModelClassTemplate();
         $modelClass = str_replace('%code%', $data['code'], $modelClass);
         $modelClass = str_replace('%namespace%', $nameSpace, $modelClass);
-        Helper::createDirectory(
+        $modelClass = str_replace('%module_name%', $data['module'], $modelClass);
+        $this->helper->createDirectory(
             $modelDirPath = $path.DIRECTORY_SEPARATOR.'Model'.DIRECTORY_SEPARATOR.$className
         );
         // or write it to a file:
@@ -391,7 +399,7 @@ class Shipping implements GenerateInterface
     }
 
     /**
-     * get module.xml template
+     * Get module.xml template
      *
      * @return string
      */

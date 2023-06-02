@@ -35,14 +35,17 @@ class %class_name% extends Action
         parent::__construct($context);
     }
     
+    /**
+     * Execute the action
+     *
+     * @return PageFactory
+     */
     public function execute()
     {
         $resultPage = $this->_resultPageFactory->create();
         $pageLabel = "";
-        $resultPage->getConfig()->getTitle()->set(__());
+        $resultPage->getConfig()->getTitle()->set(__($pageLabel));
         $layout = $resultPage->getLayout();
-
         return $resultPage;
-
     }
 }

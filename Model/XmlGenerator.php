@@ -8,15 +8,16 @@
 
 namespace Webkul\CodeGenerator\Model;
 
-use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\DocBlock\Tag;
+use Laminas\Code\Generator\DocBlockGenerator;
+use Laminas\Code\Generator\DocBlock\Tag;
 use Magento\Framework\Simplexml\Element;
 use Magento\Framework\Simplexml\Config;
 
 /**
- * XmlGenerator class
+ * Generate Xml
  */
-class XmlGenerator {
+class XmlGenerator
+{
 
     /**
      * Add new node to parent node
@@ -26,6 +27,7 @@ class XmlGenerator {
      * @param null|array $nodeValue
      * @param array $attributes
      * @param bool $idAttribute
+     * @param bool $isUniqueNode
      * @return Element
      */
     public function addXmlNode(
@@ -36,7 +38,7 @@ class XmlGenerator {
         $idAttribute = false,
         $isUniqueNode = false
     ) {
-        if (!$parentNode instanceof Element){
+        if (!$parentNode instanceof Element) {
             $parentNode = new Element($parentNode);
         }
         if ($isUniqueNode) {
@@ -94,13 +96,14 @@ class XmlGenerator {
     public function removeNode($removeNode)
     {
         $node = dom_import_simplexml($removeNode);
-        $node->parentNode->removeChild($node); 
-        return $this; 
-    } 
+        $node->parentNode->removeChild($node);
+        return $this;
+    }
 
     /**
-     * replace a child Element with another Element
-     * @param Element $newChild 
+     * Replace a child Element with another Element
+     *
+     * @param Element $newChild
      * @param Element $oldChild
      * @return $this
      */
@@ -112,16 +115,18 @@ class XmlGenerator {
 
     /**
      * Utility method to get two dom elements
-     * And ensure that the second is part of the same document than the first given.
-     * @param Element $node1
-     * @param Element $node2
+     *
+     * And ensure that the second is part of the same document than the first given
+     *
+     * @param Element $newChild
+     * @param Element $oldChild
      * @return array
      */
     public function getSameTypeDomNodes(Element $newChild, Element $oldChild)
     {
         $newChild = dom_import_simplexml($newChild);
         $oldChild = dom_import_simplexml($oldChild);
-        if(! $newChild->ownerDocument->isSameNode($oldChild->ownerDocument) ) {
+        if (!$newChild->ownerDocument->isSameNode($oldChild->ownerDocument)) {
             $oldChild = $newChild->ownerDocument->importNode($oldChild, true);
         }
         return [$newChild, $oldChild];

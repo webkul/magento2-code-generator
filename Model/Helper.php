@@ -8,13 +8,20 @@
 
 namespace Webkul\CodeGenerator\Model;
 
-use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\DocBlock\Tag;
+use Laminas\Code\Generator\DocBlockGenerator;
+use Laminas\Code\Generator\DocBlock\Tag;
 use Magento\Framework\Simplexml\Element;
 use Magento\Framework\Simplexml\Config;
 
-class Helper {
-
+class Helper
+{
+    /**
+     * Save File
+     *
+     * @param string $path
+     * @param string $content
+     * @return void
+     */
     public function saveFile($path, $content)
     {
         file_put_contents(
@@ -23,6 +30,12 @@ class Helper {
         );
     }
 
+    /**
+     * Get Header
+     *
+     * @param string $moduleName
+     * @return void
+     */
     public function getHeadDocBlock($moduleName)
     {
         return DocBlockGenerator::fromArray([
@@ -58,24 +71,38 @@ class Helper {
         return isset($validTypes[$type]) ? $validTypes[$type] : 'string';
     }
 
-    public static function createDirectory($dirPath, $permission = 0777)
+    /**
+     * Create Diretory
+     *
+     * @param string $dirPath
+     * @param integer $permission
+     * @return void
+     */
+    public function createDirectory($dirPath, $permission = 0777)
     {
         if (!is_dir($dirPath)) {
             mkdir($dirPath, $permission, true);
         }
     }
 
+    /**
+     * Generate Template Files
+     *
+     * @param mixed $template
+     * @return void
+     */
     public function getTemplatesFiles($template)
     {
-        return file_get_contents(dirname( dirname(__FILE__) ) . DIRECTORY_SEPARATOR. $template);
+        return file_get_contents(dirname(dirname(__FILE__)). DIRECTORY_SEPARATOR. $template);
     }
 
     /**
      * Load Template File
-     * 
+     *
      * @param string $path
      * @param string $fileName
      * @param string $templatePath
+     * @param array $replace
      * @return string
      */
     public function loadTemplateFile($path, $fileName, $templatePath, $replace = [])
@@ -97,21 +124,25 @@ class Helper {
      * Get Di.xml file
      *
      * @param string $etcDirPath
+     * @param array $data
      * @return string
      */
-    public function getDiXmlFile($etcDirPath)
+    public function getDiXmlFile($etcDirPath, $data)
     {
-        return $this->loadTemplateFile($etcDirPath, 'di.xml', 'templates/di.xml.dist');
+        $replace = [
+            "module_name" => $data['module']
+        ];
+        return $this->loadTemplateFile($etcDirPath, 'di.xml', 'templates/di.xml.dist', $replace);
     }
     
     /**
      * Get class name
      *
-     * @param string $code
+     * @param string $name
      * @return string
      */
-     public function getClassName($name)
-     {
+    public function getClassName($name)
+    {
         $fields = explode('_', $name);
         $className = ucfirst($name);
         if (count($fields) > 1) {
@@ -126,5 +157,5 @@ class Helper {
             $className = $camelCase;
         }
         return $className;
-     }
+    }
 }

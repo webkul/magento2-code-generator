@@ -9,25 +9,37 @@
 namespace Webkul\CodeGenerator\Model\Generate;
 
 use Webkul\CodeGenerator\Api\GenerateInterface;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\DocBlock\Tag;
-use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\PropertyGenerator;
-use Zend\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\ClassGenerator;
+use Laminas\Code\Generator\DocBlockGenerator;
+use Laminas\Code\Generator\DocBlock\Tag;
+use Laminas\Code\Generator\MethodGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
+use Laminas\Code\Generator\ParameterGenerator;
 use Magento\Framework\Setup\Declaration\Schema\Declaration\ReaderComposite;
 use Webkul\CodeGenerator\Model\Helper;
 
 /**
- * Class Model.php
+ * Generate Model.php
  */
 class Model implements GenerateInterface
 {
 
+    /**
+     * @var ReaderComposite
+     */
     protected $readerComposite;
 
+    /**
+     * @var Helper
+     */
     protected $helper;
 
+    /**
+     * __construct function
+     *
+     * @param ReaderComposite $readerComposite
+     * @param Helper $helper
+     */
     public function __construct(
         ReaderComposite $readerComposite,
         Helper $helper
@@ -60,19 +72,20 @@ class Model implements GenerateInterface
             }
         }
 
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $modelDirPath = $path.DIRECTORY_SEPARATOR.'Model'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $rModelDirPath = $path.DIRECTORY_SEPARATOR.'Model'.DIRECTORY_SEPARATOR.'ResourceModel'
         );
-        Helper::createDirectory(
-            $collectionDirPath = $path.DIRECTORY_SEPARATOR.'Model'.DIRECTORY_SEPARATOR.'ResourceModel'.DIRECTORY_SEPARATOR.$modelName
+        $this->helper->createDirectory(
+            $collectionDirPath = $path.
+                DIRECTORY_SEPARATOR.'Model'.DIRECTORY_SEPARATOR.'ResourceModel'.DIRECTORY_SEPARATOR.$modelName
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $apiDataDirPath = $path.DIRECTORY_SEPARATOR.'Api'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $apiDataDirPath = $apiDataDirPath.DIRECTORY_SEPARATOR.'Data'
         );
 
@@ -85,11 +98,11 @@ class Model implements GenerateInterface
     }
 
     /**
-     * create api contract
+     * Create api contract
      *
      * @param string $dir
-     * @param [] $data
-     * @param [] $columns
+     * @param array $data
+     * @param array $columns
      * @return void
      */
     public function createApiClass($dir, $data, $columns)
@@ -127,7 +140,9 @@ class Model implements GenerateInterface
                         'shortDescription' => 'Set '.$fieldName,
                         'longDescription'  => "",
                         'tags'             => [
-                            new Tag\ParamTag($camelCase, [$this->helper->getReturnType($column['type'])]),
+                            new Tag\ParamTag($camelCase, [$this->helper->getReturnType(
+                                $column['type']
+                            )]),
                             new Tag\ReturnTag([
                                 'datatype'  => $nameSpace.'\\'.$data['name'].'Interface',
                             ]),
@@ -153,17 +168,17 @@ class Model implements GenerateInterface
         }
 
         try {
-            $apiClass = \Zend\Code\Generator\InterfaceGenerator::fromArray([
+            $apiClass = \Laminas\Code\Generator\InterfaceGenerator::fromArray([
                 'name' => $data['name'].'Interface',
                 'namespacename' => $nameSpace,
                 'docblock'  => [
-                    'shortDescription' => $data['name'].' Interface',
+                    'shortDescription' => $data['name'].' Model Interface',
                 ],
                 'constants' => $constants,
                 'methods' => $generatorsMethods
             ]);
 
-            $file = new \Zend\Code\Generator\FileGenerator([
+            $file = new \Laminas\Code\Generator\FileGenerator([
                 'classes'  => [$apiClass],
                 'docblock' => $this->helper->getHeadDocBlock($data['module'])
             ]);
@@ -174,17 +189,16 @@ class Model implements GenerateInterface
                 $file->generate()
             );
         } catch (\Exception $e) {
-            //throw new \Exception($e->getMessage());
-            // print_r($e->getTrace());
-            // die;
+            $ex = $e->getMessage();
         }
     }
 
     /**
-     * create model class
+     * Create model class
      *
-     * @param [type] $dir
-     * @param [type] $data
+     * @param string $dir
+     * @param array $data
+     * @param array $columns
      * @return void
      */
     public function createModelClass($dir, $data, $columns)
@@ -208,7 +222,7 @@ class Model implements GenerateInterface
                 'parameters' => [],
                 'body'       => '$this->_init('.$resourceClass.'::class);',
                 'docblock'   => DocBlockGenerator::fromArray([
-                    'shortDescription' => 'set resource model',
+                    'shortDescription' => 'Set resource model',
                     'longDescription'  => "",
                 ]),
             ]),
@@ -310,7 +324,7 @@ class Model implements GenerateInterface
         $modelClass->setName($data['name'])
         ->setNameSpaceName($nameSpace)
         ->setDocblock(DocBlockGenerator::fromArray([
-            'shortDescription' => $data['name'].' Class',
+            'shortDescription' => $data['name'].' Model Class',
         ]))
         ->addProperties([
             ['_cacheTag', $cacheTag, PropertyGenerator::FLAG_PROTECTED],
@@ -324,7 +338,7 @@ class Model implements GenerateInterface
         ->setImplementedInterfaces([$parentInterface, $apiInterface])
         ->addMethods($generatorsMethods);
 
-        $file = new \Zend\Code\Generator\FileGenerator([
+        $file = new \Laminas\Code\Generator\FileGenerator([
             'classes'  => [$modelClass],
             'docblock' => $docblock
         ]);
@@ -337,10 +351,10 @@ class Model implements GenerateInterface
     }
 
     /**
-     * generate resource model
+     * Generate resource model
      *
      * @param string $rModelDirPath
-     * @param [] $data
+     * @param array $data
      * @param string $identityColumn
      * @return void
      */
@@ -374,12 +388,12 @@ class Model implements GenerateInterface
         $modelClass->setName($data['name'])
         ->setNameSpaceName($nameSpace)
         ->setDocblock(DocBlockGenerator::fromArray([
-            'shortDescription' => $data['name'].' Class',
+            'shortDescription' => $data['name'].' RosourceModel Class',
         ]))
         ->setExtendedClass($parentClass)
         ->addMethods($generatorsMethods);
 
-        $file = new \Zend\Code\Generator\FileGenerator([
+        $file = new \Laminas\Code\Generator\FileGenerator([
             'classes'  => [$modelClass],
             'docblock' => $docblock
         ]);
@@ -392,10 +406,10 @@ class Model implements GenerateInterface
     }
 
     /**
-     * generate collection class
+     * Generate collection class
      *
      * @param string $collectionDirPath
-     * @param [] $data
+     * @param array $data
      * @param string $identityColumn
      * @return void
      */
@@ -404,14 +418,17 @@ class Model implements GenerateInterface
         $moduleNamespace = explode('_', $data['module']);
         $nameSpace = $moduleNamespace[0].'\\'.$moduleNamespace[1].'\\Model\\ResourceModel\\'.$data['name'];
         $parentClass = \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection::class;
-        $modelClass = $moduleNamespace[0].'\\'.$moduleNamespace[1].'\\Model\\'.$data['name'];
-        $resourceModel = $moduleNamespace[0].'\\'.$moduleNamespace[1].'\\Model\\ResourceModel\\'.$data['name'];
+        $modelClass = '\\'.$moduleNamespace[0].'\\'.$moduleNamespace[1].'\\Model\\'.$data['name'].'::class';
+        $resourceModel =
+        '\\'.$moduleNamespace[0].'\\'.$moduleNamespace[1].'\\Model\\ResourceModel\\'.$data['name'].'::class';
         $generatorsMethods = [
             // Method passed as array
             MethodGenerator::fromArray([
                 'name'       => '_construct',
                 'parameters' => [],
-                'body'       => '$this->_init("'.$modelClass.'", "'.$resourceModel.'");'."\n".'$this->_map[\'fields\'][\'entity_id\'] = \'main_table.'.$identityColumn.'\';',
+                'body'       => '$this->_init('."\n"."    ".$modelClass.','."\n"."    ".$resourceModel."\n"
+                .');'."\n".
+                    '$this->_map[\'fields\'][\'entity_id\'] = \'main_table.'.$identityColumn.'\';',
                 'docblock'   => DocBlockGenerator::fromArray([
                     'shortDescription' => 'Initialize resource model',
                     'longDescription'  => "",
@@ -430,7 +447,7 @@ class Model implements GenerateInterface
         $modelClass->setName('Collection')
         ->setNameSpaceName($nameSpace)
         ->setDocblock(DocBlockGenerator::fromArray([
-            'shortDescription' => 'Collection Class',
+            'shortDescription' => $data['name'].' Collection Class',
         ]))
         ->addProperties([
             ['_idFieldName', $identityColumn, PropertyGenerator::FLAG_PROTECTED],
@@ -438,7 +455,7 @@ class Model implements GenerateInterface
         ->setExtendedClass($parentClass)
         ->addMethods($generatorsMethods);
 
-        $file = new \Zend\Code\Generator\FileGenerator([
+        $file = new \Laminas\Code\Generator\FileGenerator([
             'classes'  => [$modelClass],
             'docblock' => $docblock
         ]);

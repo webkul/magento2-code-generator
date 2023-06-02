@@ -14,14 +14,11 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Customer\Model\Session as CustomerSession;
 
 /**
- * helper class.
+ * Helper Class.
  */
 class %helper_name% extends \Magento\Framework\App\Helper\AbstractHelper
 {
-
     /**
-     * Customer session.
-     *
      * @var CustomerSession
      */
     protected $_customerSession;
@@ -32,6 +29,7 @@ class %helper_name% extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_storeManager;
    
     /**
+     * __construct Function
      *
      * @param Session $customerSession
      * @param \Magento\Framework\App\Helper\Context $context

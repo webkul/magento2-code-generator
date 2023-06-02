@@ -12,8 +12,17 @@ use Magento\Framework\Exception\LocalizedException;
 
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
+    /**
+     * @var string
+     */
     private $validationRule = '/^[a-zA-Z]+[a-zA-Z0-9._]+$/';
 
+    /**
+     * Generate Module
+     *
+     * @param array $data
+     * @return array
+     */
     public function validate($data)
     {
         $type = $data['type'];

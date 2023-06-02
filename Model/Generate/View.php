@@ -16,12 +16,18 @@ use Magento\Framework\Simplexml\Config;
 use Magento\Framework\Simplexml\Element;
 
 /**
- * Class View
+ * Generate View
  */
 class View implements GenerateInterface
 {
+    /**
+     * @var Helper
+     */
     protected $helper;
     
+    /**
+     * @var XmlGeneratorFactory
+     */
     protected $xmlGenerator;
 
     /**
@@ -45,7 +51,7 @@ class View implements GenerateInterface
     {
         $moduleName = $data['module'];
         $path = $data['path'];
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $layoutPath = $path.DIRECTORY_SEPARATOR.'view'.DIRECTORY_SEPARATOR.$data['area'].DIRECTORY_SEPARATOR.
                 'layout'
         );
@@ -82,17 +88,22 @@ class View implements GenerateInterface
         if ($childPaths) {
             $blockPaths = $blockPaths.DIRECTORY_SEPARATOR.$childPaths;
         }
-        Helper::createDirectory($path.DIRECTORY_SEPARATOR.$blockPaths);
+        $this->helper->createDirectory($path.DIRECTORY_SEPARATOR.$blockPaths);
 
         $namespace = $moduleNamespace[0].'\\'.$moduleNamespace[1].'\\'.str_replace('/', '\\', $blockPaths);
         $className = $this->helper->getClassName($blockClass);
         $blockFile = $this->helper->getTemplatesFiles('templates/block/block.php.dist');
         $blockFile = str_replace('%class%', $className, $blockFile);
         $blockFile = str_replace(
-            '%namespace%', $namespace,
+            '%namespace%',
+            $namespace,
             $blockFile
         );
-        
+        $blockFile = str_replace(
+            '%module_name%',
+            $data['module'],
+            $blockFile
+        );
         $this->helper->saveFile(
             $path.DIRECTORY_SEPARATOR.$blockPaths.DIRECTORY_SEPARATOR.$className.'.php',
             $blockFile
@@ -113,7 +124,7 @@ class View implements GenerateInterface
         $templateFileName = $data['phtml'];
         $area = $data['area'];
 
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $templatePath = $path.DIRECTORY_SEPARATOR.
             'view'.DIRECTORY_SEPARATOR.
             $area.DIRECTORY_SEPARATOR.'templates'
@@ -121,6 +132,7 @@ class View implements GenerateInterface
 
         $templateFile = $this->helper->getTemplatesFiles('templates/block/deafult.phtml.dist');
         $templateFile = str_replace('%block%', $block, $templateFile);
+        $templateFile = str_replace('%module_name%', $data['module'], $templateFile);
 
         $this->helper->saveFile(
             $templatePath.DIRECTORY_SEPARATOR.$templateFileName,
@@ -153,9 +165,10 @@ class View implements GenerateInterface
     }
 
     /**
-     * add di xml data
+     * Add di xml data
      *
-     * @param string $etcDirPath
+     * @param string $layoutPath
+     * @param mixed $block
      * @param array $data
      * @return void
      */
@@ -163,10 +176,14 @@ class View implements GenerateInterface
     {
         $layoutType = $data['layout'];
         $templateFile = $data['phtml'];
+        $replace = [
+            "module_name" => $data['module']
+        ];
         $xmlFile = $this->helper->loadTemplateFile(
             $layoutPath,
             $data['name'].'.xml',
-            'templates/layout.xml.dist'
+            'templates/layout.xml.dist',
+            $replace
         );
         $xmlObj = new Config($xmlFile);
 
@@ -176,14 +193,17 @@ class View implements GenerateInterface
             unset($node[0]);
         }
         
-        // add layout attribute
-        if ($layoutType && $layoutType != '1column') {
-            $xmlObj->getNode()->addAttribute('layout', $layoutType);
+        $layoutXml = $xmlObj->getNode();
+        if ($data['area'] != 'adminhtml') {
+            // add layout attribute
+            if ($layoutType && $layoutType != '1column') {
+                $xmlObj->getNode()->addAttribute('layout', $layoutType);
+            }
         }
         
-        $layoutXml = $xmlObj->getNode();
+        $body = $this->xmlGenerator->addXmlNode($layoutXml, 'body');
         $referenceContainer = $this->xmlGenerator->addXmlNode(
-            $layoutXml,
+            $body,
             'referenceContainer',
             '',
             ['name' => 'content'],
