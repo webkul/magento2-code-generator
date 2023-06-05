@@ -395,7 +395,7 @@ class UiForm implements GenerateInterface
         $this->xmlGenerator->addXmlNode(
             $settings,
             'previewTmpl',
-            $data['module'].'\\'.'image-preview.html'
+            $data['module'].'/'.'image-preview.html'
         );
         $uploaderConfig = $this->xmlGenerator->addXmlNode(
             $settings,
