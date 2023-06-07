@@ -84,67 +84,71 @@ class Generate extends Command
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $data = $input->getOptions();
+        $module = $input->getArgument('module');
+        
+        if (empty($module)) {
+            
+            /** @var \Symfony\Component\Console\Helper\QuestionHelper $questionHelper */
+            $questionHelper = $this->getHelper('question');
 
-        /** @var \Symfony\Component\Console\Helper\QuestionHelper $questionHelper */
-        $questionHelper = $this->getHelper('question');
-
-        switch ($data['type']) {
-            case "new-module":
-                $this->generateNewModule($input, $output, $questionHelper);
-                break;
-            case "ui_component_listing":
-                $this->generateUiComponentListing($input, $output, $questionHelper);
-                break;
-            case "create-view":
-                $this->generateView($input, $output, $questionHelper);
-                break;
-            case "controller":
-                $this->generateController($input, $output, $questionHelper);
-                break;
-            case "model":
-                $this->generateModel($input, $output, $questionHelper);
-                break;
-            case "repository":
-                $this->generateRepository($input, $output, $questionHelper);
-                break;
-            case "helper":
-                $this->generateHelper($input, $output, $questionHelper);
-                break;
-            case "plugin":
-                $this->generatePlugin($input, $output, $questionHelper);
-                break;
-            case "observer":
-                $this->generateObserver($input, $output, $questionHelper);
-                break;
-            case "cron":
-                $this->generateCron($input, $output, $questionHelper);
-                break;
-            case "logger":
-                $this->generateLogger($input, $output, $questionHelper);
-                break;
-            case "command":
-                $this->generateCommand($input, $output, $questionHelper);
-                break;
-            case "rewrite":
-                $this->generateOverrideClass($input, $output, $questionHelper);
-                break;
-            case "email":
-                $this->generateEmailTemplate($input, $output, $questionHelper);
-                break;
-            case "payment":
-                $this->generatePaymentMethod($input, $output, $questionHelper);
-                break;
-            case "shipping":
-                $this->generateShippingMethod($input, $output, $questionHelper);
-                break;
-            case "unit-test":
-                $this->generateUnitTest($input, $output, $questionHelper);
-                break;
-            case "ui_component_form":
-                $this->generateUiComponentForm($input, $output, $questionHelper);
-                break;
-            default:
-                throw new ValidationException(__('Invalid type.'));
+            switch ($data['type']) {
+                case "new-module":
+                    $this->generateNewModule($input, $output, $questionHelper);
+                    break;
+                case "ui_component_listing":
+                    $this->generateUiComponentListing($input, $output, $questionHelper);
+                    break;
+                case "create-view":
+                    $this->generateView($input, $output, $questionHelper);
+                    break;
+                case "controller":
+                    $this->generateController($input, $output, $questionHelper);
+                    break;
+                case "model":
+                    $this->generateModel($input, $output, $questionHelper);
+                    break;
+                case "repository":
+                    $this->generateRepository($input, $output, $questionHelper);
+                    break;
+                case "helper":
+                    $this->generateHelper($input, $output, $questionHelper);
+                    break;
+                case "plugin":
+                    $this->generatePlugin($input, $output, $questionHelper);
+                    break;
+                case "observer":
+                    $this->generateObserver($input, $output, $questionHelper);
+                    break;
+                case "cron":
+                    $this->generateCron($input, $output, $questionHelper);
+                    break;
+                case "logger":
+                    $this->generateLogger($input, $output, $questionHelper);
+                    break;
+                case "command":
+                    $this->generateCommand($input, $output, $questionHelper);
+                    break;
+                case "rewrite":
+                    $this->generateOverrideClass($input, $output, $questionHelper);
+                    break;
+                case "email":
+                    $this->generateEmailTemplate($input, $output, $questionHelper);
+                    break;
+                case "payment":
+                    $this->generatePaymentMethod($input, $output, $questionHelper);
+                    break;
+                case "shipping":
+                    $this->generateShippingMethod($input, $output, $questionHelper);
+                    break;
+                case "unit-test":
+                    $this->generateUnitTest($input, $output, $questionHelper);
+                    break;
+                case "ui_component_form":
+                    $this->generateUiComponentForm($input, $output, $questionHelper);
+                    break;
+                default:
+                    throw new ValidationException(__('Invalid type.'));
+            }
         }
     }
 
