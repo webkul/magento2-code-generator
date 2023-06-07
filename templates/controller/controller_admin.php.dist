@@ -18,6 +18,9 @@ class %class_name% extends Action
 {
     public const ADMIN_RESOURCE = "%resource_name%";
 
+    /**
+     * @var PageFactory
+     */
     protected $resultPageFactory;
 
     /**
@@ -25,6 +28,13 @@ class %class_name% extends Action
      */
     protected $resultForwardFactory;
 
+    /**
+     * initialization
+     *
+     * @param Context $context
+     * @param PageFactory $resultPageFactory
+     * @param \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
+     */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
@@ -35,8 +45,15 @@ class %class_name% extends Action
         $this->resultForwardFactory = $resultForwardFactory;
     }
 
+    /**
+     * Execute the action
+     *
+     * @return PageFactory
+     */
     public function execute()
     {
-        
+        $resultPage = $this->resultPageFactory->create();
+        $resultPage->getConfig()->getTitle()->prepend(__(''));
+        return $resultPage;
     }
 }

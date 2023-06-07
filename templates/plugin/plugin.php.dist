@@ -8,7 +8,6 @@
  * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
  * @license    https://store.webkul.com/license.html
  */
-
 namespace %namespace%\Plugin;
 
 /**
@@ -16,6 +15,9 @@ namespace %namespace%\Plugin;
  */
 class %plugin_name%
 {
+    /**
+     * __construct Function
+     */
     public function __construct(
         
     ) {

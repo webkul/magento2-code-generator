@@ -16,10 +16,13 @@ use Magento\Framework\Simplexml\Element;
 use Webkul\CodeGenerator\Model\XmlGeneratorFactory;
 
 /**
- * Class controller
+ * Generate controller
  */
 class Controller implements GenerateInterface
 {
+    /**
+     * @var CodeHelper
+     */
     protected $helper;
 
     /**
@@ -32,6 +35,13 @@ class Controller implements GenerateInterface
      */
     protected $xmlGenerator;
 
+    /**
+     * __construct function
+     *
+     * @param CodeHelper $helper
+     * @param XmlGeneratorFactory $xmlGeneratorFactory
+     * @param \Magento\Framework\Filesystem\Driver\File $fileDriver
+     */
     public function __construct(
         CodeHelper $helper,
         XmlGeneratorFactory $xmlGeneratorFactory,
@@ -51,7 +61,7 @@ class Controller implements GenerateInterface
         $path = $data['path'];
         $area = $data['area'];
 
-        CodeHelper::createDirectory(
+        $this->helper->createDirectory(
             $controllerPath = $path
         );
 
@@ -60,7 +70,7 @@ class Controller implements GenerateInterface
         } else {
             $this->createAdminController($controllerPath, $data);
         }
-        CodeHelper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $data['module_path'] . DIRECTORY_SEPARATOR . 'etc' . DIRECTORY_SEPARATOR . $area
         );
         $this->createRoutesXmlFile($etcDirPath, $data);
@@ -69,7 +79,7 @@ class Controller implements GenerateInterface
     }
 
     /**
-     * create front controller
+     * Create front controller
      *
      * @param string $dir
      * @param array $data
@@ -98,7 +108,7 @@ class Controller implements GenerateInterface
     }
 
     /**
-     * create admin controller
+     * Create admin controller
      *
      * @param string $dir
      * @param array $data
@@ -115,7 +125,7 @@ class Controller implements GenerateInterface
         $nameSpace = implode("\\", $nameArray);
         $actionPath = explode("/", $pathParts[1]);
 
-        $nameSpace = $nameSpace . "\\Controller\\Adminhtml\\" . implode("\\", $actionPath);
+        $nameSpace = $nameSpace . "\\Controller\\" . implode("\\", $actionPath);
 
         $controllerFile = $this->helper->getTemplatesFiles('templates/controller/controller_admin.php.dist');
         $controllerFile = str_replace('%module_name%', $data['module'], $controllerFile);
@@ -154,6 +164,7 @@ class Controller implements GenerateInterface
         $routeName = $data['router'];
 
         $xmlData = $this->helper->getTemplatesFiles('templates/routes.xml.dist');
+        $xmlData = str_replace('%module_name%', $data['module'], $xmlData);
         $this->helper->saveFile($xmlFilePath, $xmlData);
 
         $xmlObj = new Config($xmlFilePath);

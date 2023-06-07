@@ -81,3 +81,13 @@ If you have created the db_schema file for the table in the above command, it wi
 - To create email template
 
 ``` php bin/magento generate:code Module_Name --type=email --name="Email Label" [--id="module_email_test"] [--template="test"]  ```
+
+- To create Ui Grid Listing
+
+``` php bin/magento generate:code Module_Name --type=ui_component_listing --name="test_test" [--columns_name="test_column"] [--model_class_name="Model Class Name"][--table="Table Name"]   ```
+
+- To create Ui Component Form
+
+``` php bin/magento generate:code Module_Name --type=ui_component_form --name="test_test_form" [--provider_name="Data Provider Name"] [--model_class_name="Model Class Name"] [--fieldset_name="Field Set Name"] [--fieldset_label="Field Set Label"] [--submit_url="Form Submit Url"] [--form_field="Form Fields in Json Format"] ```
+
+```  Ex : form_field = '[{"field_name": "test_input_field", "field_type": "input", "field_label": "Test Input Field", "is_required": "true"}, {"field_name": "test_image_field", "field_type": "imageUploader", "field_label": "Image Uploader", "is_required": "false", "image_upload_url": "test/test/upload"}]' ``` 

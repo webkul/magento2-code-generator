@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   %module_name%
+ * @author    Webkul
+ * @copyright Copyright (c)  Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">%form_name%.%form_name%_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">%form_label%</item>
+        <item name="reverseMetadataMerge" xsi:type="boolean">true</item>
+    </argument>
+    <settings>
+        <layout>
+            <navContainerName>left</navContainerName>
+            <type>tabs</type>
+        </layout>
+        <buttons>
+            <button name="save" class=%save_botton%/>
+            <button name="back" class=%back_button%/>
+        </buttons>
+        <deps>
+            <dep>%form_name%.%form_name%_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="%form_name%_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+                <item name="update_url" xsi:type="url" path="mui/index/render"/>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="%submit_url%"/>
+        </settings>
+        <dataProvider class="%data_provider%" name="%form_name%_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+</form>

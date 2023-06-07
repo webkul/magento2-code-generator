@@ -10,23 +10,33 @@ namespace Webkul\CodeGenerator\Model\Generate;
 
 use Webkul\CodeGenerator\Model\Helper as CodeHelper;
 use Webkul\CodeGenerator\Api\GenerateInterface;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\DocBlock\Tag;
-use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\PropertyGenerator;
-use Zend\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\ClassGenerator;
+use Laminas\Code\Generator\DocBlockGenerator;
+use Laminas\Code\Generator\DocBlock\Tag;
+use Laminas\Code\Generator\MethodGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
+use Laminas\Code\Generator\ParameterGenerator;
 
 /**
- * Class UnitTestCase
+ * Generate UnitTestCase
  */
 class UnitTestCase implements GenerateInterface
 {
-
+    /**
+     * @var CodeHelper
+     */
     protected $helper;
 
+    /**
+     * @var object
+     */
     protected $docblock;
 
+    /**
+     * __construct function
+     *
+     * @param CodeHelper $helper
+     */
     public function __construct(
         CodeHelper $helper
     ) {
@@ -40,7 +50,7 @@ class UnitTestCase implements GenerateInterface
     {
         $path = $data['path'];
         $this->docblock = $this->helper->getHeadDocBlock($data['module']);
-        CodeHelper::createDirectory(
+        $this->helper->createDirectory(
             $unitTestRootDir = $path.DIRECTORY_SEPARATOR.'Test'.DIRECTORY_SEPARATOR.'Unit'
         );
        
@@ -50,7 +60,7 @@ class UnitTestCase implements GenerateInterface
     }
 
     /**
-     * generate unit test cases
+     * Generate unit test cases
      *
      * @param string $dir
      * @param array $data
@@ -67,8 +77,7 @@ class UnitTestCase implements GenerateInterface
         $files = [];
         foreach ($dirs as $dir) {
             $dirName = basename($dir);
-            if ( in_array(strtolower($dirName), ['controller', 'helper', 'block', 'model']) )
-            {
+            if (in_array(strtolower($dirName), ['controller', 'helper', 'block', 'model'])) {
                 $this->getDirContents($dir, $files);
             }
         }
@@ -92,9 +101,9 @@ class UnitTestCase implements GenerateInterface
     }
 
     /**
-     * generate unit test cases
+     * Generate unit test cases
      *
-     * @param [] $methods
+     * @param array $methods
      * @param string $path
      * @return void
      */
@@ -111,21 +120,24 @@ class UnitTestCase implements GenerateInterface
             unset($pathParts[count($pathParts)+1]);
            
             $unitTestPath = implode(DIRECTORY_SEPARATOR, $pathParts);
-            CodeHelper::createDirectory(
+            $this->helper->createDirectory(
                 $path.DIRECTORY_SEPARATOR.'Test'.DIRECTORY_SEPARATOR.'Unit'.DIRECTORY_SEPARATOR.$unitTestPath
             );
             $nameSpace = $vendor."\\".$module."\\"."Test\\Unit\\".implode("\\", $pathParts);
             $classCode = $this->generateTestClass($nameSpace, $fileName);
             $this->helper->saveFile(
-                $path.DIRECTORY_SEPARATOR.'Test'.DIRECTORY_SEPARATOR.'Unit'.DIRECTORY_SEPARATOR.$unitTestPath.DIRECTORY_SEPARATOR.$fileName.'.php',
+                $path.DIRECTORY_SEPARATOR.'Test'.DIRECTORY_SEPARATOR.'Unit'.DIRECTORY_SEPARATOR.
+                    $unitTestPath.DIRECTORY_SEPARATOR.$fileName.'.php',
                 $classCode->generate()
             );
         }
     }
 
     /**
-     * genearte class
+     * Genearte class
      *
+     * @param string $nameSpace
+     * @param string $className
      * @return void
      */
     public function generateTestClass($nameSpace, $className)
@@ -159,13 +171,20 @@ class UnitTestCase implements GenerateInterface
         ])
         ->setExtendedClass(\PHPUnit\Framework\TestCase::class)
         ->addMethods($generatorsMethods);
-        $file = new \Zend\Code\Generator\FileGenerator([
+        $file = new \Laminas\Code\Generator\FileGenerator([
             'classes'  => [$unitTestClass],
             'docblock' => $this->docblock
         ]);
         return $file;
     }
 
+    /**
+     * Get Content
+     *
+     * @param string $dir
+     * @param array $results
+     * @return void
+     */
     public function getDirContents($dir, &$results = [])
     {
         $files = scandir($dir);

@@ -1,0 +1,72 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   %module_name%
+ * @author    Webkul
+ * @copyright Copyright (c)  Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+namespace %namespace%;
+
+use Magento\Ui\DataProvider\AbstractDataProvider;
+use %collection%Factory;
+
+class %class_name% extends AbstractDataProvider
+{
+    /**
+     * @var array
+     */
+    public $loadedData;
+
+    /**
+     * @var CollectionFactory
+     */
+    protected $collection;
+
+    /**
+     * __construct function
+     *
+     * @param string $name
+     * @param string $primaryFieldName
+     * @param string $requestFieldName
+     * @param CollectionFactory $collectionFactory
+     * @param Magento\Store\Model\StoreManagerInterface $storemanager
+     * @param array $meta
+     * @param array $data
+     */
+    public function __construct(
+        $name,
+        $primaryFieldName,
+        $requestFieldName,
+        CollectionFactory $collectionFactory,
+        \Magento\Store\Model\StoreManagerInterface $storemanager,
+        array $meta = [],
+        array $data = []
+    ) {
+        $this->storeManager = $storemanager;
+        $this->collection = $collectionFactory->create();
+        parent::__construct(
+            $name,
+            $primaryFieldName,
+            $requestFieldName,
+            $meta,
+            $data
+        );
+    }
+
+    /**
+     * Get data
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        if (isset($this->loadedData)) {
+            return $this->loadedData;
+        }
+        $this->loadedData = $this->collection->getItems();
+        return $this->loadedData;
+    }
+}

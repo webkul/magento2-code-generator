@@ -16,12 +16,18 @@ use Magento\Framework\Simplexml\Config;
 use Magento\Framework\Simplexml\Element;
 
 /**
- * Class Logger
+ * Generate Logger
  */
 class Logger implements GenerateInterface
 {
+    /**
+     * @var Helper
+     */
     protected $helper;
     
+    /**
+     * @var XmlGeneratorFactory
+     */
     protected $xmlGenerator;
 
     /**
@@ -45,11 +51,11 @@ class Logger implements GenerateInterface
     {
         $path = $data['path'];
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $loggerDirPath = $path.DIRECTORY_SEPARATOR.'Logger'
         );
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
         
@@ -61,7 +67,7 @@ class Logger implements GenerateInterface
     }
 
     /**
-     * create Logger class
+     * Create Logger class
      *
      * @param string $dir
      * @param array $data
@@ -82,7 +88,7 @@ class Logger implements GenerateInterface
     }
 
     /**
-     * create Handler class
+     * Create Handler class
      *
      * @param string $dir
      * @param array $data
@@ -104,7 +110,7 @@ class Logger implements GenerateInterface
     }
 
     /**
-     * add di xml data
+     * Add di xml data
      *
      * @param string $etcDirPath
      * @param array $data
@@ -116,38 +122,43 @@ class Logger implements GenerateInterface
         $data['logger-class'] = str_replace('_', '\\', $moduleName).'\\'.'Logger'.'\\'.'Logger';
         $data['handler-class'] = str_replace('_', '\\', $moduleName).'\\'.'Logger'.'\\'.'Handler';
         $data['log-handler'] = lcfirst(str_replace('_', '', $moduleName)).'LogHandler';
-        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath);
+        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath, $data);
         $xmlObj = new Config($diXmlFile);
         $diXml = $xmlObj->getNode();
-        $typeNode = $this->xmlGenerator->addXmlNode($diXml, 'type', '', ['name'=>$data['handler-class']]);
+        $typeNode = $this->xmlGenerator->addXmlNode(
+            $diXml,
+            'type',
+            '',
+            ['name'=>$data['handler-class']]
+        );
         $argsNode = $this->xmlGenerator->addXmlNode($typeNode, 'arguments');
         $this->xmlGenerator->addXmlNode(
-                                $argsNode, 
-                                'argument', 
-                                'Magento\Framework\Filesystem\Driver\File', 
-                                ['name'=>'filesystem', 'xsi:type'=>'object']
-                            );
+            $argsNode,
+            'argument',
+            \Magento\Framework\Filesystem\Driver\File::class,
+            ['name'=>'filesystem', 'xsi:type'=>'object']
+        );
 
         $typeNode = $this->xmlGenerator->addXmlNode($diXml, 'type', '', ['name'=>$data['logger-class']]);
         $argsNode = $this->xmlGenerator->addXmlNode($typeNode, 'arguments');
         $this->xmlGenerator->addXmlNode(
-                                $argsNode, 
-                                'argument', 
-                                $data['log-handler'], 
-                                ['name'=>'name', 'xsi:type'=>'string']
-                            );
+            $argsNode,
+            'argument',
+            $data['log-handler'],
+            ['name'=>'name', 'xsi:type'=>'string']
+        );
         $argNode = $this->xmlGenerator->addXmlNode(
-                                $argsNode, 
-                                'argument', 
-                                '', 
-                                ['name'=>'handlers', 'xsi:type'=>'array']
-                            );
+            $argsNode,
+            'argument',
+            '',
+            ['name'=>'handlers', 'xsi:type'=>'array']
+        );
         $this->xmlGenerator->addXmlNode(
-                                $argNode, 
-                                'item', 
-                                $data['handler-class'], 
-                                ['name'=>'system', 'xsi:type'=>'object']
-                            );
+            $argNode,
+            'item',
+            $data['handler-class'],
+            ['name'=>'system', 'xsi:type'=>'object']
+        );
         $xmlData = $this->xmlGenerator->formatXml($diXml->asXml());
         $this->helper->saveFile($diXmlFile, $xmlData);
     }

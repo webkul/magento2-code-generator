@@ -16,10 +16,13 @@ use Magento\Framework\Simplexml\Config;
 use Magento\Framework\Simplexml\Element;
 
 /**
- * Class Plugin
+ * Generate Plugin
  */
 class Plugin implements GenerateInterface
 {
+    /**
+     * @var Helper
+     */
     protected $helper;
 
     /**
@@ -49,18 +52,19 @@ class Plugin implements GenerateInterface
         $moduleName = $data['module'];
         $path = $data['path'];
         $data['plugin-name'] = strtolower($moduleName.'-'.$data['name'].'-'.'plugin');
-        $data['plugin-class'] = str_replace('_', '\\', $moduleName).'\\'.'Plugin'.'\\'.$data['name'];
+        $data['plugin-class'] =
+            str_replace('_', '\\', $moduleName).'\\'.'Plugin'.'\\'.$data['name'];
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $pluginDirPath = $path.DIRECTORY_SEPARATOR.'Plugin'
         );
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
         
         if ($data['area']!==null) {
-            Helper::createDirectory(
+            $this->helper->createDirectory(
                 $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.$data['area']
             );
         }
@@ -72,7 +76,7 @@ class Plugin implements GenerateInterface
     }
 
     /**
-     * create Plugin class
+     * Create Plugin class
      *
      * @param string $dir
      * @param array $data
@@ -95,7 +99,7 @@ class Plugin implements GenerateInterface
     }
 
     /**
-     * add di xml data
+     * Add di xml data
      *
      * @param string $etcDirPath
      * @param array $data
@@ -106,11 +110,16 @@ class Plugin implements GenerateInterface
         $pluginType = $data['plugin-type'];
         $pluginName = $data['plugin-name'];
         $pluginClass = $data['plugin-class'];
-        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath);
+        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath, $data);
         $xmlObj = new Config($diXmlFile);
         $diXml = $xmlObj->getNode();
         $typeNode = $this->xmlGenerator->addXmlNode($diXml, 'type', '', ['name'=>$pluginType]);
-        $this->xmlGenerator->addXmlNode($typeNode, 'plugin', '', ['name'=>$pluginName, 'type'=>$pluginClass, 'sortOrder'=>1]);
+        $this->xmlGenerator->addXmlNode(
+            $typeNode,
+            'plugin',
+            '',
+            ['name'=>$pluginName, 'type'=>$pluginClass, 'sortOrder'=>1]
+        );
         $xmlData = $this->xmlGenerator->formatXml($diXml->asXml());
         $this->helper->saveFile($diXmlFile, $xmlData);
     }

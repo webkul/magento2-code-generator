@@ -11,37 +11,40 @@ namespace Webkul\CodeGenerator\Model;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class OptionsPool {
-
+class OptionsPool
+{
+    /**
+     * Get Options
+     *
+     * @return void
+     */
     public function getOptions()
     {
-
        //general options
-
         $options = [
             new InputArgument(
                 'module',
                 InputArgument::OPTIONAL,
-                'provide your module name like Vendoe_ModuleName'
+                'Provide your module name like Vendor_ModuleName'
             ),
 
             new InputOption(
                 'type',
                 't',
                 InputArgument::OPTIONAL,
-                'define type of code to be generated like model, controller, helper'
+                'Define type of code to be generated like model, controller, helper'
             ),
             new InputOption(
                 'path',
                 'p',
                 InputArgument::OPTIONAL,
-                'provide relative path to your module folder to generate code'
+                'Provide relative path to your module folder to generate code'
             ),
             new InputOption(
                 'name',
                 'name',
                 InputArgument::OPTIONAL,
-                'enter model name or class name that need to be generated'
+                'Enter model name or class name that need to be generated'
             ),
 
             //model specific
@@ -50,7 +53,7 @@ class OptionsPool {
                 'table',
                 'ta',
                 InputArgument::OPTIONAL,
-                'table name for the model only required for model generation'
+                'Enter name for the model only required for model generation'
             ),
 
             //repository specific
@@ -59,14 +62,14 @@ class OptionsPool {
                 'model-class',
                 'mc',
                 InputArgument::OPTIONAL,
-                'enter model class with namespace'
+                'Enter model class with namespace'
             ),
 
             new InputOption(
                 'collection-class',
                 'cc',
                 InputArgument::OPTIONAL,
-                'enter collection class with namespace'
+                'Enter collection class with namespace'
             ),
             
           // shipping method specific
@@ -75,7 +78,7 @@ class OptionsPool {
                 'shipping-code',
                 'shipping-code',
                 InputArgument::OPTIONAL,
-                'enter shipping method code.'
+                'Enter shipping method code.'
             ),
           
             //controller specific
@@ -83,21 +86,21 @@ class OptionsPool {
                 'area',
                 'ar',
                 InputArgument::OPTIONAL,
-                'enter area frontend or adminhtml'
+                'Enter area frontend or adminhtml'
             ),
 
             new InputOption(
                 'router',
                 'r',
                 InputArgument::OPTIONAL,
-                'enter router name'
+                'Enter router name'
             ),
 
             new InputOption(
                 'resource',
                 're',
                 InputArgument::OPTIONAL,
-                'enter resource name for admin user authorization'
+                'Enter resource name for admin user authorization'
             ),
 
             //plugin specific
@@ -105,7 +108,7 @@ class OptionsPool {
                 'plugin',
                 'plugin',
                 InputArgument::OPTIONAL,
-                'enter plugin type class'
+                'Enter plugin type class'
             ),
 
             //observer specific
@@ -113,7 +116,7 @@ class OptionsPool {
                 'event',
                 'event',
                 InputArgument::OPTIONAL,
-                'enter event name'
+                'Enter event name'
             ),
 
             // payment method specific
@@ -121,7 +124,7 @@ class OptionsPool {
                 'payment-code',
                 'payment-code',
                 InputArgument::OPTIONAL,
-                'enter payment method code.'
+                'Enter payment method code.'
             ),
 
             //cron specific
@@ -137,19 +140,19 @@ class OptionsPool {
                 'block-class',
                 'bc',
                 InputArgument::OPTIONAL,
-                'enter block class name'
+                'Enter block class name'
             ),
             new InputOption(
                 'template',
                 'template',
                 InputArgument::OPTIONAL,
-                'enter phtml template file name'
+                'Enter phtml template file name'
             ),
             new InputOption(
                 'layout-type',
                 'lt',
                 InputArgument::OPTIONAL,
-                'enter layout type like 1column'
+                'Enter layout type like 1column'
             ),
 
             //command specific
@@ -157,7 +160,7 @@ class OptionsPool {
                 'command',
                 'command',
                 InputArgument::OPTIONAL,
-                'enter command'
+                'Enter command'
             ),
 
             //rewrite specific
@@ -165,19 +168,135 @@ class OptionsPool {
                 'rewrite',
                 'rewrite',
                 InputArgument::OPTIONAL,
-                'enter class to be overridden'
+                'Enter class to be overridden'
             ),
 
             new InputOption(
                 'id',
                 'id',
                 InputArgument::OPTIONAL,
-                'enter identifier'
-            )
+                'Enter identifier'
+            ),
 
+            /* Model Class Name for generate ui listing */
+            new InputOption(
+                'model_class_name',
+                'model_class_name',
+                InputArgument::OPTIONAL,
+                'Enter model class name for generate ui component'
+            ),
+
+            new InputOption(
+                'columns_name',
+                'columns_name',
+                InputArgument::OPTIONAL,
+                'Enter columns name for generate ui component grid column'
+            ),
+
+            /* Add Vendor Name */
+            new InputOption(
+                'vendor_name',
+                'vendor_name',
+                InputArgument::OPTIONAL,
+                'Enter vendor name for generate module'
+            ),
+
+            /* Add Module Name */
+            new InputOption(
+                'module_name',
+                'module_name',
+                InputArgument::OPTIONAL,
+                'Enter module name for generate module'
+            ),
+
+            /* Add Module Name */
+            new InputOption(
+            'provider_name',
+            'provider_name',
+            InputArgument::OPTIONAL,
+            'Enter Data Provider name for Ui component form'
+            ),
+
+            /* Add Fieldset Name */
+            new InputOption(
+                'fieldset_name',
+                'fieldset_name',
+                InputArgument::OPTIONAL,
+                'Enter Fieldset name for Ui component form'
+            ),
+
+            /* Add Fieldset Label */
+            new InputOption(
+                'fieldset_label',
+                'fieldset_label',
+                InputArgument::OPTIONAL,
+                'Enter Fieldset Label for Ui component form'
+            ),
+
+            /* Add Fieldset Label */
+            new InputOption(
+                'field_label',
+                'field_label',
+                InputArgument::OPTIONAL,
+                'Enter Field Label for Ui component form'
+            ),
+
+            /* Add Fieldset Label */
+            new InputOption(
+                'field_name',
+                'field_name',
+                InputArgument::OPTIONAL,
+                'Enter Field Label for Ui component form'
+            ),
+
+            /* Add Fieldset Label */
+            new InputOption(
+                'field_type',
+                'field_type',
+                InputArgument::OPTIONAL,
+                'Enter Field Type for Ui component form'
+            ),
+
+            /* Add Fieldset Label */
+            new InputOption(
+                'enter_new_field',
+                'enter_new_field',
+                InputArgument::OPTIONAL,
+                'Enter New Field for Ui component form'
+            ),
+            /* Add Fieldset Label */
+            new InputOption(
+                'form_field',
+                'form_field',
+                InputArgument::OPTIONAL,
+                'Add New Field for Ui component form'
+            ),
+
+            /* Add Fieldset Label */
+            new InputOption(
+                'is_required',
+                'is_required',
+                InputArgument::OPTIONAL,
+                'Add New Field is Required or Not for Ui component form'
+            ),
+
+            /* Add Form Url */
+            new InputOption(
+                'submit_url',
+                'submit_url',
+                InputArgument::OPTIONAL,
+                'Submit Url for Ui component form'
+            ),
+
+            /* Add Form Image Upload Url */
+            new InputOption(
+                'image_upload_url',
+                'image_upload_url',
+                InputArgument::OPTIONAL,
+                'Image Upload Url for Ui component form'
+            )
         ];
 
         return $options;
     }
-
 }

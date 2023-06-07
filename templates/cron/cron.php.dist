@@ -8,7 +8,6 @@
  * @copyright  Copyright (c) Webkul Software Private Limited (https://webkul.com)
  * @license    https://store.webkul.com/license.html
  */
-
 namespace %namespace%\Cron;
 
 /**
@@ -16,13 +15,23 @@ namespace %namespace%\Cron;
  */
 class %cron_name%
 {
+    /**
+     * initialization
+     *
+     */
     public function __construct(
         
     ) {
         
     }
 
-    public function execute() {
-
+    /**
+     * Execute the Cron
+     *
+     * @return void
+     */
+    public function execute()
+    {
+        // write your code here
     }
 }

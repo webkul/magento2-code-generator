@@ -16,12 +16,18 @@ use Magento\Framework\Simplexml\Config;
 use Magento\Framework\Simplexml\Element;
 
 /**
- * Class Rewrite
+ * Generate Rewrite
  */
 class Rewrite implements GenerateInterface
 {
+    /**
+     * @var Helper
+     */
     protected $helper;
     
+    /**
+     * @var XmlGeneratorFactory
+     */
     protected $xmlGenerator;
 
     /**
@@ -45,11 +51,11 @@ class Rewrite implements GenerateInterface
     {
         $path = $data['path'];
 
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $rewriteDirPath = $path.DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $data["rewrite-path"])
         );
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
 
@@ -60,7 +66,7 @@ class Rewrite implements GenerateInterface
     }
 
     /**
-     * create Rewrite class
+     * Create Rewrite class
      *
      * @param string $dir
      * @param array $data
@@ -84,7 +90,7 @@ class Rewrite implements GenerateInterface
     }
 
     /**
-     * add di xml data
+     * Add di xml data
      *
      * @param string $etcDirPath
      * @param array $data
@@ -93,15 +99,15 @@ class Rewrite implements GenerateInterface
     public function addDiXmlData($etcDirPath, $data)
     {
         $preferenceType = str_replace('_', '\\', $data['module'].'_'.$data['rewrite-path'].'_'.ucfirst($data['name']));
-        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath);
+        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath, $data);
         $xmlObj = new Config($diXmlFile);
         $diXml = $xmlObj->getNode();
         $typeNode = $this->xmlGenerator->addXmlNode(
-                                            $diXml, 
-                                            'preference', 
-                                            '', 
-                                            ['for'=>$data['rewrite'], 'type'=>$preferenceType]
-                                        );
+            $diXml,
+            'preference',
+            '',
+            ['for'=>$data['rewrite'], 'type'=>$preferenceType]
+        );
         $xmlData = $this->xmlGenerator->formatXml($diXml->asXml());
         $this->helper->saveFile($diXmlFile, $xmlData);
     }

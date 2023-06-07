@@ -8,9 +8,9 @@
 
 namespace Webkul\CodeGenerator\Model\Generate;
 
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\PropertyGenerator;
+use Laminas\Code\Generator\ClassGenerator;
+use Laminas\Code\Generator\DocBlockGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
 use Webkul\CodeGenerator\Model\Helper;
 use Webkul\CodeGenerator\Api\GenerateInterface;
 use Webkul\CodeGenerator\Model\XmlGeneratorFactory;
@@ -18,13 +18,16 @@ use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Simplexml\Config;
 
 /**
- * Class Payment.php
+ * Generate Payment.php
  */
 class Payment implements GenerateInterface
 {
-    const SYSTEMXML_NODE = '//section[@id="payment"]';
-    const CONFIGXML_NODE = '//payment';
+    public const SYSTEMXML_NODE = '//section[@id="payment"]';
+    public const CONFIGXML_NODE = '//payment';
 
+    /**
+     * @var Helper
+     */
     protected $helper;
 
     /**
@@ -62,6 +65,15 @@ class Payment implements GenerateInterface
         'showInStore' => "1"
     ];
 
+    /**
+     * __construct function
+     *
+     * @param \Magento\Framework\Filesystem\Driver\File $fileDriver
+     * @param \Magento\Framework\Filesystem\Io\File $file
+     * @param XmlGeneratorFactory $xmlGeneratorFactory
+     * @param Json $jsonHelper
+     * @param Helper $helper
+     */
     public function __construct(
         \Magento\Framework\Filesystem\Driver\File $fileDriver,
         \Magento\Framework\Filesystem\Io\File $file,
@@ -84,23 +96,23 @@ class Payment implements GenerateInterface
         
         $path = $data['path'];
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $paymentModelDirPath = $path.DIRECTORY_SEPARATOR.'Model'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $configDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $path.DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.'adminhtml'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $jsDirPath = $path.DIRECTORY_SEPARATOR.'view/frontend/web/js/view/payment'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $templateDirPath = $path.DIRECTORY_SEPARATOR.'view/frontend/web/template/payment'
         );
 
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $layoutDirPath = $path.DIRECTORY_SEPARATOR.'view/frontend/layout'
         );
         
@@ -117,15 +129,16 @@ class Payment implements GenerateInterface
     /**
      * Create system.xml
      *
-     * @param string $etcAdminthtmlDirPath
+     * @param string $configDirPath
      * @param string $moduleDir
+     * @param array $data
      * @return void
      */
     public function createSystemXml($configDirPath, $moduleDir, $data)
     {
         $systemXml = $this->getSystemXmlFile($moduleDir);
         if (!$systemXml) {
-            $systemXml = $this->createSystemXmlFile($moduleDir);
+            $systemXml = $this->createSystemXmlFile($moduleDir, $data);
         }
         $this->addNewPaymentData($systemXml, $data);
     }
@@ -142,7 +155,7 @@ class Payment implements GenerateInterface
     {
         $configXml = $this->getConfigXmlFile($moduleDir);
         if (!$configXml) {
-            $configXml = $this->createConfigXmlFile($moduleDir);
+            $configXml = $this->createConfigXmlFile($moduleDir, $data);
         }
         $this->addConfigXmlData($configXml, $data);
     }
@@ -226,14 +239,16 @@ class Payment implements GenerateInterface
      * Create config.xml
      *
      * @param string $moduleDir
+     * @param array $data
      * @return void
      */
-    private function createConfigXmlFile($moduleDir)
+    private function createConfigXmlFile($moduleDir, $data)
     {
         $configXmlFilePath = $this->getConfigXmlFilePath($moduleDir);
         // @codingStandardsIgnoreStart
         $configXmlData = file_get_contents(dirname(dirname( dirname(__FILE__) )) . '/templates/config.xml.dist');
         // @codingStandardsIgnoreEnd
+        $configXmlData = str_replace('%module_name%', $data['module'], $configXmlData);
         $this->helper->saveFile($configXmlFilePath, $configXmlData);
         return $configXmlFilePath;
     }
@@ -329,7 +344,7 @@ class Payment implements GenerateInterface
     }
 
     /**
-     * get module.xml template
+     * Get module.xml template
      *
      * @return string
      */
@@ -361,23 +376,25 @@ class Payment implements GenerateInterface
      * Create system.xml
      *
      * @param string $moduleDir
+     * @param array $data
      * @return void
      */
-    private function createSystemXmlFile($moduleDir)
+    private function createSystemXmlFile($moduleDir, $data)
     {
         $systemXmlFilePath = $this->getSystemXmlFilePath($moduleDir);
         // @codingStandardsIgnoreStart
         $paymentXmlData = file_get_contents(dirname(dirname( dirname(__FILE__) )) . '/templates/system.xml.dist');
         // @codingStandardsIgnoreEnd
+        $paymentXmlData = str_replace('%module_name%', $data['module'], $paymentXmlData);
         $this->helper->saveFile($systemXmlFilePath, $paymentXmlData);
         return $systemXmlFilePath;
     }
 
     /**
-     * create payment model class
+     * Create payment model class
      *
      * @param [type] $dir
-     * @param [type] $data
+     * @param array $data
      * @return void
      */
     public function createPaymentModelClass($dir, $data)
@@ -402,7 +419,7 @@ class Payment implements GenerateInterface
         ])
         ->setExtendedClass($parentClass);
 
-        $file = new \Zend\Code\Generator\FileGenerator([
+        $file = new \Laminas\Code\Generator\FileGenerator([
             'classes'  => [$modelClass],
             'docblock' => $docblock
         ]);
@@ -414,6 +431,13 @@ class Payment implements GenerateInterface
         );
     }
 
+    /**
+     * Craete Payment Renderer
+     *
+     * @param string $dir
+     * @param array $data
+     * @return void
+     */
     public function createPaymentRenderer($dir, $data)
     {
         $className = $this->getClassName($data['code']);
@@ -433,6 +457,13 @@ class Payment implements GenerateInterface
         );
     }
 
+    /**
+     * Create Payment Js
+     *
+     * @param string $dir
+     * @param array $data
+     * @return void
+     */
     public function createPaymentJs($dir, $data)
     {
         $className = $this->getClassName($data['code']);
@@ -453,11 +484,19 @@ class Payment implements GenerateInterface
         );
     }
 
+    /**
+     * Create Payment Template
+     *
+     * @param string $dir
+     * @param array $data
+     * @return void
+     */
     public function createPaymentTemplate($dir, $data)
     {
         $className = $this->getClassName($data['code']);
         $moduleNamespace = explode('_', $data['module']);
         $paymentTemplate = $this->helper->getTemplatesFiles('templates/payment/paymentTemplate.html.dist');
+        $paymentTemplate = str_replace('%moduleName%', $data['module'], $paymentTemplate);
         $paymentFile = $dir . '/'.strtolower($className).'.html';
         // or write it to a file:
         $this->helper->saveFile(
@@ -466,6 +505,13 @@ class Payment implements GenerateInterface
         );
     }
 
+    /**
+     * Create Checkout Layout
+     *
+     * @param string $dir
+     * @param array $data
+     * @return void
+     */
     public function createCheckoutLayout($dir, $data)
     {
         $className = $this->getClassName($data['code']);

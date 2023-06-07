@@ -6,19 +6,27 @@
  * @author    Sanjay Chouhan
  */
 namespace Webkul\CodeGenerator\Model\Generate;
+
 use Webkul\CodeGenerator\Model\Helper;
 use Webkul\CodeGenerator\Api\GenerateInterface;
 use Webkul\CodeGenerator\Model\XmlGeneratorFactory;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Simplexml\Config;
 use Magento\Framework\Simplexml\Element;
+
 /**
- * Class Observer
+ * Generate Observer
  */
 class Observer implements GenerateInterface
 {
+    /**
+     * @var Helper
+     */
     protected $helper;
     
+    /**
+     * @var XmlGeneratorFactory
+     */
     protected $xmlGenerator;
     /**
      * Constructor
@@ -43,14 +51,14 @@ class Observer implements GenerateInterface
         $data['observer-name'] = strtolower($moduleName.'_'.$data['name'].'_'.'observer');
         $data['observer-class'] = str_replace('_', '\\', $moduleName).'\\'.'Observer'.'\\'.$data['name'];
         
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $observerDirPath = $path.DIRECTORY_SEPARATOR.'Observer'
         );
-        Helper::createDirectory(
+        $this->helper->createDirectory(
             $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'
         );
         if ($data['area']!==null) {
-            Helper::createDirectory(
+            $this->helper->createDirectory(
                 $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'.DIRECTORY_SEPARATOR.$data['area']
             );
         }
@@ -60,7 +68,7 @@ class Observer implements GenerateInterface
         return ['status' => 'success', 'message' => "Observer Generated Successfully"];
     }
     /**
-     * create Observer class
+     * Create Observer class
      *
      * @param string $dir
      * @param array $data
@@ -82,7 +90,7 @@ class Observer implements GenerateInterface
         );
     }
     /**
-     * add events xml data
+     * Add events xml data
      *
      * @param string $etcDirPath
      * @param array $data
@@ -93,11 +101,24 @@ class Observer implements GenerateInterface
         $eventName = $data['event-name'];
         $observerClass = $data['observer-class'];
         $observerName = $data['observer-name'];
-        $eventsXmlFile = $this->helper->loadTemplateFile($etcDirPath, 'events.xml', 'templates/events.xml.dist');
+        $replace = [
+            "module_name" => $data['module']
+        ];
+        $eventsXmlFile = $this->helper->loadTemplateFile(
+            $etcDirPath,
+            'events.xml',
+            'templates/events.xml.dist',
+            $replace
+        );
         $xmlObj = new Config($eventsXmlFile);
         $eventsXml = $xmlObj->getNode();
         $eventNode = $this->xmlGenerator->addXmlNode($eventsXml, 'event', '', ['name'=>$eventName]);
-        $this->xmlGenerator->addXmlNode($eventNode, 'observer', '', ['name'=>$observerName, 'instance'=>$observerClass]);
+        $this->xmlGenerator->addXmlNode(
+            $eventNode,
+            'observer',
+            '',
+            ['name'=>$observerName, 'instance'=>$observerClass]
+        );
         $xmlData = $this->xmlGenerator->formatXml($eventsXml->asXml());
         $this->helper->saveFile($eventsXmlFile, $xmlData);
     }

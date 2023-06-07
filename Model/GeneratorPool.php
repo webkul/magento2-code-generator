@@ -9,13 +9,20 @@
 namespace Webkul\CodeGenerator\Model;
 
 /**
- * Class GeneratorPool
+ * Generate GeneratorPool
  */
 class GeneratorPool
 {
-
+    /**
+     * @var array
+     */
     protected $generators = [];
 
+    /**
+     * __construct function
+     *
+     * @param array $generators
+     */
     public function __construct(
         $generators = []
     ) {
@@ -23,7 +30,7 @@ class GeneratorPool
     }
 
     /**
-     * get generator class
+     * Get generator class
      *
      * @param string $key
      * @return Webkul\CodeGenerator\Api\GenerateInterface

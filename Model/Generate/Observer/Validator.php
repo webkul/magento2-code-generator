@@ -6,6 +6,7 @@
  * @author    Sanjay Chouhan
  */
 namespace Webkul\CodeGenerator\Model\Generate\Observer;
+
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
     /**

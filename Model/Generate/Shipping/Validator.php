@@ -10,6 +10,12 @@ namespace Webkul\CodeGenerator\Model\Generate\Shipping;
 
 class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
 {
+    /**
+     * Validate Command Params
+     *
+     * @param array $data
+     * @return array
+     */
     public function validate($data)
     {
         $module = $data['module'];
@@ -62,7 +68,7 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
     /**
      * Check if shipping method already exists
      *
-     * @param string $name
+     * @param string $code
      * @return null
      * @throws \InvalidArgumentException
      */

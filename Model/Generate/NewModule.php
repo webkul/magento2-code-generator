@@ -9,24 +9,25 @@
 namespace Webkul\CodeGenerator\Model\Generate;
 
 use Webkul\CodeGenerator\Api\GenerateInterface;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\DocBlockGenerator;
-use Zend\Code\Generator\DocBlock\Tag;
-use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\PropertyGenerator;
-use Zend\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\ClassGenerator;
+use Laminas\Code\Generator\DocBlockGenerator;
+use Laminas\Code\Generator\DocBlock\Tag;
+use Laminas\Code\Generator\MethodGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
+use Laminas\Code\Generator\ParameterGenerator;
 use Webkul\CodeGenerator\Model\Helper;
 use Magento\Framework\Module\StatusFactory;
 
 /**
- * Class NewModule.php
+ * Generate NewModule.php
  */
 class NewModule implements GenerateInterface
 {
-    const MODULE_PATH = 'app/code/';
+    public const MODULE_PATH = 'app/code/';
 
-    protected $readerComposite;
-
+    /**
+     * @var Helper
+     */
     protected $helper;
 
     /**
@@ -75,7 +76,6 @@ class NewModule implements GenerateInterface
      * @param string $moduleDir
      * @param string $moduleName
      * @return void
-     *
      */
     private function createModuleXmlFile($moduleDir, $moduleName)
     {
@@ -119,7 +119,12 @@ class NewModule implements GenerateInterface
     {
         $composerModuleName = explode('_', $moduleName);
         $moduleComposerTemplate = $this->getModuleComposerTemplate();
-        $moduleComposerTemplate = str_replace('%moduleName%', $moduleName, $moduleComposerTemplate);
+
+        $moduleComposerTemplate = str_replace(
+            '%moduleName%',
+            $composerModuleName[0].'\\\\'.$composerModuleName[1].'\\\\',
+            $moduleComposerTemplate
+        );
         $moduleComposerTemplate = str_replace(
             '%vendor%',
             strtolower($composerModuleName[0]),
@@ -130,6 +135,7 @@ class NewModule implements GenerateInterface
             strtolower($composerModuleName[1]),
             $moduleComposerTemplate
         );
+
         $composerFile = $moduleDir . '/composer.json';
         // @codingStandardsIgnoreStart
         file_put_contents($composerFile, $moduleComposerTemplate);
@@ -147,7 +153,7 @@ class NewModule implements GenerateInterface
     }
 
     /**
-     * get module.xml template
+     * Get module.xml template
      *
      * @return string
      */
@@ -159,7 +165,7 @@ class NewModule implements GenerateInterface
     }
 
     /**
-     * get registration.php template
+     * Get registration.php template
      *
      * @return string
      */
@@ -171,7 +177,7 @@ class NewModule implements GenerateInterface
     }
 
     /**
-     * get registration.php template
+     * Get registration.php template
      *
      * @return string
      */
