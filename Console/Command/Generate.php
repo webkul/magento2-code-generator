@@ -52,8 +52,6 @@ class Generate extends Command
         $this->validators = $validators;
         $this->optionsPool = \Magento\Framework\App\ObjectManager::getInstance()
         ->get(\Webkul\CodeGenerator\Model\OptionsPool::class);
-        $state = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\App\State::class);
-        $state->setAreaCode("adminhtml");
         parent::__construct();
     }
 
