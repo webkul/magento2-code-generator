@@ -144,7 +144,7 @@ class Model implements GenerateInterface
                                 $column['type']
                             )]),
                             new Tag\ReturnTag([
-                                'datatype'  => $nameSpace.'\\'.$data['name'].'Interface',
+                                'datatype'  => '\\'.$nameSpace.'\\'.$data['name'].'Interface',
                             ]),
                         ],
                     ]),
@@ -299,7 +299,7 @@ class Model implements GenerateInterface
                     'tags'             => [
                         new Tag\ParamTag($camelCase, [$this->helper->getReturnType($column['type'])]),
                         new Tag\ReturnTag([
-                            'datatype'  => $nameSpace.'\\'.$data['name'].'Interface',
+                            'datatype'  => '\\'.$nameSpace.'\\'.$data['name'].'Interface',
                         ]),
                     ],
                 ]),
