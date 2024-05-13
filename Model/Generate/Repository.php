@@ -3,7 +3,7 @@
  * Webkul Software.
  *
  * @package   Webkul_CodeGenerator
- * @author    Ashutosh Srivastva
+ * @author    Webkul Software Pvt Ltd
  */
 
 namespace Webkul\CodeGenerator\Model\Generate;

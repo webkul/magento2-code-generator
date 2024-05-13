@@ -4,7 +4,7 @@
  * Webkul Software.
  *
  * @package   Webkul_CodeGenerator
- * @author    Ashutosh Srivastva
+ * @author    Webkul Software Pvt Ltd
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">

@@ -3,7 +3,7 @@
  * Webkul Software.
  *
  * @package   Webkul_CodeGenerator
- * @author    Ashutosh Srivastva
+ * @author    Webkul Software Pvt Ltd
  */
 
 namespace Webkul\CodeGenerator\Model;
@@ -16,6 +16,16 @@ use Magento\Framework\Simplexml\Config;
 class Helper
 {
     /**
+     * __construct function
+     *
+     * @param \Magento\Framework\Filesystem\Driver\File $driverFile
+     */
+    public function __construct(
+        protected \Magento\Framework\Filesystem\Driver\File $driverFile
+    ) {
+    }
+
+    /**
      * Save File
      *
      * @param string $path
@@ -24,10 +34,7 @@ class Helper
      */
     public function saveFile($path, $content)
     {
-        file_put_contents(
-            $path,
-            $content
-        );
+        $this->driverFile->filePutContents($path, $content);
     }
 
     /**
@@ -46,7 +53,6 @@ class Helper
                 new Tag\GenericTag('author', 'Webkul'),
                 new Tag\GenericTag('copyright', 'Copyright (c) Webkul Software Private Limited (https://webkul.com)'),
                 new Tag\LicenseTag('https://store.webkul.com/license.html', '')
-               
             ],
         ]);
     }
@@ -80,8 +86,8 @@ class Helper
      */
     public function createDirectory($dirPath, $permission = 0777)
     {
-        if (!is_dir($dirPath)) {
-            mkdir($dirPath, $permission, true);
+        if (!$this->driverFile->isDirectory($dirPath)) {
+            $this->driverFile->createDirectory($dirPath, $permission);
         }
     }
 
@@ -93,7 +99,11 @@ class Helper
      */
     public function getTemplatesFiles($template)
     {
-        return file_get_contents(dirname(dirname(__FILE__)). DIRECTORY_SEPARATOR. $template);
+        return $this->driverFile->fileGetContents(
+            $this->driverFile->getParentDirectory(
+                $this->driverFile->getParentDirectory(__FILE__)
+            ). DIRECTORY_SEPARATOR. $template
+        );
     }
 
     /**
@@ -108,7 +118,7 @@ class Helper
     public function loadTemplateFile($path, $fileName, $templatePath, $replace = [])
     {
         $filePath = $path.DIRECTORY_SEPARATOR.$fileName;
-        if (!file_exists($filePath)) {
+        if (!$this->driverFile->isExists($filePath)) {
             $data = $this->getTemplatesFiles($templatePath);
             if (!empty($replace) && is_array($replace)) {
                 foreach ($replace as $find => $value) {

@@ -3,7 +3,7 @@
  * Webkul Software.
  *
  * @package   Webkul_CodeGenerator
- * @author    Ashutosh Srivastva
+ * @author    Webkul Software Pvt Ltd
  */
 
 namespace Webkul\CodeGenerator\Model\Generate;
@@ -17,6 +17,8 @@ use Laminas\Code\Generator\PropertyGenerator;
 use Laminas\Code\Generator\ParameterGenerator;
 use Magento\Framework\Setup\Declaration\Schema\Declaration\ReaderComposite;
 use Webkul\CodeGenerator\Model\Helper;
+use Magento\Framework\Simplexml\Config;
+use Webkul\CodeGenerator\Model\XmlGeneratorFactory;
 
 /**
  * Generate Model.php
@@ -38,10 +40,12 @@ class Model implements GenerateInterface
      * __construct function
      *
      * @param ReaderComposite $readerComposite
+     * @param XmlGeneratorFactory $xmlGenerator
      * @param Helper $helper
      */
     public function __construct(
         ReaderComposite $readerComposite,
+        protected XmlGeneratorFactory $xmlGenerator,
         Helper $helper
     ) {
         $this->readerComposite = $readerComposite;
@@ -89,10 +93,15 @@ class Model implements GenerateInterface
             $apiDataDirPath = $apiDataDirPath.DIRECTORY_SEPARATOR.'Data'
         );
 
+        $this->helper->createDirectory(
+            $etcDirPath = $path.DIRECTORY_SEPARATOR.'etc'
+        );
+
         $this->createApiClass($apiDataDirPath, $data, $columns);
         $this->createModelClass($modelDirPath, $data, $columns);
         $this->createResourceModelClass($rModelDirPath, $data, $identityColumn);
         $this->createCollectionClass($collectionDirPath, $data, $identityColumn);
+        $this->addDiXmlData($etcDirPath, $data);
 
         return ['status' => 'success', 'message' => "model generated successfully"];
     }
@@ -205,8 +214,8 @@ class Model implements GenerateInterface
     {
         $moduleNamespace = explode('_', $data['module']);
         $nameSpace = $moduleNamespace[0].'\\'.$moduleNamespace[1].'\\Model';
-        $parentClass = "Magento\\Framework\\Model\\AbstractModel";
-        $parentInterface = "Magento\\Framework\\DataObject\\IdentityInterface";
+        $parentClass = "Magento".'\\'."Framework\\Model\\AbstractModel";
+        $parentInterface = "Magento".'\\'."Framework\\DataObject\\IdentityInterface";
         $apiInterface = $moduleNamespace[0].'\\'.$moduleNamespace[1].'\\Api\\Data\\'.$data['name'].'Interface';
         $resourceClass = '\\'.$nameSpace.'\\ResourceModel\\'.$data['name'];
         $modelClass      = new ClassGenerator();
@@ -229,7 +238,8 @@ class Model implements GenerateInterface
             // MethodGenerator::fromArray([
             //     'name'       => 'load',
             //     'parameters' => ['id', 'field'],
-            //     'body'       => 'if ($id === null) {'. "\n". 'return $this->noRouteReasons();'. "\n". '}'. "\n". 'return parent::load($id, $field);',
+            //     'body'       => 'if ($id === null) {'. "\n". 'return $this->noRouteReasons();'. "\n". '}'.
+            //     "\n". 'return parent::load($id, $field);',
             //     'docblock'   => DocBlockGenerator::fromArray([
             //         'shortDescription' => 'load model',
             //         'longDescription'  => "",
@@ -465,5 +475,30 @@ class Model implements GenerateInterface
             $collectionDirPath.DIRECTORY_SEPARATOR.'Collection.php',
             $file->generate()
         );
+    }
+
+    /**
+     * Add di xml data
+     *
+     * @param string $etcDirPath
+     * @param array $data
+     * @return void
+     */
+    public function addDiXmlData($etcDirPath, $data)
+    {
+        $moduleName = $data['module'];
+        $data['model-class'] = str_replace('_', '\\', $moduleName).'\\'.'Model'.'\\'.$data['name'];
+        $data['api-class'] = str_replace('_', '\\', $moduleName).'\\'.'Api'.'\\'.$data['name'].'Interface';
+        $diXmlFile = $this->helper->getDiXmlFile($etcDirPath, $data);
+        $xmlObj = new Config($diXmlFile);
+        $diXml = $xmlObj->getNode();
+        $typeNode = $this->xmlGenerator->create()->addXmlNode(
+            $diXml,
+            'preference',
+            '',
+            ['for' => $data['api-class'], 'type' => $data['model-class']]
+        );
+        $xmlData = $this->xmlGenerator->create()->formatXml($diXml->asXml());
+        $this->helper->saveFile($diXmlFile, $xmlData);
     }
 }
