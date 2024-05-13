@@ -3,7 +3,7 @@
  * Webkul Software.
  *
  * @package   Webkul_CodeGenerator
- * @author    Ashutosh Srivastva
+ * @author    Webkul Software Pvt Ltd
  */
 
 namespace Webkul\CodeGenerator\Console\Command;
@@ -859,7 +859,10 @@ class Generate extends Command
         }
 
         if (!$input->getOption('field_type')) {
-            $question = new Question('<question>Enter Field Type (input/select/multiselect/imageUploader):</question> ', 'input');
+            $question = new Question(
+                '<question>Enter Field Type (input/select/multiselect/imageUploader):</question> ',
+                'input'
+            );
             $this->addNotEmptyValidator($question);
             $input->setOption(
                 "field_type",
