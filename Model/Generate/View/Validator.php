@@ -3,7 +3,7 @@
  * Webkul Software.
  *
  * @package   Webkul_CodeGenerator
- * @author    Mahesh Singh
+ * @author    Webkul
  */
 namespace Webkul\CodeGenerator\Model\Generate\View;
 

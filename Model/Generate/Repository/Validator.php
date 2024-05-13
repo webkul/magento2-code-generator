@@ -3,7 +3,7 @@
  * Webkul Software.
  *
  * @package   Webkul_CodeGenerator
- * @author    Ashutosh Srivastva
+ * @author    Webkul Software Pvt Ltd
  */
 
 namespace Webkul\CodeGenerator\Model\Generate\Repository;
@@ -21,9 +21,9 @@ class Validator implements \Webkul\CodeGenerator\Api\ValidatorInterface
         $module = $data['module'];
         $type = $data['type'];
         $name = $data['name'];
-        $path = $data['path']??null;
-        $modelClass = $data['model-class']??null;
-        $collectionClass = $data['collection-class']??null;
+        $path = $data['path'] ?? null;
+        $modelClass = $data['model-class'] ?? null;
+        $collectionClass = $data['collection-class'] ?? null;
         $response = [];
         $response['type'] = $type;
         if ($module) {

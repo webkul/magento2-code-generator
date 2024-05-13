@@ -3,7 +3,7 @@
  * Webkul Software.
  *
  * @package   Webkul_CodeGenerator
- * @author    Ashutosh Srivastva
+ * @author    Webkul Software Pvt Ltd
  */
 
 namespace Webkul\CodeGenerator\Console\Command;
@@ -52,8 +52,6 @@ class Generate extends Command
         $this->validators = $validators;
         $this->optionsPool = \Magento\Framework\App\ObjectManager::getInstance()
         ->get(\Webkul\CodeGenerator\Model\OptionsPool::class);
-        $state = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\App\State::class);
-        $state->setAreaCode("adminhtml");
         parent::__construct();
     }
 
@@ -861,7 +859,10 @@ class Generate extends Command
         }
 
         if (!$input->getOption('field_type')) {
-            $question = new Question('<question>Enter Field Type (input/select/multiselect/imageUploader):</question> ', 'input');
+            $question = new Question(
+                '<question>Enter Field Type (input/select/multiselect/imageUploader):</question> ',
+                'input'
+            );
             $this->addNotEmptyValidator($question);
             $input->setOption(
                 "field_type",
